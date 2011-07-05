@@ -9,6 +9,8 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
+# for development set following in /etc/postgresql/8.3/main/pg_hba.conf
+# local all all trust
 DATABASES = {
 	'default': {
 		'NAME': 'snppath',
