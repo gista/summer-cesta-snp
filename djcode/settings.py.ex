@@ -29,6 +29,9 @@ DATABASES = {
 	}
 }
 
+#Path to routing object to decide which DB use.
+DATABASE_ROUTERS = ['multidb.db_router.DbRouter']
+
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.
