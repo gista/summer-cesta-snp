@@ -17,6 +17,15 @@ DATABASES = {
 		'ENGINE': 'django.contrib.gis.db.backends.postgis',
 		'USER': '',
 		'PASSWORD': ''
+	},
+# for development configure stunnel first
+	'joomla': {
+		'NAME': 'nova_15182',
+		'ENGINE': 'django.db.backends.mysql',
+		'HOST': '',
+		'PORT': 3308,
+		'USER': '',
+		'PASSWORD': ''
 	}
 }
 
