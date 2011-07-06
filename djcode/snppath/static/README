@@ -1,0 +1,1 @@
+Put static files within static/ subdirectories of apps in your INSTALLED_APPS.
