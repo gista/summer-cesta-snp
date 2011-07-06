@@ -1,0 +1,57 @@
+from django.db import models
+
+class JosJoomgallery(models.Model):
+	id = models.IntegerField(primary_key=True)
+	catid = models.IntegerField()
+	imgtitle = models.TextField()
+	imgauthor = models.CharField(max_length=150, blank=True)
+	imgtext = models.TextField()
+	imgdate = models.CharField(max_length=60, blank=True)
+	imgcounter = models.IntegerField()
+	imgvotes = models.IntegerField()
+	imgvotesum = models.IntegerField()
+	published = models.IntegerField()
+	imgfilename = models.CharField(max_length=300)
+	imgthumbname = models.CharField(max_length=300)
+	checked_out = models.IntegerField()
+	owner = models.IntegerField()
+	approved = models.IntegerField()
+	useruploaded = models.IntegerField()
+	ordering = models.IntegerField()
+	class Meta:
+		db_table = u'jos_joomgallery'
+
+class JosContent(models.Model):
+	id = models.IntegerField(primary_key=True)
+	title = models.CharField(max_length=765)
+	alias = models.CharField(max_length=765)
+	title_alias = models.CharField(max_length=765)
+	introtext = models.TextField()
+	fulltext = models.TextField()
+	state = models.IntegerField()
+	sectionid = models.IntegerField()
+	mask = models.IntegerField()
+	catid = models.IntegerField()
+	created = models.DateTimeField()
+	created_by = models.IntegerField()
+	created_by_alias = models.CharField(max_length=765)
+	modified = models.DateTimeField()
+	modified_by = models.IntegerField()
+	checked_out = models.IntegerField()
+	checked_out_time = models.DateTimeField()
+	publish_up = models.DateTimeField()
+	publish_down = models.DateTimeField()
+	images = models.TextField()
+	urls = models.TextField()
+	attribs = models.TextField()
+	version = models.IntegerField()
+	parentid = models.IntegerField()
+	ordering = models.IntegerField()
+	metakey = models.TextField()
+	metadesc = models.TextField()
+	access = models.IntegerField()
+	hits = models.IntegerField()
+	metadata = models.TextField()
+	class Meta:
+		db_table = u'jos_content'
+
