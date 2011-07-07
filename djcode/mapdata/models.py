@@ -1,8 +1,12 @@
 from django.contrib.gis.db import models
-import josdata.models
 from thumbs import thumbs
 
 class Area(models.Model):
+	"""Model representing area, which contains path and Points of interest.
+	Columns:
+	name -- name of the area
+	note -- note about the area.
+	"""
 	name = models.CharField(max_length = 50)
 	note = models.TextField(blank = True)
 
@@ -10,6 +14,13 @@ class Area(models.Model):
 		return self.name
 
 class Path(models.Model):
+	"""Model representing path of Cesta hrdinov SNP and other surrounding paths.
+	Columns:
+	area -- area, which path belongs to
+	type -- type of the path (default 1)
+	note -- note about the path
+	path -- spatial representation of the path in the WGS84
+	"""
 	area    = models.ForeignKey(Area)
 	type    = models.IntegerField()
 	note    = models.TextField(blank = True)
@@ -17,21 +28,40 @@ class Path(models.Model):
 	path    = models.LineStringField()
 	objects = models.GeoManager()
 
-class JosArticleId(models.Model):
+class Jos_article_id(models.Model):
+	"""Model representing ID of article in DB of Joomla"""
 	id = models.IntegerField(primary_key = True)
 
-class JosPhotoId(models.Model):
+class Jos_photo_id(models.Model):
+	"""Model representing ID of photo in DB of Joomla"""
 	id = models.IntegerField(primary_key = True)
 
 class Poi(models.Model):
+	"""Model representing Point of interest (POI).
+	Columns:
+	name -- name of the POI
+	area -- area, which POI is situated in
+	type -- type of the POI
+	created_by -- name of the creator of the POI
+	created_at -- date of creation of the POI
+	jos_article_id -- many-to-many relation with article ids (from Joomla DB)
+	jos_photo_id -- many-to-many relation with photo ids (from Joomla DB)
+	photo -- photo of the POI
+	priority -- displaying priority of the POI in the map
+	note -- note about the POI
+	active -- boolean of controlling displaying POI in the map
+	point -- spatial representation of the POI in the WGS84
+	"""
 	name           = models.CharField(max_length = 50)
 	area           = models.ForeignKey(Area)
 	type           = models.IntegerField()
 	created_by     = models.CharField(max_length = 50)
 	created_at     = models.DateField()
-	jos_article_id = models.ManyToManyField(JosArticleId, null = True)
-	jos_photo_id   = models.ManyToManyField(JosPhotoId, null = True)
-	photo          = thumbs.ImageWithThumbsField(upload_to = 'photos/%Y/%m/%d', sizes = ((125,125),), null = True)
+	jos_article_id = models.ManyToManyField(Jos_article_id, null = True)
+	jos_photo_id   = models.ManyToManyField(Jos_photo_id, null = True)
+	photo          = thumbs.ImageWithThumbsField(
+				upload_to = 'photos/%Y/%m/%d',
+				sizes = ((125, 125),), null = True)
 	priority       = models.IntegerField(default = 5)
 	note           = models.TextField(blank = True)
 	active         = models.BooleanField()
