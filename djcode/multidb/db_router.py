@@ -16,7 +16,7 @@ class DbRouter(object):
 	def db_for_write(self, model, **hints):
 		"""Method routing writing accesses according to application name:
 		mapdata routes to default DB (postGIS)
-		josdata routes to joomla DB
+		josdata is not allow to write to DB
 		"""
 		if model._meta.app_label == 'mapdata':
 			return 'default'
