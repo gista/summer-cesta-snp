@@ -20,10 +20,8 @@ class DbRouter(object):
 		"""
 		if model._meta.app_label == 'mapdata':
 			return 'default'
-		elif model._meta.app_label == 'josdata':
-			return 'joomla'
-		else:
-			return None
+        else:
+            return None                     #Don't write any changes to Joomla DB
 
 	def allow_relation(self, obj1, obj2, **hints):
 		"""Method controlling relations between objects. Relations are allowed
