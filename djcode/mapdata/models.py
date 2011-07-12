@@ -43,7 +43,7 @@ class Poi(models.Model):
 	area -- area, which POI is situated in
 	type -- type of the POI
 	created_by -- name of the creator of the POI
-	created_at -- date of creation of the POI
+	created_at -- date-time stamp of creation of the POI
 	jos_article_id -- many-to-many relation with article ids (from Joomla DB)
 	jos_photo_id -- many-to-many relation with photo ids (from Joomla DB)
 	photo -- photo of the POI
@@ -56,7 +56,7 @@ class Poi(models.Model):
 	area           = models.ForeignKey(Area)
 	type           = models.IntegerField()
 	created_by     = models.CharField(max_length = 50)
-	created_at     = models.DateField()
+	created_at     = models.DateTimeField()
 	jos_article_id = models.ManyToManyField(Jos_article_id, null = True)
 	jos_photo_id   = models.ManyToManyField(Jos_photo_id, null = True)
 	photo          = thumbs.ImageWithThumbsField(
