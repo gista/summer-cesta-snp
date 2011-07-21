@@ -129,6 +129,7 @@ INSTALLED_APPS = (
 	'django.contrib.staticfiles',
 	'django.contrib.admin',
 	'djcode.mapdata',
+	'djcode.joomla',
 	'djcode.live_tracking',
 	'djcode.snppath',
 )
