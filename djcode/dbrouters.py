@@ -8,7 +8,7 @@ class DbRouter(object):
 		"""
 		if model._meta.app_label == 'mapdata':
 			return 'default'
-		elif model._meta.app_label == 'josdata':
+		elif model._meta.app_label == 'joomla':
 			return 'joomla'
 		else:
 			return None
@@ -40,7 +40,7 @@ class DbRouter(object):
 		    return False
 		if model._meta.app_label == 'mapdata':
 			return True
-		elif model._meta.app_label == 'josdata':
+		elif model._meta.app_label == 'joomla':
 			return False
 		else:
 			return None
