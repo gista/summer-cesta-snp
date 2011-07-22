@@ -280,9 +280,9 @@ def render_to_gpx(poi_qs=None, path_qs=None):
 			if path.note != '':
 				rte.set_cmt(path.note)
 			if len(path.path[0]) == 3:
-				rte.set_rtept([wptType(lat=p[0], lon=p[1], ele=p[2]) for p in path.path])
+				rte.set_rtept([wptType(lon=p[0], lat=p[1], ele=p[2]) for p in path.path])
 			else:
-				rte.set_rtept([wptType(lat=p[0], lon=p[1]) for p in path.path])
+				rte.set_rtept([wptType(lon=p[0], lat=p[1]) for p in path.path])
 			gpx.add_rte(rte)
 	gpx.export(outfile=str_out, level=0, name_='gpx')
 	return str_out.getvalue()
