@@ -264,8 +264,8 @@ def render_to_gpx(poi_qs=None, path_qs=None):
 	if poi_qs is not None:
 		for poi in poi_qs:
 			wpt = wptType(
-				lat=poi.point.get_x(),
-				lon=poi.point.get_y(),
+				lon=poi.point.get_x(),
+				lat=poi.point.get_y(),
 				ele=poi.point.get_z(),
 				time=poi.created_at.isoformat(),
 				type_=str(poi.type),			#FIXME:convert to STR format
