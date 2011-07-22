@@ -1,4 +1,4 @@
-from josdata.models import Jos_session, Jos_users
+from joomla.models import Jos_session
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 
