@@ -264,9 +264,9 @@ def render_to_gpx(poi_qs=None, path_qs=None):
 	if poi_qs is not None:
 		for poi in poi_qs:
 			wpt = wptType(
-				lon=poi.point.get_x(),
-				lat=poi.point.get_y(),
-				ele=poi.point.get_z(),
+				lon=poi.the_geom.get_x(),
+				lat=poi.the_geom.get_y(),
+				ele=poi.the_geom.get_z(),
 				time=poi.created_at.isoformat(),
 				type_=str(poi.type),			#FIXME:convert to STR format
 				name=poi.name,
@@ -279,10 +279,10 @@ def render_to_gpx(poi_qs=None, path_qs=None):
 			rte = rteType(src='cestasnp.sk', type_=str(path.type))	#FIXME:convert to STR format
 			if path.note != '':
 				rte.set_cmt(path.note)
-			if len(path.path[0]) == 3:
-				rte.set_rtept([wptType(lon=p[0], lat=p[1], ele=p[2]) for p in path.path])
+			if len(path.the_geom[0]) == 3:
+				rte.set_rtept([wptType(lon=p[0], lat=p[1], ele=p[2]) for p in path.the_geom])
 			else:
-				rte.set_rtept([wptType(lon=p[0], lat=p[1]) for p in path.path])
+				rte.set_rtept([wptType(lon=p[0], lat=p[1]) for p in path.the_geom])
 			gpx.add_rte(rte)
 	gpx.export(outfile=str_out, level=0, name_='gpx')
 	return str_out.getvalue()

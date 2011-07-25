@@ -25,8 +25,8 @@ class Path(models.Model):
 	type    = models.IntegerField()
 	note    = models.TextField(blank = True)
 
-	path    = models.LineStringField()
-	objects = models.GeoManager()
+	the_geom = models.LineStringField()
+	objects  = models.GeoManager()
 
 class Jos_article_id(models.Model):
 	"""Model representing ID of article in DB of Joomla"""
@@ -66,7 +66,7 @@ class Poi(models.Model):
 	note           = models.TextField(blank = True)
 	active         = models.BooleanField()
 
-	point          = models.PointField()
+	the_geom       = models.PointField()
 	objects        = models.GeoManager()
 
 	class Meta:
