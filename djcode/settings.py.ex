@@ -159,3 +159,6 @@ LOGGING = {
 		},
 	}
 }
+
+# SNPPath settings
+SNPPATH_COOKIE_SESSION_ID_NAME = '9fb5dc180d643162e1e24919a8ede8dd'
