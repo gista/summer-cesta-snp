@@ -20,11 +20,18 @@ class JoomlaAuth(object):
 		except User.DoesNotExist:
 			user = User(username=jos_session.username)
 			user.set_unusable_password()
-			#TODO: setting is_staff, is_superuser based on jos_user table
-			user.is_staff = False
-			user.is_superuser = False
 			user.save()
 		
+		# update user privileges
+		user.is_active = True
+		if jos_session.usertype in ('Super Administrator', 'Administrator'):
+			user.is_staff = True
+			user.is_superuser = True
+		else:
+			user.is_staff = False
+			user.is_superuser = False
+		user.save()
+	
 		return user
 
 	def get_user(self, user_id=None):
