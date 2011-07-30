@@ -9,6 +9,9 @@ class Area(models.Model):
 	"""
 	name = models.CharField(max_length = 50)
 	note = models.TextField(blank = True)
+	
+	the_geom = models.PolygonField()
+	objects  = models.GeoManager()
 
 	def __unicode__(self):
 		return self.name

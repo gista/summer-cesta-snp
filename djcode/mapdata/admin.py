@@ -1,6 +1,6 @@
 from django.contrib.gis import admin
 from django.contrib.gis.maps.google import GoogleMap
-from models import Poi, Path
+from models import Area, Poi, Path
 
 GMAP = GoogleMap()
 
@@ -10,5 +10,6 @@ class GoogleAdmin(admin.OSMGeoAdmin):
 	openlayers_url = 'http://openlayers.org/api/2.10/OpenLayers.js' #TODO: load OpenLayers from local sources
 
 
-admin.site.register(Poi, admin.GeoModelAdmin)
+admin.site.register(Area, GoogleAdmin)
+admin.site.register(Poi, GoogleAdmin)
 admin.site.register(Path, GoogleAdmin)
