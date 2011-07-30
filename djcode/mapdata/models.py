@@ -28,6 +28,9 @@ class Path(models.Model):
 	the_geom = models.LineStringField()
 	objects  = models.GeoManager()
 
+	def __unicode__(self):
+		return self.area.name
+
 class Jos_article_id(models.Model):
 	"""Model representing ID of article in DB of Joomla"""
 	id = models.IntegerField(primary_key = True)

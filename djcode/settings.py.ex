@@ -104,7 +104,6 @@ SECRET_KEY = 'ha6slr*m8)p40)d_4ak!n^dr!40zi=+a^caz1&hp6zgk(bs%+e'
 TEMPLATE_LOADERS = (
 	'django.template.loaders.filesystem.Loader',
 	'django.template.loaders.app_directories.Loader',
-#	  'django.template.loaders.eggs.Loader',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -131,6 +130,7 @@ INSTALLED_APPS = (
 	'django.contrib.messages',
 	'django.contrib.staticfiles',
 	'django.contrib.admin',
+	'django.contrib.gis',
 	'djcode.mapdata',
 	'djcode.joomla',
 	'djcode.live_tracking',
@@ -162,3 +162,4 @@ LOGGING = {
 
 # SNPPath settings
 SNPPATH_COOKIE_SESSION_ID_NAME = '9fb5dc180d643162e1e24919a8ede8dd'
+GOOGLE_MAPS_API_KEY ='ABQIAAAAFBvNBHAal2xO0j7v7Q9naRR9JtsG2NQtVs3m4JfgsLQ3OEspOBSNmo8pyxdC4DLkQxfFEgu3cHiqMA' #map.cestasnp.sk
