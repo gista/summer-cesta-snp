@@ -12,12 +12,12 @@ class User(models.Model):
 	id = 			models.IntegerField(primary_key=True)
 	name = 			models.CharField(max_length=50)
 	track_name = 		models.CharField(max_length=50)
-	description = 		models.TextField(blank=True, null=True)
-	date_from = 		models.DateField(null=True)
-	date_to = 		models.DateField(null=True)
+	description = 		models.TextField(blank=True)
+	date_from = 		models.DateField(blank=True, null=True)
+	date_to = 		models.DateField(blank=True, null=True)
 
 	def __unicode__(self):
-		return self.name
+		return "%s (%s)" % (self.name, self.track_name)
 
 class Message(models.Model):
 	""" Class representing a message sent by a user
@@ -28,8 +28,9 @@ class Message(models.Model):
 	the_geom -- spatial point of source of the message
 	"""
 	user = 		models.ForeignKey(User)
-	time = 		models.DateTimeField(null=True)
-	text = 		models.TextField(blank=True, null=True)
+	time = 		models.DateTimeField()
+	text = 		models.TextField(blank=True)
+	
 	the_geom = 	models.PointField(null=True)
 	objects = 	models.GeoManager()
 
@@ -49,7 +50,11 @@ class Sync_log(models.Model):
 	"""
 	time = 		models.DateTimeField()
 	success = 	models.BooleanField()
+	
+	def __unicode__(self):
+		return "%s" % self.time
 
 	class Meta:
-		get_latest_by =	 'time'
-		ordering = 	 ['time']
+		get_latest_by =	'time'
+		ordering = ['time']
+		verbose_name = u'sync log'
