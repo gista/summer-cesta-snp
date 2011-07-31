@@ -16,6 +16,10 @@ class Jos_session(models.Model):
 
 	class Meta:
 		db_table = u'jos_session'
+		verbose_name = u'session'
+	
+	def __unicode__(self):
+		return "%s" % self.session_id
 
 	def save(self, *args, **kwargs):
 		pass
@@ -44,6 +48,11 @@ class Jos_joom_gallery(models.Model):
 
 	class Meta:
 		db_table = u'jos_joomgallery'
+		verbose_name = u'gallery'
+		verbose_name_plural = u'galleries'
+	
+	def __unicode__(self):
+		return "%s" % self.imgtitle
 
 	def save(self, *args, **kwargs):
 		pass
@@ -85,6 +94,10 @@ class Jos_content(models.Model):
 
 	class Meta:
 		db_table = u'jos_content'
+		verbose_name = u'content'
+
+	def __unicode__(self):
+		return "%s" % self.title
 
 	def save(self, *args, **kwargs):
 		pass
