@@ -1,5 +1,6 @@
 from django.contrib.gis import admin
 from django.contrib.gis.maps.google import GoogleMap
+from django.conf import settings
 from models import User, Message, Sync_log
 
 class User_admin(admin.ModelAdmin):
@@ -15,7 +16,7 @@ GMAP = GoogleMap()
 class Message_GoogleAdmin(admin.OSMGeoAdmin):
 	extra_js = [GMAP.api_url + GMAP.key]
 	map_template = 'gis/admin/google.html'
-	openlayers_url = '/static/js/openlayers/OpenLayers.js'
+	openlayers_url = '%sjs/openlayers/OpenLayers.js' % settings.STATIC_URL
 	list_display = ("user", "time", "text",)
 	list_filter = ("user", "time",)
 	search_fields = ("user",)
