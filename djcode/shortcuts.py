@@ -3,286 +3,356 @@ import StringIO
 from datetime import datetime
 from gpx import *
 
-
 from django.contrib.gis.db.models.fields import GeometryField
-#from django.contrib.gis.gdal import Envelope
 from django.contrib.gis.geos import Polygon
 from django.utils import simplejson
-from django.http import HttpResponse
-#from django.db.models.fields.related import ManyRelatedManager
 
-# also need to check out:
-# http://code.google.com/p/dojango/source/browse/trunk/dojango/util/__init__.py#82
+SPATIAL_REF_SITE = 'http://spatialreference.org/ref/epsg/'
 
+#Gpx fields
+GPX_FIELD_NAME		= 'name'
+GPX_FIELD_DESC		= 'desc'
+GPX_FIELD_AUTHOR	= 'author'
+GPX_FIELD_EMAIL		= 'email'
+GPX_FIELD_LINK		= 'link'
+GPX_FIELD_HREF		= 'href'
+GPX_FIELD_TEXT		= 'text'
+GPX_FIELD_TYPE		= 'type'
+GPX_FIELD_TIME		= 'time'
+GPX_FIELD_COPYRIGHT	= 'copyright'
+GPX_FIELD_YEAR		= 'year'
+GPX_FIELD_LICENSE	= 'license'
+GPX_FIELD_KEYWORDS	= 'keywords'
+GPX_FIELD_GEOIDHEIGHT	= 'geoidheight'
+GPX_FIELD_SRC		= 'src'
+GPX_FIELD_CMT		= 'cmt'
+GPX_FIELD_SYM		= 'sym'
+GPX_FIELD_HDOP		= 'hdop'
+GPX_FIELD_VDOP		= 'vdop'
+GPX_FIELD_PDOP		= 'pdop'
+GPX_FIELD_SAT		= 'sat'
+GPX_FIELD_NUMBER	= 'number'
+GPX_FIELD_ELE		= 'ele'
 
-# example usages:
+#Geojson field names
+GEOJSON_FIELD_TYPE	 = 'type'
+GEOJSON_FIELD_HREF	 = 'href'
+GEOJSON_FIELD_PROPERTIES = 'properties'
+GEOJSON_FIELD_CRS	 = 'crs'
+GEOJSON_FIELD_SRID	 = 'srid'
+GEOJSON_FIELD_GEOMETRY	 = 'geometry'
+GEOJSON_FIELD_FEATURES	 = 'features'
+GEOJSON_FIELD_BBOX	 = 'bbox'
 
-"""
+#Geojson field values
+GEOJSON_VALUE_LINK		 = 'link'
+GEOJSON_VALUE_FEATURE		 = 'Feature'
+GEOJSON_VALUE_FEATURE_COLLECTION = 'FeatureCollection'
 
-def a_shapes(request):
-	ids = request.GET.get('ids').split(',')
-	mimetype = 'text/plain' #'application/javascript; charset=utf8'
-	pretty_print = True
-	if ids:
-		qs = WorldBorders.objects.filter(affiliates__in=ids).annotate(num_a=Count('affiliates')).filter(num_a__gt=0)
+def __simple_render_to_json(obj):
+	"""Converts python objects to simple json objects (int, float, string)"""
+	if type(obj) == int or type(obj) == float or type(obj) == bool:
+		return obj
 	else:
-		qs = WorldBorders.objects.none()
-	return render_to_geojson(qs,
-		extra_attributes=['num_a','affiliates_set'],
-		geom_attribute='point',
-		included_fields=['id','name'],
-		mimetype=mimetype,
-		proj_transform=900913,
-		pretty_print=pretty_print
-		) 
-	
-def responses(qs,type_='countries',pretty_print=True,mimetype='text/plain'):
-	if type_ == 'locations':
-		qs = qs.geolocations()
-		return render_to_geojson(qs, 
-			excluded_fields=['json'], 
-			geom_field='point',
-			proj_transform=900913,
-			mimetype=mimetype,
-			pretty_print=pretty_print
-			)
-	elif type_ == 'affiliates': 
-		qs = qs.exclude(geokeywords='').attach_locations()
-		return render_to_geojson(qs,
-			included_fields=['id','_geokeywords_cache'], 
-			geom_attribute='point',
-			extra_attributes=['name'],
-			proj_transform=900913,
-			mimetype=mimetype,
-			pretty_print=pretty_print
-			)
-	elif type_ == 'countries':
-		qs2 = W.objects.filter(affiliates__in=qs).annotate(num_a=Count('affiliates')).filter(num_a__gt=0)
-		return render_to_geojson(qs2,
-			extra_attributes=['num_a'],
-			#geom_attribute='point',
-			mimetype=mimetype,
-			pretty_print=pretty_print
-			)				 
-	else:# type_ == 'countries' or type is None:
-		if len(qs) > 10:
-			# this is a limit, weird huh?
-			# requires another all() otherwise it 
-			# returns a list!
-			qs = qs.all()[:10]
-		return render_to_geojson(qs,
-			included_fields=['id','_geokeywords_cache'],
-			geom_attribute='countries.unionagg',
-			extra_attributes=['name'],
-			mimetype=mimetype,
-			pretty_print=pretty_print
-			)
-"""
+		return str(obj)
 
+def find_geom_field(query_set):
+	"""Function returns geometry field name in model of query set. If doesn't exist, raise ValueError"""
+	for field in query_set.model._meta.fields:
+		geom_field = field.name if isinstance(field, GeometryField) else None
+	if geom_field is None:
+		raise ValueError
+	else:
+		return geom_field
 
-def render_to_geojson(query_set, geom_field=None, geom_attribute=None, extra_attributes=[],mimetype='text/plain', pretty_print=False, excluded_fields=[],included_fields=[],proj_transform=None, geom_simplify=None, bbox = None, maxfeatures=None):
+def render_to_geojson(query_set, proj_transform=None, geom_simplify=None, bbox=None, maxfeatures=None):
 	'''
 	Shortcut to render a GeoJson FeatureCollection from a Django QuerySet.
 	Currently computes a bbox and adds a crs member as a sr.org link.
-	* maxfeatures parameter gives maximum number of rendered features based on priority field. Parameter should be instance of collections.namedtuple('MaxFeatures', ['maxfeatures', 'priority_field'])
-	* bbox is boundary box (django.contrib.gis.geos.Polygon instance) which bounds rendered features (feature must be entire within boundary box)
+	* maxfeatures parameter gives maximum number of rendered features based on priority field.
+	Parameter should be instance of collections.namedtuple('MaxFeatures', ['maxfeatures', 'priority_field'])
+	* bbox is boundary box (django.contrib.gis.geos.Polygon instance) which bounds rendered features
+	(feature must be entire within boundary box)
 	'''
-	excluded_fields.append('_state')
-	collection = {}
-	if hasattr(query_set,'_meta'): # its a model instance
-		fields = query_set._meta.fields
-		query_set = [query_set]
-	else:
-		fields = query_set.model._meta.fields
-	
-	if geom_attribute:
-		geometry_name = geom_attribute
-		geo_field = None
-		if '.' in geom_attribute:
-			prop, meth = geom_attribute.split('.')
-			if len(query_set):
-				p = getattr(query_set[0],prop)
-				geo_field = getattr(p,meth)
-				if callable(geo_field):
-					geo_field = geo_field()
-		else:
-			if len(query_set):
-				geo_field = getattr(query_set[0],geom_attribute)
-				if callable(geo_field):
-					geo_field = geo_field()
-		if not geo_field:
-			srid = 4326
-		else:
-			srid = geo_field.srid
 
-	else:
-		geo_fields = [f for f in fields if isinstance(f, GeometryField)]
-		
-		#attempt to assign geom_field that was passed in
-		if geom_field:
-			#import pdb;pdb.set_trace()
-			geo_fieldnames = [x.name for x in geo_fields]
-			try:
-				geo_field = geo_fields[geo_fieldnames.index(geom_field)]
-			except:
-				raise Exception('%s is not a valid geometry on this model' % geom_field)
-		else:
-			if not len(geo_fields):
-				raise Exception('There appears to be no valid geometry on this model')
-			geo_field = geo_fields[0] # no support yet for multiple geometry fields
+	geom_field = find_geom_field(query_set)
 
-			
-		#remove other geom fields from showing up in attributes    
-		if len(geo_fields) > 1:
-			for field in geo_fields:
-				if field.name not in excluded_fields:
-					excluded_fields.append(field.name)
+	if bbox is not None:
+		#query_set.filter(<geom_field>__contained=bbox)
+		query_set = query_set.filter(**{'{0}__contained'.format(geom_field):bbox})
+	if maxfeatures is not None:
+		query_set.order_by(maxfeatures.priority_field)
+		query_set = query_set[:maxfeatures.maxfeatures]
 
-		geometry_name = geo_field.name
-	
-
-		srid = geo_field.srid
-
-	if proj_transform:
+	srid = getattr(query_set[0], geom_field).srid
+	if proj_transform is not None:
 		to_srid = proj_transform
+		query_set.transform(to_srid)
 	else:
 		to_srid = srid
-	# Gather the projection information
-	crs = {}
-	crs['type'] = "link"
-	crs_properties = {}
-	crs_properties['href'] = 'http://spatialreference.org/ref/epsg/%s/' % to_srid
-	crs_properties['type'] = 'proj4'
-	crs['properties'] = crs_properties 
-	collection['crs'] = crs
-	collection['srid'] = to_srid
-	
-	# Build list of features
-	features = []
-	if maxfeatures is not None:	#order query_set by priority field (to show only first max_feature.max_feature items)
-		query_set = query_set.order_by('-' + maxfeatures.priority_field)
-		query_set = query_set[:maxfeatures.maxfeatures]		#cut off every items except first max_feature.max_feature
-	if query_set.distinct():
-	  for item in query_set:
-		feat = {}
-		feat['type'] = 'Feature'
-		if included_fields:
-			d = {}
-			for f in included_fields:
-				if hasattr(item,f):
-					d[f] = getattr(item,f)
-		else:
-			d = item.__dict__.copy()
-			for field in excluded_fields:
-					if field in d.keys():
-						d.pop(field)
-			if geometry_name in d:
-				d.pop(geometry_name)
 
-		for attr in extra_attributes:
-			a = getattr(item,attr)
-			# crappy way of trying to figure out it this is a
-			# m2m, aka 'ManyRelatedManager'
-			if hasattr(a,'values_list'):
-				a = list(a.values_list('id',flat=True))
-			if callable(a):
-				d[attr] = a()
-			else:
-				d[attr] = a
-		if '.' in geometry_name:
-			prop, meth = geometry_name.split('.')
-			a = getattr(item,prop)
-			g = getattr(a,meth)
-			if callable(g):
-				g = g()
-		else:
-			g = getattr(item,geometry_name)
-		#if bbox (bounding box) is not None, then g must be within it
-		if g and ((bbox is None) or (bbox is not None and g.within(bbox))):
-			if proj_transform:
-				g.transform(proj_transform)
-			if geom_simplify:
-				g = g.simplify(geom_simplify)
-			feat['geometry'] = simplejson.loads(g.geojson)
-		feat['properties'] = d
+	features = list()
+	crs = dict()
+	crs[GEOJSON_FIELD_TYPE] = GEOJSON_VALUE_LINK
+	crs_properties = dict()
+	crs_properties[GEOJSON_FIELD_HREF] = '{0}{1}/'.format(SPATIAL_REF_SITE, to_srid)
+	crs_properties[GEOJSON_FIELD_TYPE] = 'proj4'
+	crs[GEOJSON_FIELD_PROPERTIES] = crs_properties
+	collection = dict()
+	collection[GEOJSON_FIELD_CRS] = crs
+	collection[GEOJSON_FIELD_SRID] = to_srid
+	for item in query_set:
+		feat = dict()
+
+		#filling feature properties with dict: {<field_name>:<field_value>}
+		fields = map(lambda x:x.name, query_set.model._meta.fields)
+		feat[GEOJSON_FIELD_PROPERTIES] = dict()
+		for x in fields:
+			if x != geom_field:
+				feat[GEOJSON_FIELD_PROPERTIES][x] =		\
+					__simple_render_to_json(getattr(item, x))
+
+		feat[GEOJSON_FIELD_TYPE] = GEOJSON_VALUE_FEATURE
+		g = getattr(item, geom_field)
+		if geom_simplify is not None:
+			g = g.simplify(geom_simplify)
+		feat[GEOJSON_FIELD_GEOMETRY] = simplejson.loads(g.geojson)
 		features.append(feat)
+
+	collection[GEOJSON_FIELD_TYPE] = GEOJSON_VALUE_FEATURE_COLLECTION
+	collection[GEOJSON_FIELD_FEATURES] = features
+
+	if proj_transform is not None:
+		poly = Polygon.from_bbox(query_set.extent())
+		poly.srid = srid
+		poly.transform(to_srid)
+		collection[GEOJSON_FIELD_BBOX] = poly.extent
 	else:
-		pass #features.append({'type':'Feature','geometry': {},'properties':{}})
+		collection[GEOJSON_FIELD_BBOX] = query_set.extent()
+	return collection
 
-	# Label as FeatureCollection and add Features
-	collection['type'] = "FeatureCollection"
-	collection['features'] = features
 
-	# Attach extent of all features
-	if query_set:
-		ex = None
-		query_set.query.distinct = False
-		if hasattr(query_set,'agg_extent'): 
-			ex = [x for x in query_set.agg_extent.tuple]
-		elif '.' in geometry_name:
-			prop, meth = geometry_name.split('.')
-			a = getattr(item,prop)
-			if a:
-				ex = [x for x in a.extent()]
+
+
+def __parse_meta(meta):
+	"""Parses metadataType from dictionary"""
+	name = None if meta.setdefault(GPX_FIELD_NAME, None) is None else meta[GPX_FIELD_NAME]
+	desc = None if meta.setdefault(GPX_FIELD_DESC, None) is None else meta[GPX_FIELD_DESC]
+	# AUTHOR
+	dauthor = None if meta.setdefault(GPX_FIELD_AUTHOR, None) is None else meta[GPX_FIELD_AUTHOR]
+	if dauthor is not None:
+		if GPX_FIELD_EMAIL in dauthor.keys():
+			email_tuple = dauthor[GPX_FIELD_EMAIL].split('@')
+			author_email = emailType(id = email_tuple[0], domain=email_tuple[1])
 		else:
-			# make sure qs does not have .distinct() in it...
-			ex = [x for x in query_set.extent()]
-		if ex:
-			if proj_transform:
-				poly = Polygon.from_bbox(ex)
-				poly.srid = srid
-				poly.transform(proj_transform)
-				ex = poly.extent
-		collection['bbox'] = ex
-	
-	# Return response
-	response = HttpResponse()
-	if pretty_print:
-		response.write('%s' % simplejson.dumps(collection, indent=1))
+			author_email = None
+		dlink = None if dauthor.setdefault(GPX_FIELD_LINK, None) is None else dauthor[GPX_FIELD_LINK]
+		if dlink is not None:
+			dlink_href = dlink[GPX_FIELD_HREF]
+			dlink_text = None if dlink.setdefault(GPX_FIELD_TEXT, None) is None else dlink[GPX_FIELD_TEXT]
+			dlink_type = None if dlink.setdefault(GPX_FIELD_TYPE, None) is None else dlink[GPX_FIELD_TYPE]
+			link = linkType(href=dlink_href, text=dlink_text, type_=dlink_type)
+		else:
+			link = None
+
+		author = personType(name = dauthor.setdefault(GPX_FIELD_NAME),
+				    email = author_email,
+				    link = link)
 	else:
-		response.write('%s' % simplejson.dumps(collection))    
-	response['Content-length'] = str(len(response.content))
-	response['Content-Type'] = mimetype
-	return response
+		author = None
+	# END AUTHOR
+	time = None if meta.setdefault(GPX_FIELD_TIME, None) is None else meta[GPX_FIELD_TIME]
+	# COPYRIGHT
+	dcpright = None if meta.setdefault(GPX_FIELD_COPYRIGHT, None) is None else meta[GPX_FIELD_COPYRIGHT]
+	if dcpright is not None:
+		cpr_author = dcpright[GPX_FIELD_AUTHOR]
+		cpr_year = None if dcpright.setdefault(GPX_FIELD_YEAR, None) is None else dcpright[GPX_FIELD_YEAR].year
+		cpr_license = None if dcpright.setdefault(GPX_FIELD_LICENSE, None) is None else dcpright[GPX_FIELD_LICENSE]
+		copyright = copyrightType(author=cpr_author, year=cpr_year, license=cpr_license)
+	else:
+		copyright = None
+	# END COPYRIGHT
+	# LINKS
+	dlinks = None if meta.setdefault(GPX_FIELD_LINK, None) is None else meta[GPX_FIELD_LINK]
+	if dlinks is not None:
+		links = list()
+		for dlink in dlinks:
+			link_href = dlink[GPX_FIELD_HREF]
+			link_text = None if dlink.setdefault(GPX_FIELD_TEXT, None) is None else dlink[GPX_FIELD_TEXT]
+			link_type = None if dlink.setdefault(GPX_FIELD_TYPE, None) is None else dlink[GPX_FIELD_TYPE]
+		links.append(linkType(href=link_href, text=link_text, type_=link_type))
+	else:
+		links = None
+	# END LINKS
+	time = None if meta.setdefault(GPX_FIELD_TIME, None) is None else \
+			meta[GPX_FIELD_TIME].replace(microsecond=0).isoformat()
+	keywords = None if meta.setdefault(GPX_FIELD_KEYWORDS, None) is None else meta[GPX_FIELD_KEYWORDS]
+	return metadataType(name=name, desc=desc, author=author, copyright=copyright,
+			    link=links, time=time, keywords=keywords)
+
+def __decorate_waypoint(poi, poi_mapping, wpt):
+	"""Adds aditional informations to waypoint wpt based on mapping poi_mapping of DB
+	fields to GPX fields
+	"""
+	def time_constr(val):
+		return val.replace(microsecond=0).isoformat()
+
+	def pos_int_constr(val):
+		val = int(val)
+		if val < 0:
+			raise ValueError
+		return val
+
+	gpx_fields = {GPX_FIELD_TIME:time_constr, GPX_FIELD_GEOIDHEIGHT:float, GPX_FIELD_NAME:str, GPX_FIELD_CMT:str,
+		      GPX_FIELD_DESC:str, GPX_FIELD_SRC:str, GPX_FIELD_SYM:str, GPX_FIELD_TYPE:str,
+		      GPX_FIELD_SAT:pos_int_constr, GPX_FIELD_HDOP:float, GPX_FIELD_VDOP:float, GPX_FIELD_PDOP:float}
+	for gpx_field, poi_field in poi_mapping.items():
+		func_name = 'set_{0}'.format(gpx_field)
+		gpx_value = gpx_fields[gpx_field](getattr(poi, poi_field))
+		getattr(wpt, func_name)(gpx_value)
+	return wpt
 
 
+def __decorate_route(path, path_mapping, rte):
+	"""Adds aditional informations to route rte based on mapping path_mapping of DB
+	fields to GPX fields
+	"""
+
+	def pos_int_constr(val):
+		val = int(val)
+		if val < 0:
+			raise ValueError
+		return val
+
+	gpx_fields = {GPX_FIELD_NAME:str, GPX_FIELD_CMT:str, GPX_FIELD_DESC:str, GPX_FIELD_SRC:str,
+		      GPX_FIELD_NUMBER:pos_int_constr, GPX_FIELD_TYPE:str}
+	for gpx_field, path_field in path_mapping.items():
+		func_name = 'set_{0}'.format(gpx_field)
+		gpx_value = gpx_fields[gpx_field](getattr(path, path_field))
+		getattr(rte, func_name)(gpx_value)
+	return rte
 
 
-def render_to_gpx(poi_qs=None, path_qs=None):
+def render_to_gpx(creator, poi_qs=None, path_qs=None, meta=None, poi_mapping = None,
+		  path_mapping = None):
+	"""Renders querysets to GPX format. Parameters:
+	creator     - string name of creator of the GPX file
+	poi_qs      - Queryset of points
+	path_qs     - Queryset of LineStrings
+	meta        - Dict with metainformations of GPX
+	poi_mapping - Dict defining mapping between POI model and GPX Waypoint fields
+	path_mapping - Dict defining mapping between POI model and GPX Route fields
+
+	Schema of dictionary meta (based on http://www.topografix.com/gpx/1/1/):
+	metadata = {
+		'name':,			#xsd:string - The name of the GPX file.
+		'desc':,			#xsd:string - A description of the contents of the GPX file.
+		'author': { 			# The person or organization who created the GPX file.
+			'name':,		#xsd:string - Name of person or organization.
+			'email':,		#xsd:string - Email address format: 'somebody@somewhere.com'
+			'link':{		# Link to Web site or other external information about person.
+				'href':,	#xsd:anyURI (mandatory) - URL of hyperlink.
+				'text':,	#xsd:string - Text of hyperlink.
+				'type':,	#xsd:string - Mime type of content (e.g. image/jpeg)
+			}
+		},
+		'copyright':{			# Copyright and license information governing use of the file.
+			'author':,		#xsd:string - Copyright holder
+			'year':,		#xsd:gYear  - Year of copyright.
+			'license':,		#xsd:anyURI - Link to external file containing license text.
+		},
+		'link':[{			# URLs associated with the location described in the file.
+				'href':,	#xsd:anyURI (mandatory) - URL of hyperlink.
+				'text':,	#xsd:string - Text of hyperlink.
+				'type':,	#xsd:string - Mime type of content (e.g. image/jpeg)
+				}
+		],
+		'time':,			#xsd:dateTime - The creation date of the file.
+		'keywords':			#xsd:string - Keywords associated with the file.
+						#Search engines or databases can use
+						#this information to classify the data.
+	}
+
+	poi_mapping = {'<GPX waypoint field name>':'<Model field name>'}
+	Supported GPX waypoint field names (based on http://www.topografix.com/gpx/1/1/):
+	'time' 		- xsd:dateTime - Creation/modification timestamp for element.
+	'geoidheight' 	- xsd:decimal - Height (in meters) of geoid (mean sea level) above WGS84
+					earth ellipsoid. As defined in NMEA GGA message.
+	'name' 		- xsd:string - The GPS name of the waypoint. This field will be
+					transferred to and from the GPS.
+	'cmt' 		- xsd:string - GPS waypoint comment. Sent to GPS as comment.
+	'desc' 		- xsd:string - A text description of the element. Holds additional information
+					about the element intended for the user, not the GPS.
+	'src' 		- xsd:string - Source of data. Included to give user some idea
+					of reliability and accuracy of data.
+	'sym' 		- xsd:string - Text of GPS symbol name. For interchange with other programs,
+					use the exact spelling of the symbol as displayed on the GPS.
+					If the GPS abbreviates words, spell them out.
+	'type' 		- xsd:string - Type (classification) of the waypoint.
+	'sat' 		- xsd:nonNegativeInteger - Number of satellites used to calculate the GPX fix.
+	'hdop' 		- xsd:decimal - Horizontal dilution of precision.
+	'vdop' 		- xsd:decimal - Vertical dilution of precision.
+	'pdop' 		- xsd:decimal - Position dilution of precision.
+
+	path_mapping = {'<GPX route field name>':'<Model field name>'}
+	Supported GPX route field names (based on http://www.topografix.com/gpx/1/1/):
+	name 	- xsd:string - GPS name of route.
+	cmt 	- xsd:string - GPS comment for route.
+	desc 	- xsd:string - Text description of route for user. Not sent to GPS.
+	src 	- xsd:string - Source of data. Included to give user some idea
+				of reliability and accuracy of data.
+	number 	- xsd:nonNegativeInteger - GPS route number.
+	type 	- xsd:string - Type (classification) of route.
+	"""
+
 	if poi_qs is None and path_qs is None:
 		raise ValueError
 	str_out = StringIO.StringIO()
-	gpx = gpxType(version=1.1, creator='cestasnp.sk')
-	lnk = linkType(text='www.cestasnp.sk', type_='text/html')
-	email = emailType(id='info', domain='cestasnp.sk')
-	gpx.set_metadata(metadataType(
-				link  =[lnk],
-				time  =datetime.today().isoformat(),
-				author=personType(name='cestasnp.sk', link=lnk, email=email)
-				)
-			)
+	gpx = gpxType(version=1.1, creator=creator)
+
+	"""
+	extent() returns tuple: (xmin, ymin, xmax, ymax), where:
+	x -- longitude
+	y -- latitude
+	"""
+	poi_bounds = (float('inf'), float('inf'), float('-inf'), float('-inf')) \
+			if poi_qs is None else poi_qs.extent()
+	path_bounds = (float('inf'), float('inf'), float('-inf'), float('-inf')) \
+			if path_qs is None else path_qs.extent()
+	bounds = boundsType(minlon=min(poi_bounds[0], path_bounds[0]),
+			    minlat=min(poi_bounds[1], path_bounds[1]),
+			    maxlon=max(poi_bounds[2], path_bounds[2]),
+			    maxlat=max(poi_bounds[3], path_bounds[3]))
+
+	if meta is not None:
+		metadata = __parse_meta(meta)
+		metadata.set_bounds(bounds)
+	else:
+		metadata = metadataType(bounds = bounds)
+	gpx.set_metadata(metadata)
+
 	if poi_qs is not None:
+		gfield_name = find_geom_field(poi_qs)
 		for poi in poi_qs:
 			wpt = wptType(
-				lon=poi.the_geom.get_x(),
-				lat=poi.the_geom.get_y(),
-				ele=poi.the_geom.get_z(),
-				time=poi.created_at.isoformat(),
-				type_=str(poi.type),			#FIXME:convert to STR format
-				name=poi.name,
-				src=poi.created_by)
-			if poi.note != '':
-				wpt.set_cmt(poi.note)
+				lon=getattr(poi, gfield_name).get_x(),
+				lat=getattr(poi, gfield_name).get_y(),
+				ele=getattr(poi, gfield_name).get_z())
+			if poi_mapping is not None:
+				wpt = __decorate_waypoint(poi, poi_mapping, wpt)
 			gpx.add_wpt(wpt)
 	if path_qs is not None:
+		gfield_name = find_geom_field(path_qs)
 		for path in path_qs:
-			rte = rteType(src='cestasnp.sk', type_=str(path.type))	#FIXME:convert to STR format
-			if path.note != '':
-				rte.set_cmt(path.note)
-			if len(path.the_geom[0]) == 3:
-				rte.set_rtept([wptType(lon=p[0], lat=p[1], ele=p[2]) for p in path.the_geom])
+			rte = rteType()
+			if len(getattr(path, gfield_name)[0]) == 3:
+				rte.set_rtept([wptType(lon=p[0], lat=p[1], ele=p[2]) \
+						for p in getattr(path, gfield_name)])
 			else:
-				rte.set_rtept([wptType(lon=p[0], lat=p[1]) for p in path.the_geom])
+				rte.set_rtept([wptType(lon=p[0], lat=p[1]) \
+						for p in getattr(path, gfield_name)])
+			if path_mapping is not None:
+				rte = __decorate_route(path, path_mapping, rte)
 			gpx.add_rte(rte)
 	gpx.export(outfile=str_out, level=0, name_='gpx')
 	return str_out.getvalue()
