@@ -1,5 +1,5 @@
 from django.contrib.gis.db import models
-from thumbs import thumbs
+from django.conf import settings
 
 class Area(models.Model):
 	"""Model representing area, which contains path and Points of interest.
@@ -25,7 +25,7 @@ class Path(models.Model):
 	path -- spatial representation of the path in the WGS84
 	"""
 	area    = models.ForeignKey(Area)
-	type    = models.IntegerField()
+	type    = models.IntegerField(choices=settings.PATH_TYPES, default=1)
 	note    = models.TextField(blank = True)
 
 	the_geom = models.LineStringField()
@@ -41,6 +41,14 @@ class Jos_article_id(models.Model):
 class Jos_photo_id(models.Model):
 	"""Model representing ID of photo in DB of Joomla"""
 	id = models.IntegerField(primary_key = True)
+
+class Photo(models.Model):
+	title = models.CharField(max_length=50)
+	desctiption = models.CharField(max_length=100, blank=True)
+	photo = models.ImageField(upload_to='/tmp/photos/%Y/%m/%d', blank=True)
+	
+	def __unicode__(self):
+		return self.title
 
 class Poi(models.Model):
 	"""Model representing Point of interest (POI).
@@ -58,19 +66,17 @@ class Poi(models.Model):
 	active -- boolean of controlling displaying POI in the map
 	point -- spatial representation of the POI in the WGS84
 	"""
-	name           = models.CharField(max_length = 50)
+	name           = models.CharField(max_length=50)
 	area           = models.ForeignKey(Area)
-	type           = models.IntegerField()
-	created_by     = models.CharField(max_length = 50)
-	created_at     = models.DateTimeField()
-	jos_article_id = models.ManyToManyField(Jos_article_id, null = True)
-	jos_photo_id   = models.ManyToManyField(Jos_photo_id, null = True)
-	photo          = thumbs.ImageWithThumbsField(
-				upload_to = 'photos/%Y/%m/%d',
-				sizes = ((125, 125),), null = True)
-	priority       = models.IntegerField(default = 5)
-	note           = models.TextField(blank = True)
-	active         = models.BooleanField()
+	type           = models.IntegerField(choices=settings.POI_TYPES)
+	active         = models.BooleanField(default=True)
+	priority       = models.IntegerField(default=5)
+	note           = models.TextField(blank=True)
+	photo          = models.ManyToManyField(Photo, blank=True, null=True)
+	jos_article_id = models.ManyToManyField(Jos_article_id, blank=True, null=True)
+	jos_photo_id   = models.ManyToManyField(Jos_photo_id, blank=True, null=True)
+	created_by     = models.CharField(max_length=50, blank=True)
+	created_at     = models.DateTimeField(blank=True, null=True)
 
 	the_geom       = models.PointField()
 	objects        = models.GeoManager()
