@@ -1,37 +1,24 @@
 from django.contrib.gis.db import models
 
 class User(models.Model):
-	""" Class representing a user in live tracking application.
-	Columns:
-	id -- id of the user
-	name -- name of the user
-	track_name -- the name of the track
-	date_from -- date, when track began
-	date_to -- date, when track ended
-	"""
-	id = 			models.IntegerField(primary_key=True)
-	name = 			models.CharField(max_length=50)
-	track_name = 		models.CharField(max_length=50)
-	description = 		models.TextField(blank=True)
-	date_from = 		models.DateField(blank=True, null=True)
-	date_to = 		models.DateField(blank=True, null=True)
+	""" Class representing a user in live tracking application."""
+	id = 			models.IntegerField(primary_key=True, help_text='Id of the user.')
+	name = 			models.CharField(max_length=50, help_text='Name of the user.')
+	track_name = 		models.CharField(max_length=50, help_text='The name of the track.')
+	description = 		models.TextField(blank=True, help_text='Description of the track.')
+	date_from = 		models.DateField(blank=True, null=True, help_text='Date, when track began.')
+	date_to = 		models.DateField(blank=True, null=True, help_text='Date, when track ended.')
 
 	def __unicode__(self):
 		return "%s (%s)" % (self.name, self.track_name)
 
 class Message(models.Model):
-	""" Class representing a message sent by a user
-	Columns:
-	user -- user, who sent a message
-	time -- time of sending the message
-	text -- text of the message
-	the_geom -- spatial point of source of the message
-	"""
-	user = 		models.ForeignKey(User)
-	time = 		models.DateTimeField()
-	text = 		models.TextField(blank=True)
+	""" Class representing a message sent by a user."""
+	user = 		models.ForeignKey(User, help_text='User, who sent a message.')
+	time = 		models.DateTimeField(help_text='Time of sending the message.')
+	text = 		models.TextField(blank=True, help_text='Text of the message.')
 	
-	the_geom = 	models.PointField(null=True)
+	the_geom = 	models.PointField(null=True, help_text='Spatial point of source of the message.')
 	objects = 	models.GeoManager()
 
 	def __unicode__(self):
@@ -43,13 +30,9 @@ class Message(models.Model):
 
 
 class Sync_log(models.Model):
-	"""Log of synchronizing DB from Freemap API.
-	Columns:
-	time -- time of synchronizing
-	success -- success of synchronizing
-	"""
-	time = 		models.DateTimeField()
-	success = 	models.BooleanField()
+	"""Log of synchronizing DB from Freemap API."""
+	time = 		models.DateTimeField(help_text='Time of synchronizing.')
+	success = 	models.BooleanField(help_text='Success of synchronizing.')
 	
 	def __unicode__(self):
 		return "%s" % self.time
