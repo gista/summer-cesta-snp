@@ -2,13 +2,9 @@ from django.contrib.gis.db import models
 from django.conf import settings
 
 class Area(models.Model):
-	"""Model representing area, which contains path and Points of interest.
-	Columns:
-	name -- name of the area
-	note -- note about the area.
-	"""
-	name = models.CharField(max_length = 50)
-	note = models.TextField(blank = True)
+	"""Model representing area, which contains path and Points of interest."""
+	name = models.CharField(max_length = 50, help_text='Name of the area.')
+	note = models.TextField(blank = True, help_text='Note about the area.')
 	
 	the_geom = models.PolygonField()
 	objects  = models.GeoManager()
@@ -17,18 +13,12 @@ class Area(models.Model):
 		return self.name
 
 class Path(models.Model):
-	"""Model representing path of Cesta hrdinov SNP and other surrounding paths.
-	Columns:
-	area -- area, which path belongs to
-	type -- type of the path (default 1)
-	note -- note about the path
-	path -- spatial representation of the path in the WGS84
-	"""
-	area    = models.ForeignKey(Area)
-	type    = models.IntegerField(choices=settings.PATH_TYPES, default=1)
-	note    = models.TextField(blank = True)
+	"""Model representing path of Cesta hrdinov SNP and other surrounding paths."""
+	area    = models.ForeignKey(Area, help_text='Area, which path belongs to.')
+	type    = models.IntegerField(choices=settings.PATH_TYPES, default=1, help_text='Type of the path (default 1).')
+	note    = models.TextField(blank = True, help_text = 'note about the path')
 
-	the_geom = models.LineStringField()
+	the_geom = models.LineStringField(help_text = 'Spatial representation of the path in the WGS84.')
 	objects  = models.GeoManager()
 
 	def __unicode__(self):
@@ -51,34 +41,22 @@ class Photo(models.Model):
 		return self.title
 
 class Poi(models.Model):
-	"""Model representing Point of interest (POI).
-	Columns:
-	name -- name of the POI
-	area -- area, which POI is situated in
-	type -- type of the POI
-	created_by -- name of the creator of the POI
-	created_at -- date-time stamp of creation of the POI
-	jos_article_id -- many-to-many relation with article ids (from Joomla DB)
-	jos_photo_id -- many-to-many relation with photo ids (from Joomla DB)
-	photo -- photo of the POI
-	priority -- displaying priority of the POI in the map
-	note -- note about the POI
-	active -- boolean of controlling displaying POI in the map
-	point -- spatial representation of the POI in the WGS84
-	"""
-	name           = models.CharField(max_length=50)
-	area           = models.ForeignKey(Area)
-	type           = models.IntegerField(choices=settings.POI_TYPES)
-	active         = models.BooleanField(default=True)
-	priority       = models.IntegerField(default=5)
-	note           = models.TextField(blank=True)
-	photo          = models.ManyToManyField(Photo, blank=True, null=True)
-	jos_article_id = models.ManyToManyField(Jos_article_id, blank=True, null=True)
-	jos_photo_id   = models.ManyToManyField(Jos_photo_id, blank=True, null=True)
-	created_by     = models.CharField(max_length=50, blank=True)
-	created_at     = models.DateTimeField(blank=True, null=True)
+	"""Model representing Point of interest (POI)."""
+	name           = models.CharField(max_length=50, help_text='Name of the POI.')
+	area           = models.ForeignKey(Area, help_text='Area, which POI is situated in.')
+	type           = models.IntegerField(choices=settings.POI_TYPES, help_text='Type of the POI.')
+	active         = models.BooleanField(default=True, help_text='Boolean of controlling displaying POI in the map.')
+	priority       = models.IntegerField(default=5, help_text='Displaying priority of the POI in the map.')
+	note           = models.TextField(blank=True, help_text='Note about the POI.')
+	photo          = models.ManyToManyField(Photo, blank=True, null=True, help_text='Photo of the POI.')
+	jos_article_id = models.ManyToManyField(Jos_article_id, blank=True, null=True,
+						help_text='Many-to-many relation with article ids (from Joomla DB).')
+	jos_photo_id   = models.ManyToManyField(Jos_photo_id, blank=True, null=True,
+						help_text='Many-to-many relation with photo ids (from Joomla DB).')
+	created_by     = models.CharField(max_length=50, blank=True, help_text='Name of the creator of the POI.')
+	created_at     = models.DateTimeField(blank=True, null=True, help_text='Date-time stamp of creation of the POI.')
 
-	the_geom       = models.PointField()
+	the_geom       = models.PointField(help_text='Spatial representation of the POI in the WGS84.')
 	objects        = models.GeoManager()
 
 	class Meta:
