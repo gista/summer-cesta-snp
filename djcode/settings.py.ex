@@ -163,3 +163,16 @@ LOGGING = {
 # SNPPath settings
 SNPPATH_COOKIE_SESSION_ID_NAME = '9fb5dc180d643162e1e24919a8ede8dd'
 GOOGLE_MAPS_API_KEY ='ABQIAAAAFBvNBHAal2xO0j7v7Q9naRR9JtsG2NQtVs3m4JfgsLQ3OEspOBSNmo8pyxdC4DLkQxfFEgu3cHiqMA' #map.cestasnp.sk
+POI_TYPES = (
+	(1, 'hut, shelter'),
+	(2, 'cottage'),
+	(3, 'water'),
+	(4, 'restaurant, pub'),
+	(5, 'grocery'),
+	(6, 'interesting place'),
+	(7, 'other'),
+)
+
+PATH_TYPES = (
+	(1, 'SNP path'),
+)
