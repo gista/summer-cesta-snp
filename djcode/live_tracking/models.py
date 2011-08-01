@@ -7,6 +7,7 @@ class User(models.Model):
 	first_name =		models.CharField(max_length=50, blank=True)
 	last_name =		models.CharField(max_length=50, blank=True)
 	email =			models.EmailField(blank=True)
+	phone =			models.CharField(max_length=30, blank=True)
 	is_active = 		models.BooleanField(default=True, 
 					help_text='Designates whether this user is still active on path.')
 	track_name = 		models.CharField(max_length=50, help_text='The name of the track.')
