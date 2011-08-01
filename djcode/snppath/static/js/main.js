@@ -20,13 +20,11 @@ OpenLayers.Control.Click = OpenLayers.Class(OpenLayers.Control,{
  		this.handlerOptions = OpenLayers.Util.extend({}, this.defaultHandlerOptions);
 		OpenLayers.Control.prototype.initialize.apply(this, arguments);
  
-   	this.handler = new OpenLayers.Handler.Click(
-    	this, {
-      	'click': this.trigger
-        	}, this.handlerOptions
-        );
-  		}, 
-	});
+   	this.handler = new OpenLayers.Handler.Click(this, {
+			'click': this.trigger
+			}, this.handlerOptions);
+  			}, 
+		});
 
 function hasParams(){
 	var link = document.location.href;
@@ -72,8 +70,14 @@ function handleMeasurements(event) {
 	var measure = event.measure;
 	var element = document.getElementById('measures');
 	var out = "";
-	if(order == 1)	out += "Nameraná dĺžka: " + measure.toFixed(2) + " " + units;
-	else	out += "Nameraná plocha: " + measure.toFixed(2) + " " + units + "<sup>2</sup>";
+	if(order == 1){
+		out += "Nameraná dĺžka: " + measure.toFixed(2) + " " + units;
+		length_measure_controller.deactivate();
+		}
+	else {
+		out += "Nameraná plocha: " + measure.toFixed(2) + " " + units + "<sup>2</sup>";
+		area_measure_controller.deactivate();
+		}
 	element.innerHTML = out;
   	}
 
@@ -187,9 +191,17 @@ Ext.onReady(function(){
 		];
 	
 	map.addLayers(vectors);
-	
 
-	var length_measure = new OpenLayers.Control.Measure(OpenLayers.Handler.Path, {
+	/*
+	Toggle buttons for map functionality	
+	*/
+	var length_measure_toggle_button, area_measure_toggle_button, click_toggle_button;
+
+	/*
+	Controller to measure the length of points
+	*/
+
+	var length_measure_controller = new OpenLayers.Control.Measure(OpenLayers.Handler.Path, {
 		persist: true,
 		immediate: true,
 		geodesic: true,
@@ -199,7 +211,30 @@ Ext.onReady(function(){
     			}
 		});
 
-	var area_measure = new OpenLayers.Control.Measure(OpenLayers.Handler.Polygon, {
+	map.addControl(length_measure_controller);
+
+	length_measure_toggle_button = new OpenLayers.Control.Button({
+		title: 'Meranie vzdialenosti',
+		displayClass: "olControlLengthButton", 
+		eventListeners: {
+			'activate': function(){
+				area_measure_toggle_button.deactivate();
+				click_toggle_button.deactivate();
+
+				length_measure_controller.activate();
+				},
+			'deactivate': function(){
+				length_measure_controller.deactivate();
+				}	
+			},
+		type: OpenLayers.Control.TYPE_TOGGLE
+		});
+
+	/*
+	Controller to measure the area size	
+	*/
+
+	var area_measure_controller = new OpenLayers.Control.Measure(OpenLayers.Handler.Polygon, {
 		persist: true,
 		immediate: true,
 		geodesic: true,
@@ -209,8 +244,33 @@ Ext.onReady(function(){
     			}
 		});
 
-	map.addControls([length_measure, area_measure]);
+	map.addControl(area_measure_controller);
 	
+	/*
+	Toggle button to activate/deactivate the area measure controller	
+	*/
+
+	area_measure_toggle_button = new OpenLayers.Control.Button({
+		title: 'Meranie plochy',
+		displayClass: "olControlAreaMeasureButton", 
+		eventListeners: {
+			'activate': function(){
+				length_measure_toggle_button.deactivate();
+				click_toggle_button.deactivate();
+
+				area_measure_controller.activate();
+				},
+			'deactivate': function(){
+				area_measure_controller.deactivate();
+				}	
+			},
+		type: OpenLayers.Control.TYPE_TOGGLE
+		});
+
+	/*
+	Click controller to show the point info	
+	*/
+
 	var click_controller = new OpenLayers.Control.Click({
 		trigger: function(e) {
 			var lonlat = map.getLonLatFromViewPortPx(e.xy); 
@@ -219,21 +279,105 @@ Ext.onReady(function(){
 				new OpenLayers.Projection("EPSG:900913"),
     				new OpenLayers.Projection("EPSG:4326") 
 				);
-      			showPopup(lonlat,0);	
-			}	
+      			showPopup(lonlat,0);
+			},
 		});
 
 	map.addControl(click_controller);
 
 	/*
-		
-		vector select controller
-		
+	Toggle button to activate/deactivate the click controller	
+	*/
+
+	click_toggle_button = new OpenLayers.Control.Button({
+		title: 'Zobrazenie info o bode (súradnice + permalink)',
+		displayClass: "olControlClickButton", 
+		eventListeners: {
+			'activate': function(){
+				length_measure_toggle_button.deactivate();
+				area_measure_toggle_button.deactivate();
+
+				click_controller.activate();
+				},
+			'deactivate': function(){
+				click_controller.deactivate();
+				}	
+			},
+		type: OpenLayers.Control.TYPE_TOGGLE
+		});
+
+	/*
+	Controller button to export POI into GPX	
+	*/
+
+	var gpx_button = new OpenLayers.Control.Button({
+		title: 'Exportovanie všetkých dát do .gpx',
+    		displayClass: "olControlGPXButton", 
+		trigger: function(){
+			alert("Export GPX");	
+			} 
+		});	
+
+	/*
+	Help window 	
+	*/
+
+	var help_window = new Ext.Window({
+		width: 400,
+		height:300,
+		title: 'Help',
+		closeAction: 'hide',  
+		listeners:{
+			beforeshow: function(e){
+				alert("GET /help");
+				//e.update()				
+				}			
+			}					
+		});
+	
+	/*
+	Controller button to show the help window	
+	*/
+
+	var help_button = new OpenLayers.Control.Button({
+		title: 'Zobrazenie pomocníka',
+    		displayClass: "olControlHelpButton", 
+		trigger: function(){
+			help_window.show();	
+			} 
+		});	
+
+	var mouse_controller = new OpenLayers.Control.Navigation({
+		title:'Navigácia'
+		}); 
+
+	/*
+	Control panel which holds the controller buttons
+	*/
+
+	var control_panel = new OpenLayers.Control.Panel({
+		displayClass: 'olControlRightToolbar',
+		defaultControl: mouse_controller		
+		});
+
+	control_panel.addControls([
+		mouse_controller,
+		length_measure_toggle_button,
+		area_measure_toggle_button,
+		click_toggle_button,
+		gpx_button,
+		help_button,
+		]);
+
+	map.addControl(control_panel);
+
+	/*		
+	Vector select controller	
 	*/
 
 	var select_controller = new OpenLayers.Control.SelectFeature(vectors,{
      		clickout: true, toggle: false,
-       	multiple: false, hover: false,
+       		multiple: false, hover: false,
      	 	toggleKey: "ctrlKey",
      		multipleKey: "shiftKey"
                		}
@@ -545,7 +689,7 @@ Ext.onReady(function(){
 			},{
 			fieldLabel: 'Zemepisná dĺžka: * (napr. 19.45732)',
 			name: 'coords_e',
-			width: 200,
+			width: 220,
 			allowBlank:false,
 			},{
 			fieldLabel: 'Fotografia',
@@ -574,112 +718,12 @@ Ext.onReady(function(){
 
 
 	var panel_poi_db =  new Ext.Panel({
-		title: '<center>Pridaj<br/>bod</center>',
+		title: '<div class="x-tab-strip-text-down">Pridaj bod<br/>&nbsp;</div>',
 		layout:'border',
 		items:[
 			panel_poi_db_side,
 			panel_advertisement.cloneConfig(),		
 			]				
-		});
-
-	// bookmar TOOLS
-
-	var window_help = new Ext.Window({
-		width: 400,
-		height:300,
-		title: 'Help',
-		html: 'Help content', 
-		closeAction: 'hide',  					
-		});
-	
-
-	var panel_tools_measures = new Ext.Panel({	
-		title: 'Merania',
-		frame: true,
-		html:'<div id="measures"></div>',
-		height: 150,
-		defaults:{
-			xtype: 'button',
-			width: 100,
-			padding: '5 5 5 5',
-			},
-		items:[{
-			text: 'navigácia',
-	    		enableToggle: true,
-			id: 'navigation',
-	    		toggleGroup: 'measure',
-	    		handler: function(toggled){
-				if (toggled) {
-	       				length_measure.deactivate();
-					area_measure.deactivate();
-					}
-				},
-			}, {
-			text: 'meranie dĺžky',
-	    		enableToggle: true,
-	    		toggleGroup: 'measure',
-	    		handler: function(toggled){
-				if (toggled) length_measure.activate();
-				else length_measure.deactivate();
-	    			}			
-			},{
-			text: 'meranie plochy',
-	    		enableToggle: true,
-	    		toggleGroup: 'measure',
-	    		handler: function(toggled){
-				if (toggled) area_measure.activate();
-				else area_measure.deactivate();
-				}
-	    		}],
-		});
-
-
-	var panel_tools_center = new Ext.Panel({
-		layout: 'accordion',
-		region: 'center',
-		defaults: {
-			bodyStyle: 'padding:15px',
-			frame: true,
-			},
-		layoutConfig: {
-			collapsible: true,
-			animate: true,
-			activeOnTop: false,
-			
-			},
-		items:[panel_tools_measures,{
-			title: 'Výber bodu na mape',	
-			html: 'teraz klikni na mapu pre získanie permalinku',
-			collapsible: true,
-			listeners:{
-				expand:function(){
-					click_controller.activate();
-					},
-				collapse:function(){
-					//console.log(click_controller);
-					click_controller.deactivate();
-					},
-				}	
-			},{
-			title: 'Pomoc',
-			id: 'panel_help',
-			collapsible: true,
-			listeners:{
-				expand:function(){
-					window_help.show();
-					},
-				}					
-			}
-			]
-		});
-
-	var panel_tools = new Ext.Panel({
-		title: '<div class="x-tab-strip-text-down">Doplnky<br/>&nbsp;</div>',
-		layout: 'border',
-		items:[
-			panel_tools_center,
-			panel_advertisement.cloneConfig(),
-			]
 		});
 	
 	var viewport = new Ext.Viewport({
@@ -728,7 +772,7 @@ Ext.onReady(function(){
 				panel_layers,
 				panel_live,
 				panel_poi_db,
-				panel_tools
+				
 				]
 			},{
 			id: 'mapPanel',
@@ -876,8 +920,10 @@ Ext.onReady(function(){
 	map.addControls([
 		new OpenLayers.Control.Permalink(),
 		new OpenLayers.Control.ScaleLine(),
-		new OpenLayers.Control.MousePosition() 
+		new OpenLayers.Control.MousePosition(),
 		]);
+
+	
 
 	// LIVE tracking functionality
 	Ext.getCmp("tracking_live").on('rowclick', function(grid, rowIndex, e) {
