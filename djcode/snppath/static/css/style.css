@@ -1,0 +1,20 @@
+.x-grid3-cell-inner { 
+	white-space: normal; 
+}
+
+#live_tracking_record_header{ 
+	font-size:20px; 
+}
+
+.x-grid3-cell-first .x-grid3-cell-inner { 
+	font-size:13px; 
+}
+
+.x-tab-strip-text-down{
+	position: relative;
+	top: 7px;
+}
+
+.x-tree-title-invisible, .x-tree-ec-icon {
+	display: none;
+}
