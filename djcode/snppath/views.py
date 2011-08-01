@@ -2,6 +2,7 @@ from django.conf import settings
 from django.shortcuts import render_to_response
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login
+from django.template import RequestContext
 
 def testauth(request):
 	resp = 'AUTHENTICATION TEST PAGE'
@@ -19,4 +20,4 @@ def testauth(request):
 	return HttpResponse(resp, mimetype="text/plain")
 
 def home(request):
-	return render_to_response("index.html", {})
+	return render_to_response("index.html", {}, context_instance=RequestContext(request))
