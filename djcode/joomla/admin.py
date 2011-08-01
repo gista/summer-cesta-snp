@@ -3,7 +3,7 @@ from models import Jos_session, Jos_joom_gallery, Jos_content
 
 class Jos_session_admin(admin.ModelAdmin):
 	list_display = ("userid", "username", "session_id", "usertype",)
-	search_fields = ("name",)
+	search_fields = ("username","session_id",)
 	ordering = ("time",)
 
 class Jos_joom_gallery_admin(admin.ModelAdmin):
