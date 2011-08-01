@@ -4,8 +4,8 @@ from django.conf import settings
 from models import User, Message, Sync_log
 
 class User_admin(admin.ModelAdmin):
-	list_display = ("id", "name", "track_name", "description", "date_from", "date_to")
-	search_fields = ("name",)
+	list_display = ("id", "username", "first_name", "last_name", "is_active", "track_name", "description", "date_from", "date_to")
+	search_fields = ("username", "first_name", "last_name",)
 
 class Sync_log_admin(admin.ModelAdmin):
 	list_display = ("time", "success")

@@ -94,7 +94,7 @@ class Command(NoArgsCommand):
 		try:
 			usr_db = User.objects.get(id=user_id)
 		except User.DoesNotExist:
-			usr = User(id=user_id, name=user_info['user'], track_name=user_info['device'])
+			usr = User(id=user_id, username=user_info['user'], track_name=user_info['device'])
 			if user_info['description'] is not None:
 				usr.description = user_info['description']
 
