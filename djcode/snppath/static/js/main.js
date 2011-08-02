@@ -480,11 +480,6 @@ Ext.onReady(function(){
 {"device_id":"42","located":"2011-07-07 21:03:56","lat":"49.241","lon":"21.4202","status":"Tak som dorazil na Duklu. Asi 1km od pamatnika som si v podvozku stareho lietadla urobil vysute lozko z celty a povrazu, tak mam pohodlie a som aj skryty pred dazdom.","latlon_format":"M"},
 {"device_id":"42","located":"2011-07-07 13:12:02","lat":"48.4312","lon":"21.1605","status":"Cestu zo Ziliny do Kosic mam za sebou. Po obede v mestskom parku som sa pobral na autobusovu stanicu, kde to vyzera z hladiska poctu romskych spoluobcanov o nieco bezpecnejsie ako park.","latlon_format":"M"}]};
 
-	var html = '<div><a href="http://localhost:8000/#zoom=11&lat={lat}&lon={lon}&layers=B0FFTTTTT"><h3>{located}</h3></a><br/>{status}</div><br/><hr/><br/>';
-
-	var tpl = new Ext.Template(html);
-	tpl.compile(); 
-
 	var data_store =  new Ext.data.SimpleStore({
 		root:'root',
 		id:'id',
@@ -525,7 +520,8 @@ Ext.onReady(function(){
 		colModel:new Ext.grid.ColumnModel({
 	 		defaults: {
 	      			sortable: false,
-				
+				fixed: true,
+				resizable: false,
 	      			},
 	   		columns: [
 				{dataIndex: 'user', width: 150,id:'user'},
@@ -548,6 +544,8 @@ Ext.onReady(function(){
 		colModel:new Ext.grid.ColumnModel({
 	  		defaults: {
 	     			sortable: false,
+				fixed: true,
+				resizable: false,
 	     			},
 	 		columns: [
 				{dataIndex: 'user',id:'user'},
@@ -563,7 +561,9 @@ Ext.onReady(function(){
 
 	var panel_live_record = new Ext.Panel({
 		id:'tracking_record',
-		layout:'fit',
+		autoHeight: true,
+		frame: true,
+		flex: 1,
 		hidden: true,
 		title: 'X',
 		autoScroll:true,
@@ -594,20 +594,17 @@ Ext.onReady(function(){
 			height: 500,
 			store: record_store,
 			colModel:new Ext.grid.ColumnModel({
-	  			defaults: {
-	     				sortable: false,
-					menuDisabled: true,
-					width: 250,
-	     				},
 	 			columns: [{
 					header:'<div id="live_tracking_record_header">Janka</div><hr/>Description: <span id="live_tracking_record_desc">popis</span>',
 					dataIndex: 'status', 
-					width: 230,
+					width: 220,
+					resizable: false,
+					sortable: false,
+					menuDisabled: true,
 					renderer:renderStatus, 
 					}]	
 	    			}),
 			}],		
-		region: 'north',	
 		});
 
 	//Ext.fly('live_tracking_record_header').update('Peter');
@@ -722,7 +719,7 @@ Ext.onReady(function(){
 			panel_advertisement.cloneConfig(),		
 			]				
 		});
-	
+
 	var viewport = new Ext.Viewport({
 		layout: 'border',
 		monitorResize: true,
@@ -756,20 +753,22 @@ Ext.onReady(function(){
 					html:'Licence of GISTA & FREEMAP',					
 					}]
 				}]				
-			},{
+			},{	
 			id: 'tabPanel',
 			region:'west',
 			collapsible: true,
+			border: false,
 			margins: '0 0 0 0',
 			cmargins: '0 0 0 0',
 			width: 266,
+			maxWidth: 266,
+			minWidth: 266,
 			xtype: 'tabpanel',
 			activeTab: 0,
 			items: [
 				panel_layers,
 				panel_live,
 				panel_poi_db,
-				
 				]
 			},{
 			id: 'mapPanel',
