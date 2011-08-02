@@ -326,13 +326,10 @@ Ext.onReady(function(){
 		width: 400,
 		height:300,
 		title: 'Help',
-		closeAction: 'hide',  
-		listeners:{
-			beforeshow: function(e){
-				alert("GET /help");
-				//e.update()				
-				}			
-			}					
+		closeAction: 'hide', 
+		autoLoad:{
+			url: '/help',			
+			},					
 		});
 	
 	/*
@@ -960,133 +957,163 @@ Ext.onReady(function(){
 	point = new OpenLayers.Geometry.Point(lonLat.lon, lonLat.lat);
 	map.layers[5].addFeatures([new OpenLayers.Feature.Vector(point)]);
 
-	var window_articles = new Ext.Window({
+	if (!map.getCenter()) if (hasParams()) setMapCenter();
+
+	map.addControl(new OpenLayers.Control.MousePosition());
+	
+
+	point_info = '{"articles":[{"article_title":"Prístrešky na Cemjate","article_introtext":"Pri putovaní z Devína Vás Vaše putovanie dovedie k zrekonštruovanému altánku s minerálnym prameňom.","article_url":"http://cestasnp.sk/index.php/dolezite-miesta/dukla-cergov-sarisska-vrchovina/193-pristresky-na-cemjate"},{"article_title":"Cemjata","article_introtext":"Cemjata ako prímestská časť mesta Prešov leží pri ceste Prešov - Sedlice - Margecany a geograficky sa začleňuje do Šarišskej vrchoviny.","article_url":"http://cestasnp.sk/index.php/dolezite-miesta/dukla-cergov-sarisska-vrchovina/194-cemjata"}],"photos_map":[234, 121, 230],"photos_jos":[12, 512]}'
+
+	/*
+	var point_data_store = new Ext.data.Store({
+    		proxy: new Ext.data.HttpProxy({
+        		url: '/mapdata/poidetail'
+    			}),
+		reader: new Ext.data.JsonReader({
+			root: 'articles',
+			fields:[
+				{name: 'article_title'},
+				{name: 'article_introtext'},
+				{name: 'article_url'},
+				]
+			}),
+		});
+		
+	point_data_store.on('load', function(store) {
+		var data = store.reader.jsonData;
+		*/
+	function loadData(){
+		
+		var data = Ext.util.JSON.decode(point_info);
+		console.log(data);
+		var articles = data.articles;
+		
+		for(i=0; i<articles.length; i++){
+			//console.log(articles[i]);
+			panel_point_articles.add({
+				title: articles[i].article_title,
+				html: articles[i].article_introtext + '<br/><br/><a href="' + articles[i].article_url + '" target="_blank">Odkaz na článok</a> ',
+				});
+			}
+
+		var photos_jos = data.photos_jos;
+		for(i=0; i<photos_jos.length; i++){
+			//console.log(photos_jos[i]);
+			Ext.getCmp("photo_jos").add({
+				xtype: 'box',
+				width: 80,
+				height: 80,
+				style:{
+					"padding":"10px",
+					},
+				autoEl:{
+					tag: 'img',	
+					src: 'http://www.polianka.nfo.sk/wp-content/photos/moco-ganek.jpg',			
+					}
+				});
+			}
+		
+		var photos_map = data.photos_map;
+		for(i=0; i<photos_map.length; i++){
+			//console.log(photos_map[i]);
+			Ext.getCmp("photo_map").add({
+				xtype: 'box',
+				width: 80,
+				height: 80,
+				style:{
+					"padding":"10px",
+					},
+				autoEl:{
+					tag: 'img',	
+					src: 'http://www.polianka.nfo.sk/wp-content/photos/moco-ganek.jpg',			
+					}
+				});
+			}
+		
+		popup.show();
+		}
+		//});
+
+	var panel_point_articles = new Ext.Panel({
 		title: 'Články k bodu',
-		width: 500,
-		autoHeight: true,
-		layout: 'accordion',
-		closeAction: 'hide',
+		frame: true,
 		defaults: {
 			bodyStyle: 'padding:15px',
 			frame: true,
-			},
-		layoutConfig: {
 			collapsible: true,
-			animate: true,
-			activeOnTop: false,
-			},
-		items:[{
-			title: 'Článok 1',	
-			html: 'Úvodný text článku',		
-			}]
+			collapsed: true,
+			},	
+		
 		});
-	
-	window_articles.add({title: 'Článok 2', html: 'Úvodný text článku 2'});
-	window_articles.add({title: 'Článok 3', html: 'Úvodný text článku 3'});
-	window_articles.add({title: 'Článok 4', html: 'Úvodný text článku 4'});
 
-	var window_photos = new Ext.Window({
+	var panel_point_photos = new Ext.Panel({
 		title: 'Fotografie k bodu',
-		width: 450,
-		autoHeight: true,
-		frame: true,	
-		closeAction: 'hide',
+		frame: true,
 		defaults: {
 			frame: true,
 			},
 		items:[{
-			id: 'window_photo_point',
+			id: 'photo_jos',
 			},{
-			id: 'window_photo_web'
+			id: 'photo_map'
 			}]
 		});
-	
-	for(var i=0;i<3;i++)
-		Ext.getCmp("window_photo_point").add({
-			xtype: 'box',
-			width: 80,
-			height: 80,
-			style:{
-				"padding":"10px",
-				},
-			autoEl:{
-				tag: 'img',	
-				src: 'http://www.polianka.nfo.sk/wp-content/photos/moco-ganek.jpg',			
-				}
-			});
 
-	for(var i=0;i<14;i++)
-		Ext.getCmp("window_photo_web").add({
-			xtype: 'box',
-			width: 80,
-			height: 80,
-			style:{
-				"padding":"10px",
-				},
-			autoEl:{
-				tag: 'img',	
-				src: 'http://www.polianka.nfo.sk/wp-content/photos/moco-ganek.jpg',
-				},
-			});
-	
 	function create_point_info(feature) {
+		//point_data_store.load();
+
 		var lonlat = new OpenLayers.Geometry.Point(feature.geometry.x, feature.geometry.y);
 		lonlat.transform(map.getProjectionObject(), new OpenLayers.Projection("EPSG:4326"));
 		popup = new GeoExt.Popup({
-            		title: 'Názov bodu',
-            		location: feature,
-            		width:350,
+			unpinnable: false,
+			location: feature,
+			width: 800,
+        		autoHeight: true,
+			closeAction: 'hide', 
+			title: ' Bod',
 			items:[{
-				xtype: 'box',
-				autoEl:{
-					tag: 'img',
-					src: 'http://icons.iconarchive.com/icons/iron-devil/ids-3d-icons-20/16/Mountain-icon.png',
-					href: 'x',
-					align:'left',
+				title: 'Informácie o bode',
+				frame: true,
+				defaults: {
+					frame: true,
 					},
-				},{
-				xtype: 'box',
-				height: 30,
-				autoEl:{		
-					html: 'Vysoké Tatry',
-					},
-				},{
-				xtype: 'box',
-				height: 30,
-				autoEl:{		
-					html: '<b>Súradnice:</b> [ ' + lonlat.x + ',' + lonlat.y + ' ]',
-					},
-				},{	
-				xtype: 'box',
-				height: 20,
-				autoEl:{		
-					html: '<b>Poznámka:</b>',
-					},			
-				},{	
-				xtype: 'box',
-				autoHeight: true,
-				autoEl:{		
-					html: 'Tu sa bude nachádzať text poznámky. Tu sa bude nachádzať text poznámky. Tu sa bude nachádzať text poznámky. Tu sa bude nachádzať text poznámky. Tu sa bude nachádzať text poznámky.',
-					},			
-				}],
-				buttons:[{
-					style:{
-						align: 'left',
+				items:[{
+					xtype: 'box',
+					autoEl:{
+						tag: 'img',
+						src: 'http://icons.iconarchive.com/icons/iron-devil/ids-3d-icons-20/16/Mountain-icon.png',
+						align:'left',
 						},
-					text: 'Ćlánky súvisiace s bodom',
-					handler:function(){
-						window_articles.show();					
-						}
 					},{
-					style:{
-						align: 'right',
+					xtype: 'box',
+					height: 30,
+					autoEl:{		
+						html: 'Vysoké Tatry',
 						},
-					text: 'Fotografie súvisiace s bodom',
-					handler:function(){
-						window_photos.show();							
-						}
+					},{
+					xtype: 'box',
+					height: 30,
+					autoEl:{		
+						html: '<b>Súradnice:</b> [ ' + lonlat.x + ',' + lonlat.y + ' ]',
+						},
+					},{	
+					xtype: 'box',
+					height: 20,
+					autoEl:{		
+						html: '<b>Poznámka:</b>',
+						},			
+					},{	
+					xtype: 'box',
+					autoHeight: true,
+					autoEl:{		
+						html: 'Tu sa bude nachádzať text poznámky. Tu sa bude nachádzať text poznámky. Tu sa bude nachádzať text poznámky. Tu sa bude nachádzať text poznámky. Tu sa bude nachádzať text poznámky.',
+						},			
 					}]
-        		});
+				},
+				panel_point_articles,
+				panel_point_photos,
+				]		
+			});
 
 		popup.on({
             		close: function() {
@@ -1095,12 +1122,10 @@ Ext.onReady(function(){
                 			}
             			}
         		});
-        	popup.show();
-	}
-
-
-	if (!map.getCenter()) if (hasParams()) setMapCenter();
-
-	map.addControl(new OpenLayers.Control.MousePosition());
+		
+		loadData();
+				
+		}
 
 	});
+

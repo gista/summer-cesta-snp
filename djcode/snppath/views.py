@@ -21,3 +21,7 @@ def testauth(request):
 
 def home(request):
 	return render_to_response("index.html", {}, context_instance=RequestContext(request))
+
+def testhelp(request):
+	resp = 'Loaded My help content.'
+	return HttpResponse(resp, mimetype="text/plain")
