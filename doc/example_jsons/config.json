@@ -1,12 +1,15 @@
 {
-"location":{"lon":324.25, "lat":256.35, "zoomlevel":5},
-"poi_types":["útulne", "chaty", "voda", "stravovanie", "potraviny"],
+"location":{"lon":21.83463, "lat":49.30716, "zoomlevel":9},
+"poi_types":["útulne, prístrešky", "chaty", "voda", "stravovanie, krčmy", "potraviny"],
 "live_users":[
 	{"nick":"janka", "trackname":"CestaSNP", "last_location_time":"2010-07-27 12:29:35", "active":true,
 		"description":"Janka štartuje z Dukly 18.7. Cieľovým miestom je Trenčín."
 	},
 	{"nick":"jakubos", "trackname":"skrz", "last_location_time":"2011-06-29 12:19:27",
 		"active":true, "description":"Skrz Slovenskom http://jakub.zilincan.com/skrz/?trasa"
+	},
+	{"nick":"pista", "trackname":"CestaSNP", "last_location_time":"2011-06-28 21:48:28",
+		"active":false, "description":"Pišta a Tono vyrážajú z Dukly. Naplánovali si 16 dňové dobrodružstvo."
 	}
     ]
 }
