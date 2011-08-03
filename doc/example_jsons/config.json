@@ -2,13 +2,13 @@
 "location":{"lon":21.83463, "lat":49.30716, "zoomlevel":9},
 "poi_types":["útulne, prístrešky", "chaty", "voda", "stravovanie, krčmy", "potraviny"],
 "live_users":[
-	{"id":1, "username":"janka", "track_name":"CestaSNP", "first_name":"Janka", "last_name":"J.", "email":"janka@cestasnp.sk", 			"phone":"0901234567", "is_active":true, "last_location_time":"2010-07-27 12:29:35", 
+	{"id":1, "username":"janka", "track_name":"CestaSNP", "first_name":"Janka", "last_name":"J.", "email":"janka@cestasnp.sk", "phone":"0901234567", "is_active":true, "last_location_time":"2010-07-27 12:29:35", 
 		"description":"Janka štartuje z Dukly 18.7. Cieľovým miestom je Trenčín."
 	},
-	{"id":2, "username":"jakubos", "track_name":"skrz", "first_name":"Jakub", "last_name":"S.", "email":"jakub@cestasnp.sk", 			"phone":"0912345678", "is_active":true, "last_location_time":"2011-06-29 12:19:27", 
+	{"id":2, "username":"jakubos", "track_name":"skrz", "first_name":"Jakub", "last_name":"S.", "email":"jakub@cestasnp.sk", "phone":"0912345678", "is_active":true, "last_location_time":"2011-06-29 12:19:27", 
 		"description":"Skrz Slovenskom http://jakub.zilincan.com/skrz/?trasa"
 	},
-	{"id":3, "username":"pista", "trackname":"CestaSNP", "first_name":"Jakub", "last_name":"S.", "email":"pista@cestasnp.sk", 			"phone":"0923456789", "is_active":false, "last_location_time":"2011-06-28 21:48:28", 
+	{"id":3, "username":"pista", "track_name":"CestaSNP", "first_name":"Štefan", "last_name":"K.", "email":"pista@cestasnp.sk", "phone":"0923456789", "is_active":false, "last_location_time":"2011-06-28 21:48:28", 
 		"description":"Pišta a Tono vyrážajú z Dukly. Naplánovali si 16 dňové dobrodružstvo."
 	}
     ]
