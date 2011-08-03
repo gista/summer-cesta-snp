@@ -6,6 +6,11 @@ admin.autodiscover()
 urlpatterns = patterns('',
 	url(r'^$', 'djcode.snppath.views.home', name='home'),
 	url(r'^testauth$', 'djcode.snppath.views.testauth', name='testauth'),
-	url(r'^help$', 'djcode.snppath.views.testhelp', name='help'),
+
+	url(r'^help$', 'djcode.snppath.views.testhelp', name='testhelp'),
+	url(r'^config$', 'djcode.snppath.views.testconfig', name='testconfig'),
+	url(r'^live_tracking/user$', 'djcode.snppath.views.testuser', name='testuser'),
+	url(r'^mapdata/poidetail$', 'djcode.snppath.views.testpoint', name='testpoint'),
+
 	url(r'^admin/', include(admin.site.urls)),
 )

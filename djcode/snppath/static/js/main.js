@@ -1,11 +1,5 @@
-// SETTINGS
-// number of decimals in coords
-var COORDS_DEC = 100;
-
 /*
-
-	Click controler
-
+Click controler to handle users clicks on map
 */
 
 OpenLayers.Control.Click = OpenLayers.Class(OpenLayers.Control,{                
@@ -26,6 +20,10 @@ OpenLayers.Control.Click = OpenLayers.Class(OpenLayers.Control,{
   			}, 
 		});
 
+/*
+Function to check if URL has map center parameters
+*/
+
 function hasParams(){
 	var link = document.location.href;
 	if ((link.indexOf("zoom") > -1) && (link.indexOf("lon") > -1) && (link.indexOf("lat") > -1)) return true;
@@ -33,6 +31,10 @@ function hasParams(){
 	}
 
 var map;
+
+/*
+Set map center with correct projection
+*/
 
 function setMapCenter(){
 	var url = document.location.hash;
@@ -44,6 +46,10 @@ function setMapCenter(){
 	OpenLayers.Util.getElement("permalink").href = href.replace("?","#");
 	map.setCenter(point.transform(proj, map.getProjectionObject()),parseInt(l.zoom));
 	}
+
+/*
+Function to handle the changes of document.location.hash 
+*/
 
 if ("onhashchange" in window) {
 	window.onhashchange = function () {
@@ -63,6 +69,10 @@ else {
   		}, 100);
 	}
 
+/*
+Function to handle measures of length and area 
+*/
+
 function handleMeasurements(event) {
 	var geometry = event.geometry;
 	var units = event.units;
@@ -81,13 +91,20 @@ function handleMeasurements(event) {
 	element.innerHTML = out;
   	}
 
-var popup;
 
-function showPopup(loc, type){
-	if (!popup){
-		popup = new GeoExt.Popup({
+
+/*
+Function to show popup with coords & permalink  
+*/
+
+var popup_point;
+
+function showPopup(loc){
+	if (!popup_point){
+		popup_point = new GeoExt.Popup({
    			title: "Bod na mape",
      			autoWidth: true,
+			unpinnable: false,
        			map: map,
        			listeners: {
         			close: function() {
@@ -97,40 +114,101 @@ function showPopup(loc, type){
    			});
 		} 
 	else {
-		popup.removeAll();			
+		popup_point.removeAll();			
 		}
 	
-	popup.add({
+	var permalink = document.location.href + 
+			"?zoom=" + map.zoom + 
+			"&lat=" + loc.lat.toFixed(5) + 
+			"&lon=" + loc.lon.toFixed(5);
+
+	popup_point.add({
 		xtype: "box",
 		style:{
-			"text-align":"center",
-			"font-size":"15px",		
+			"font-size":"13px",		
 			},
 		autoEl: {
-    			html: "Súradnice: [" + loc.lon.toFixed(2) + 
-					 "," + loc.lat.toFixed(2) + "]",
+    			html: "<b>Súradnice:</b> [" + loc.lon.toFixed(5) + 
+					 "," + loc.lat.toFixed(5) + "]",
         		},
 		},{
 		xtype: "box",
-		style:{
-			"text-align":"center",	
-			"font-size":"15px",		
+		style:{	
+			"font-size":"13px",		
 			},
 		autoEl: {
-    			html: "Permalink: " + document.location.href + 
-					"?zoom=" + map.zoom + 
-					"&lat=" + loc.lat.toFixed(5) + 
-					"&lon=" + loc.lon.toFixed(5),
+    			html: "<b>Permalink:</b> " + permalink,
         		},
     		});
-	popup.location = map.getCenter();
- 	popup.doLayout();
-	popup.show();
+
+	popup_point.location = map.getCenter();
+ 	popup_point.doLayout();
+	popup_point.show();
 	}
 
 Ext.onReady(function(){
 	Ext.QuickTips.init();
-	
+
+	var location; // Variable used as config location for map
+
+	/*
+	App init from url '/config' reading the JSON structure to JsonStore	
+	*/
+	live_users_store = new Ext.data.JsonStore({	
+		// reader configs
+		root:'live_users',
+		fields:[
+			{name:'id', mapping:'id', type: 'number'},
+			{name:'user', mapping:'username', type: 'string'},
+			{name:'track', mapping:'track_name', type: 'string'},	
+			{name:'name', mapping:'first_name', type: 'string'},
+			{name:'surname', mapping:'last_name',  type: 'string'},	
+			{name:'email', mapping:'email', type: 'string'},
+			{name:'phone', mapping:'phone',  type: 'string'},	
+			{name:'last_time', mapping:'last_location_time', type: 'date', dateFormat: 'Y-m-d h:i:s'},
+			{name:'is_active', mapping:'is_active', type: 'boolean'},	
+			{name:'description', mapping:'description',  type: 'string'},			
+			],	
+		// store configs
+		url: '/config',
+		autoLoad: true,
+  		});
+	/*
+	App combobox init	
+	*/
+	var poi_types_store = new Ext.data.JsonStore({
+		root: 'poi_types',
+		fields:['name'],
+		})
+
+	/*
+	Users Store load function to handle other config params	
+	*/
+	live_users_store.on('load', function(store){
+		var data = store.reader.jsonData;
+		poi_types_store.loadData(data);
+		location = data.location; 
+		});
+
+	/*
+	LIVE tracking store to hold the data of selected user
+	*/	
+	var live_records_store =  new Ext.data.JsonStore({
+		fields:[
+			{name: 'lon', mapping: 'lon'},
+			{name: 'lat', mapping: 'lat'},
+			{name: 'message', mapping: 'message'},
+			{name: 'time', mapping: 'time', type: 'date', dateFormat: 'Y-m-d h:i:s'},
+			],
+		url: '/live_tracking/user',
+  		});
+	/*
+	Records store load function to show the grid panel with messages 	
+	*/
+	live_records_store.on('load', function(store){
+		Ext.getCmp("tracking_record").show();
+		});
+
 	var HEADER_HEIGHT = 100;
 
 	// Advertisement side settings constance
@@ -279,7 +357,7 @@ Ext.onReady(function(){
 				new OpenLayers.Projection("EPSG:900913"),
     				new OpenLayers.Projection("EPSG:4326") 
 				);
-      			showPopup(lonlat,0);
+      			showPopup(lonlat);
 			},
 		});
 
@@ -467,42 +545,6 @@ Ext.onReady(function(){
 			]
 		});
 
-	// LIVE TRACKING data 
-
-	var data_json = {"root":[
-{"id":"42","user":"jan.cernansky","device":"CestaSNP","description":null,"date_from":"2011-07-04","date_to":"0000-00-00","located":"2011-07-09 22:26:25"},{"id":"40","user":"jakubos","device":"skrz","description":"Skrz Slovenskom \r\nhttp:\/\/jakub.zilincan.com\/skrz\/?trasa\r\n","date_from":"2011-06-13","date_to":"0000-00-00","located":"2011-06-29 12:19:27"},{"id":"41","user":"Pista","device":"CestaSNP","description":"Pi\u0161ta a Tono vyr\u00e1\u017eaj\u00fa z Dukly. Napl\u00e1novali si 16 d\u0148ov\u00e9 dobrodru\u017estvo.","date_from":"2011-06-25","date_to":"0000-00-00","located":"2011-06-28 21:48:28"},{"id":"16","user":"wlacho","device":"CestaSNP","description":"Jakub na ceste od 3.j\u00fala.2010. Za\u010d\u00edna v Novej Sedlici. Po \u010dervenej pr\u00edde na Duklu a pokra\u010duje po Ceste Hrdinov SNP.","date_from":"0000-00-00","date_to":"0000-00-00","located":"2010-07-23 14:50:51"}]
-			};
-
-
-	var data_json2 = {"root":[
-{"device_id":"42","located":"2011-07-12 11:31:15","lat":"48.5917","lon":"21.1035","status":"Poslednu noc som stravil v motoreste pri Velkom Sarisi. Konecne je chladnejsie pocasie a neprsi. ","latlon_format":"M"},
-{"device_id":"42","located":"2011-07-10 22:44:39","lat":"49.1448","lon":"21.1213","status":"Hervartov - spim na obecnom urade. Osprchoval som sa, opral si veci a starosta mi po dedine zhanal nabijacku na mobil, lebo moja nejako nefunguje. V Bardejove som chcel kupit novu, ale hold smola, v nedelu nieco take nehrozi. Cesta bola zaujimava. Hore na Maguru bol chodnik uplne zapadany stromami, okolo malincie, v nom vcely. Tak som dostal zihadlo a potom este jedno od srsna. Bolo to do stehna a pri chodzi to boli. Dostavili sa aj prve otlaky. Zajtra ma prsat, tak asi prejdem trocha menej. ","latlon_format":"M"},{"device_id":"42","located":"2011-07-09 22:26:25","lat":"49.2129","lon":"21.1724","status":"Zborov - Kusok za zborovom som si spravil striesku. Dnes bolo tolko zazitkov. Napr diva svina s mladymi ma vynahanala, stretol som jelene, srny... Hral poker s ciganmi... A vela krat som zabludil, lebo vcerajsie burky zbahnili teren a ked som pozeral pod nohy, usla mi sem tam odbocka.","latlon_format":"M"},{"device_id":"42","located":"2011-07-08 20:59:34","lat":"49.181","lon":"21.3029","status":"Cierna Hora - uz 4 hodiny tu prsi. Ked zacalo, uz pol hodiny som bol v utulni a varil som polievku. Do vyhliadky hned vedla udreli 2 blesky, tak von nevychadzam. Vybral som si 2 kliestov a poberam sa spat, nech som zajtra fit. Zatial nastastie bez otlakov.","latlon_format":"M"},
-{"device_id":"42","located":"2011-07-07 21:03:56","lat":"49.241","lon":"21.4202","status":"Tak som dorazil na Duklu. Asi 1km od pamatnika som si v podvozku stareho lietadla urobil vysute lozko z celty a povrazu, tak mam pohodlie a som aj skryty pred dazdom.","latlon_format":"M"},
-{"device_id":"42","located":"2011-07-07 13:12:02","lat":"48.4312","lon":"21.1605","status":"Cestu zo Ziliny do Kosic mam za sebou. Po obede v mestskom parku som sa pobral na autobusovu stanicu, kde to vyzera z hladiska poctu romskych spoluobcanov o nieco bezpecnejsie ako park.","latlon_format":"M"}]};
-
-	var data_store =  new Ext.data.SimpleStore({
-		root:'root',
-		id:'id',
-		fields:[
-			{name:'user', mapping:'user'},
-			{name:'located', mapping:'located', type: 'date', dateFormat: 'Y-m-d h:i:s'},
-			],
-		data:data_json,
-		autoLoad: true,
-  		});
-
-	var record_store =  new Ext.data.SimpleStore({
-		root:'root',
-		fields:[
-			{name: 'located', mapping: 'located', type: 'date', dateFormat: 'Y-m-d h:i:s'},
-			{name: 'status', mapping: 'status'},
-			{name: 'lat', mapping: 'lat'},
-			{name: 'lon', mapping: 'lon'}
-			],
-		data:data_json2,
-		autoLoad: true,
-  		});
-
 	// LIVE TRACKING layout
 
 	panel_live_actual = new Ext.grid.GridPanel({
@@ -510,7 +552,7 @@ Ext.onReady(function(){
 		flex: 2,
         	//margins: '0 0 2 0',
 		id:'tracking_live',
-		store: data_store,
+		store: live_users_store,
 		listeners: {
 	  		render: function(grid) {
 	  			grid.getView().el.select('.x-grid3-header').setStyle('display', 'none');
@@ -525,17 +567,18 @@ Ext.onReady(function(){
 	      			},
 	   		columns: [
 				{dataIndex: 'user', width: 150,id:'user'},
-				{dataIndex: 'located', renderer: Ext.util.Format.dateRenderer('d.m.Y - h:m'), }
+				{dataIndex: 'last_time', renderer: Ext.util.Format.dateRenderer('d.m.Y - h:m'), }
 				]		
 	    		}),
 		frame:true,
 		});
 
+
 	var panel_live_end =  new Ext.grid.GridPanel({
 		title: 'Cestu ukončili',
 		flex: 2,
 		id:'tracking_end',
-		store: data_store,
+		store: live_users_store,
 		listeners: {
 	   		render: function(grid) {
 	    			grid.getView().el.select('.x-grid3-header').setStyle('display', 'none');
@@ -548,15 +591,16 @@ Ext.onReady(function(){
 				resizable: false,
 	     			},
 	 		columns: [
-				{dataIndex: 'user',id:'user'},
-				{dataIndex: 'located', width: 150, renderer: Ext.util.Format.dateRenderer('d.m.Y')}
+				{dataIndex: 'user', width: 150,id:'user'},
+				{dataIndex: 'last_time', renderer: Ext.util.Format.dateRenderer('d.m.Y - h:m'), }
 				]	
 	    		}),
 		frame:true,		
 		});
 
 	function renderStatus(value, p, record){
-		return '<b>' + record.data.located.format("d.m.Y - h:m") + '</b><br/><br/>'+ value;				
+		console.log(record);
+		return '<b>' + record.data.time.format("d.m.Y - h:m") + '</b><br/><br/>'+ value;				
 		}
 
 	var panel_live_record = new Ext.Panel({
@@ -592,12 +636,13 @@ Ext.onReady(function(){
 			xtype: 'grid',
 			frame: true,
 			height: 500,
-			store: record_store,
+			store: live_records_store,
 			colModel:new Ext.grid.ColumnModel({
 	 			columns: [{
-					header:'<div id="live_tracking_record_header">Janka</div><hr/>Description: <span id="live_tracking_record_desc">popis</span>',
-					dataIndex: 'status', 
+					header:'<div id="live_tracking_record_header">Janka</div><br/>Description: <div id="live_tracking_record_desc"></div>',
+					dataIndex: 'message', 
 					width: 220,
+					minHeight: 75,
 					resizable: false,
 					sortable: false,
 					menuDisabled: true,
@@ -606,9 +651,6 @@ Ext.onReady(function(){
 	    			}),
 			}],		
 		});
-
-	//Ext.fly('live_tracking_record_header').update('Peter');
-	//Ext.fly('live_tracking_record_desc').update('Môj vlastný popis');
 
 	var panel_live = new Ext.Panel({
 		title: '<center>LIVE<br/>Sledovanie</center>',
@@ -656,14 +698,7 @@ Ext.onReady(function(){
 			xtype: 'combo',
 			name: 'cathegory',
 			allowBlank:false,
-			store: new Ext.data.SimpleStore({
-				id:0,
-				fields:[
-                			'id',
-                			'name'
-            				],
-        			data:data_layers
-    				}),
+			store: poi_types_store,
 			id: 'cathegory',
 			valueField:'id',
     			displayField:'name',
@@ -919,32 +954,50 @@ Ext.onReady(function(){
 		new OpenLayers.Control.MousePosition(),
 		]);
 
-	
-
 	// LIVE tracking functionality
+
 	Ext.getCmp("tracking_live").on('rowclick', function(grid, rowIndex, e) {
+		// Hide the panels with lists of users
+		Ext.getCmp("tracking_live").hide();
+		Ext.getCmp("tracking_end").hide();
+
+		// Change the panel title, record header and description depends on user click
 		var pnl = Ext.getCmp("tracking_record");
 		pnl.setTitle("Aktuálne v teréne");
-/*
-		var arr = record_store.data.items;
-		for(i=0;i<arr.length; i++){
-			tpl.append('records',{lat:arr[i].data.lat, lon:arr[i].data.lon, located:arr[i].data.located, status:arr[i].data.status});
-			}
-*/
-		pnl.show();
 
-		Ext.getCmp("tracking_live").hide();
-		Ext.getCmp("tracking_end").hide();
-  	});
+		var rec = grid.getStore().getAt(rowIndex);
+		Ext.fly('live_tracking_record_header').update(rec.get('user'));
+		Ext.fly('live_tracking_record_desc').update(rec.get('description'));
+
+		var url = "live_tracking/user?id=" + rec.get('id') + "&track_name=" + rec.get('track');
+		console.log(url);
+		live_records_store.proxy.conn.url = url;
+		live_records_store.load();
+  		});
 
 	Ext.getCmp("tracking_end").on('rowclick', function(grid, rowIndex, e) {
-		var pnl = Ext.getCmp("tracking_record");
-		pnl.setTitle("Cestu ukončili")
-		pnl.show();
-
+		// Hide the panels with lists of users
 		Ext.getCmp("tracking_live").hide();
 		Ext.getCmp("tracking_end").hide();
-  	});
+
+		// Change the panel title, record header and description depends on user click
+		var pnl = Ext.getCmp("tracking_record");
+		pnl.setTitle("Cestu ukončili")
+
+		var rec = grid.getStore().getAt(rowIndex);
+		var url = "live_tracking/user?id=" + rec.get('id') + "&track_name=" + rec.get('track');
+		console.log(url);
+		live_records_store.proxy.conn.url = url;
+		live_records_store.load();
+
+		pnl.show();
+
+		//alert(rec.get('user') + rec.get('description'));
+
+		Ext.fly('live_tracking_record_header').update(rec.get('user'));
+		Ext.fly('live_tracking_record_desc').update(rec.get('description'));
+
+  		});
 	
 	// simple feature point functionality
 	var lonLat = new OpenLayers.LonLat(21.12,49);
@@ -960,13 +1013,9 @@ Ext.onReady(function(){
 
 	map.addControl(new OpenLayers.Control.MousePosition());
 	
-
-	point_info = '{"articles":[{"article_title":"Prístrešky na Cemjate","article_introtext":"Pri putovaní z Devína Vás Vaše putovanie dovedie k zrekonštruovanému altánku s minerálnym prameňom.","article_url":"http://cestasnp.sk/index.php/dolezite-miesta/dukla-cergov-sarisska-vrchovina/193-pristresky-na-cemjate"},{"article_title":"Cemjata","article_introtext":"Cemjata ako prímestská časť mesta Prešov leží pri ceste Prešov - Sedlice - Margecany a geograficky sa začleňuje do Šarišskej vrchoviny.","article_url":"http://cestasnp.sk/index.php/dolezite-miesta/dukla-cergov-sarisska-vrchovina/194-cemjata"}],"photos_map":[234, 121, 230],"photos_jos":[12, 512]}'
-
-	/*
 	var point_data_store = new Ext.data.Store({
     		proxy: new Ext.data.HttpProxy({
-        		url: '/mapdata/poidetail'
+        		url: '/mapdata/poidetail?id=1'
     			}),
 		reader: new Ext.data.JsonReader({
 			root: 'articles',
@@ -980,10 +1029,7 @@ Ext.onReady(function(){
 		
 	point_data_store.on('load', function(store) {
 		var data = store.reader.jsonData;
-		*/
-	function loadData(){
-		
-		var data = Ext.util.JSON.decode(point_info);
+
 		console.log(data);
 		var articles = data.articles;
 		
@@ -1030,8 +1076,7 @@ Ext.onReady(function(){
 			}
 		
 		popup.show();
-		}
-		//});
+		});
 
 	var panel_point_articles = new Ext.Panel({
 		title: 'Články k bodu',
@@ -1059,7 +1104,7 @@ Ext.onReady(function(){
 		});
 
 	function create_point_info(feature) {
-		//point_data_store.load();
+		point_data_store.load();
 
 		var lonlat = new OpenLayers.Geometry.Point(feature.geometry.x, feature.geometry.y);
 		lonlat.transform(map.getProjectionObject(), new OpenLayers.Projection("EPSG:4326"));
@@ -1120,10 +1165,7 @@ Ext.onReady(function(){
                 	    		selectCtrl.unselect(this.feature);
                 			}
             			}
-        		});
-		
-		loadData();
-				
+        		});		
 		}
 
 	});
