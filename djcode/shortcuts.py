@@ -78,8 +78,8 @@ def render_to_geojson(query_set, proj_transform=None, geom_simplify=None, bbox=N
 	geom_field = find_geom_field(query_set)
 
 	if bbox is not None:
-		#query_set.filter(<geom_field>__contained=bbox)
-		query_set = query_set.filter(**{'{0}__contained'.format(geom_field):bbox})
+		#query_set.filter(<geom_field>__intersects=bbox)
+		query_set = query_set.filter(**{'{0}__intersects'.format(geom_field):bbox})
 	if maxfeatures is not None:
 		query_set.order_by(maxfeatures.priority_field)
 		query_set = query_set[:maxfeatures.maxfeatures]
@@ -87,7 +87,6 @@ def render_to_geojson(query_set, proj_transform=None, geom_simplify=None, bbox=N
 	srid = getattr(query_set[0], geom_field).srid
 	if proj_transform is not None:
 		to_srid = proj_transform
-		query_set.transform(to_srid)
 	else:
 		to_srid = srid
 
@@ -114,6 +113,9 @@ def render_to_geojson(query_set, proj_transform=None, geom_simplify=None, bbox=N
 
 		feat[GEOJSON_FIELD_TYPE] = GEOJSON_VALUE_FEATURE
 		g = getattr(item, geom_field)
+		g = bbox.intersection(g)	#cutting off everything except intersection with bbox
+		if proj_transform is not None:
+			g.transform(to_srid)
 		if geom_simplify is not None:
 			g = g.simplify(geom_simplify)
 		feat[GEOJSON_FIELD_GEOMETRY] = simplejson.loads(g.geojson)

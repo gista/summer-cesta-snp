@@ -55,9 +55,9 @@ def testsnpline(request):
 	GET params: geom_simplify, bbox
 	"""
 	geom_simplify = int(request.GET['geom_simplify'])
-	bbox = request.GET['bbox']		#FIXME: parse bbox. Format?
-	#FIXME: filtering only geoms containing objects in shortcuts
-	resp = shortcuts.render_to_geojson(Path.object.all(), 900913, geom_simplify, bbox)
+	bbox = map(lambda x: float(x), request.GET['bbox'].split(','))
+	bbox_poly = Polygon.from_bbox(bbox)
+	resp = shortcuts.render_to_geojson(Path.objects.all(), 900913, geom_simplify, bbox_poly)
 	return HttpResponse(json.dumps(resp), mimetype='application/json')
 
 def testuser(request):
