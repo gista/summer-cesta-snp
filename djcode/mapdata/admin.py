@@ -6,21 +6,21 @@ from models import Area, Poi, Path, Photo
 GMAP = GoogleMap()
 
 class Area_GoogleAdmin(admin.OSMGeoAdmin):
-	extra_js = [GMAP.api_url + GMAP.key]
-	map_template = 'gis/admin/google.html'
-	openlayers_url = '%sjs/openlayers/OpenLayers.js' % settings.STATIC_URL
+	extra_js = ["http://maps.google.com/maps/api/js?v=3.2&sensor=false"]
+	map_template = 'gis/admin/geoadmin.html'
+	openlayers_url = '%sjs/openlayers-211-rc1/OpenLayers.js' % settings.STATIC_URL
 	list_display = ('name', 'note',)
 
 class Path_GoogleAdmin(admin.OSMGeoAdmin):
-	extra_js = [GMAP.api_url + GMAP.key]
-	map_template = 'gis/admin/google.html'
-	openlayers_url = '%sjs/openlayers/OpenLayers.js' % settings.STATIC_URL
+	extra_js = ["http://maps.google.com/maps/api/js?v=3.2&sensor=false"]
+	map_template = 'gis/admin/geoadmin.html'
+	openlayers_url = '%sjs/openlayers-211-rc1/OpenLayers.js' % settings.STATIC_URL
 	list_display = ('area', 'type', 'note',)
 
 class Poi_GoogleAdmin(admin.OSMGeoAdmin):
-	extra_js = [GMAP.api_url + GMAP.key]
-	map_template = 'gis/admin/google.html'
-	openlayers_url = '%sjs/openlayers/OpenLayers.js' % settings.STATIC_URL
+	extra_js = ["http://maps.google.com/maps/api/js?v=3.2&sensor=false"]
+	map_template = 'gis/admin/geoadmin.html'
+	openlayers_url = '%sjs/openlayers-211-rc1/OpenLayers.js' % settings.STATIC_URL
 	list_display = ('name', 'active', 'area', 'type', 'priority', 'note',)
 
 admin.site.register(Photo)

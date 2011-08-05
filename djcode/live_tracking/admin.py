@@ -15,7 +15,7 @@ GMAP = GoogleMap()
 
 class Message_GoogleAdmin(admin.OSMGeoAdmin):
 	extra_js = [GMAP.api_url + GMAP.key]
-	map_template = 'gis/admin/google.html'
+	map_template = 'gis/admin/geoadmin.html'
 	openlayers_url = '%sjs/openlayers/OpenLayers.js' % settings.STATIC_URL
 	list_display = ("user", "time", "text",)
 	list_filter = ("user", "time",)
