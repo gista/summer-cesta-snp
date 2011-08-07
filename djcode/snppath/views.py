@@ -90,7 +90,7 @@ def testpoints(request):
 		else:
 			return ('has_article', False)
 
-	type_ = int(request.GET['type']
+	type_ = int(request.GET['type'])
 	pois = Poi.objects.filter(type__exact=type_).exclude(active__exact=False)
 	ffilter = {'name':None,
 		   'type':get_category,
