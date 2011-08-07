@@ -38,7 +38,7 @@ def testconfig(request):
 	A little bit corrected JSON
 	"""
 	lusers = User.objects.all()
-	resp = {'location':{'lon':21.83463, 'lat':49.30716, 'zoomlevel':9},
+	resp = {'location':{'lon':19.258336054784, 'lat':48.8176576494, 'zoomlevel':8},
 		'poi_types':[poi_type[1] for poi_type in settings.POI_TYPES],
 		'live_users':list()}
 	for luser in lusers:
