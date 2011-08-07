@@ -80,6 +80,8 @@ def render_to_geojson(query_set, proj_transform=None, geom_simplify=None, bbox=N
 
 	geom_field = find_geom_field(query_set)
 
+	srid = getattr(query_set[0], geom_field).srid
+
 	if bbox is not None:
 		#query_set.filter(<geom_field>__intersects=bbox)
 		query_set = query_set.filter(**{'{0}__intersects'.format(geom_field):bbox})
@@ -87,7 +89,6 @@ def render_to_geojson(query_set, proj_transform=None, geom_simplify=None, bbox=N
 		query_set.order_by(maxfeatures.priority_field)
 		query_set = query_set[:maxfeatures.maxfeatures]
 
-	srid = getattr(query_set[0], geom_field).srid
 	if proj_transform is not None:
 		to_srid = proj_transform
 	else:
@@ -136,6 +137,9 @@ def render_to_geojson(query_set, proj_transform=None, geom_simplify=None, bbox=N
 	collection[GEOJSON_FIELD_TYPE] = GEOJSON_VALUE_FEATURE_COLLECTION
 	collection[GEOJSON_FIELD_FEATURES] = features
 
+	if len(query_set) == 0:				#if geojson is empty, don't calculate bbox
+		return collection
+
 	if proj_transform is not None:
 		poly = Polygon.from_bbox(query_set.extent())
 		poly.srid = srid
@@ -143,6 +147,7 @@ def render_to_geojson(query_set, proj_transform=None, geom_simplify=None, bbox=N
 		collection[GEOJSON_FIELD_BBOX] = poly.extent
 	else:
 		collection[GEOJSON_FIELD_BBOX] = query_set.extent()
+
 	return collection
 
 
