@@ -1,0 +1,5 @@
+<script type="text/javascript" src="MyViewport.ui.js"></script>
+<script type="text/javascript" src="MyViewport.js"></script>
+<script type="text/javascript" src="activeUsersStore.js"></script>
+<script type="text/javascript" src="inactiveUsersStore.js"></script>
+<script type="text/javascript" src="userRecordsStore.js"></script>
