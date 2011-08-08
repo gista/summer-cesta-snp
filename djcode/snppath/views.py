@@ -58,7 +58,7 @@ def testsnpline(request):
 	bbox = map(lambda x: float(x), request.GET['bbox'].split(','))
 	bbox_poly = Polygon.from_bbox(bbox)
 	resp = shortcuts.render_to_geojson(Path.objects.all(), 900913, geom_simplify, bbox_poly,
-					fields=())
+					properties=())
 	return HttpResponse(resp, mimetype='application/json')
 
 def testuser(request):
@@ -82,7 +82,7 @@ def testpoints(request):
 
 	type_ = int(request.GET['type'])
 	pois = Poi.objects.filter(type__exact=type_).exclude(active__exact=False)
-	resp = shortcuts.render_to_geojson(pois, 900913, fields=('category', 'area', 'note',			\
+	resp = shortcuts.render_to_geojson(pois, 900913, properties=('category', 'area', 'note',			\
 								 'has_photo', 'has_article'))
 	return HttpResponse(resp, mimetype='application/json')
 
