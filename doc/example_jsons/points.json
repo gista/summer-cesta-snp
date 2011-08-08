@@ -12,13 +12,13 @@
 		{
 			"type": "Feature",
 			"geometry": {"type": "Point", "coordinates": [102.0, 100.5]},
-			"properties": {"category":"Voda", "area":"Nízke Tatry",
+			"properties": {"area":"Nízke Tatry",
 					"note":"Výdatný prameň", "has_photo":true, "has_article":false}
 		},
 		{
 			"type": "Feature",
 			"geometry": {"type": "Point", "coordinates": [123.0, 230.5]},
-			"properties": {"category":"Voda", "area":"Veľká Fatra",
+			"properties": {"area":"Veľká Fatra",
 					"note":"Má aj prístrešok", "has_photo":false, "has_article":false}
 		}
 	]
