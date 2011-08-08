@@ -38,7 +38,7 @@ def testconfig(request):
 	A little bit corrected JSON
 	"""
 	lusers = User.objects.all()
-	resp = {'location':{'lon':21.83463, 'lat':49.30716, 'zoomlevel':9},
+	resp = {'location':{'lon':19.258336054784, 'lat':48.8176576494, 'zoomlevel':8},
 		'poi_types':[poi_type[1] for poi_type in settings.POI_TYPES],
 		'live_users':list()}
 	for luser in lusers:
@@ -67,7 +67,7 @@ def testuser(request):
 	Sending U depends on user click keys id & track_name
 	"""
 	id = int(request.GET['id'])
-	track_name = int(request.GET['track_name'])	#FIXME: id is primary key, track_name is needed then?
+	#track_name = int(request.GET['track_name'])	#FIXME: id is primary key, track_name is needed then?
 	luser = User.objects.get(id=id)			#avoiding track_name
 	resp = [{'lon':msg.the_geom.x if msg.the_geom is not None else None,	\
 		'lat':msg.the_geom.y if msg.the_geom is not None else None,	\
