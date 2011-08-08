@@ -240,56 +240,58 @@ class ShortcutsTest(TestCase):
 			render_to_gpx('Matus Valo')
 
 	def __generate_data_source_from_json(self, query_set, proj_transform=None, geom_simplify=None,
-					     bbox=None, maxfeatures=None):
+					     bbox=None, maxfeatures=None, properties=None):
 		"""Generates DataSource based on json generated with render_to_geojson() shortcut.
 		Has the same parameters as render_to_geojson()
 		"""
-		json = render_to_geojson(query_set, proj_transform, geom_simplify, bbox, maxfeatures)
+		json = render_to_geojson(query_set, proj_transform, geom_simplify, bbox, maxfeatures, properties)
 		json_fname = '{0}/test_poi_render_to_json{1}.geojson'.format(self.TMP_DIR, int(time.time()))
 
 		with open(json_fname, 'w') as json_file:
-			json_file.write(simplejson.dumps(json))
+			json_file.write(json)
 		return DataSource(json_fname)
 
-	def __test_render_to_json(self, geom_query):
+	def __test_render_to_json(self, geom_query, properties=None):
 		"Generic testing function of rendering json from queryset geom_query"""
 		geom_field = find_geom_field(geom_query)
 
 		self.assertGreater(len(geom_query), 0)
 
-		ds = self.__generate_data_source_from_json(geom_query)
+		ds = self.__generate_data_source_from_json(geom_query, properties=properties)
 
 
 		self.assertEqual(ds.layer_count, 1)
 		layer = ds[0]
 		self.assertEqual(layer.num_feat, len(geom_query))
 
-		fields = [f.name for f in geom_query.model._meta.fields if f.name != geom_field]
-		self.assertListEqual(sorted(list(layer.fields)), sorted(list(fields)))
+		self.assertListEqual(sorted(list(layer.fields)), sorted(list(properties)))
 		self.assertTupleEqual(layer.extent.tuple, geom_query.extent())
 
 		#We must check wether getattr(p, fname) is bool, because geojson returns 1(0) instead of True(False)
 		geom_list = [[str(getattr(p, fname)) if type(getattr(p, fname)) != bool else str(int(getattr(p, fname))) \
-				for fname in fields] for p in geom_query]
+				for fname in properties] for p in geom_query]
 		for feature in layer:
-			fgeom = [feature[fname].as_string() for fname in fields]
+			fgeom = [feature[fname].as_string() for fname in properties]
 			self.assertIn(fgeom, geom_list)
 			geom_list.remove(fgeom)
 
 	def test_path_render_to_geojson(self):
 		"""Tests rendering Paths to geojson with render_to_geojson()."""
 		dbpaths = TestLineString.objects.all()
-		self.__test_render_to_json(dbpaths)
+		self.__test_render_to_json(dbpaths, properties=('field0', 'field1', 'field2',			\
+														'field3', 'field4', 'field5'))
 
 	def test_poi_render_to_geojson(self):
 		"""Tests rendering POIs to geojson with render_to_geojson()."""
 		dbpois = TestPoint.objects.all()
-		self.__test_render_to_json(dbpois)
+		self.__test_render_to_json(dbpois, properties=('field0', 'field1', 'field2',			\
+														'field3', 'field4', 'field5'))
 
 	def test_area_render_to_geojson(self):
 		"""Tests rendering Areas to geojson with render_to_geojson()."""
 		dbareas = TestPolygon.objects.all()
-		self.__test_render_to_json(dbareas)
+		self.__test_render_to_json(dbareas, properties=('field0', 'field1', 'field2',			\
+														'field3', 'field4', 'field5'))
 
 	def tearDown(self):
 		shutil.rmtree(self.TMP_DIR)
