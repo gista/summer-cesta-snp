@@ -65,7 +65,7 @@ def find_geom_field(query_set):
 	else:
 		return geom_field
 
-def render_to_geojson(query_set, proj_transform=None, geom_simplify=None, bbox=None, maxfeatures=None, fieldfilter=None):
+def render_to_geojson(query_set, proj_transform=None, geom_simplify=None, bbox=None, maxfeatures=None, fields=None):
 	'''
 	Shortcut to render a GeoJson FeatureCollection from a Django QuerySet.
 	Currently computes a bbox and adds a crs member as a sr.org link.
@@ -108,21 +108,12 @@ def render_to_geojson(query_set, proj_transform=None, geom_simplify=None, bbox=N
 		feat = dict()
 
 		#filling feature properties with dict: {<field_name>:<field_value>}
-		fields = query_set.model._meta.get_all_field_names()
 		feat[GEOJSON_FIELD_PROPERTIES] = dict()
 		for fname in fields:
 			if fname == geom_field:
 				continue
-			if fieldfilter is None:
-				feat[GEOJSON_FIELD_PROPERTIES][fname] =				\
-						__simple_render_to_json(getattr(item, fname))
-			else:
-				ffilter = fieldfilter.get(fname)
-				if ffilter is not None:
-					value = ffilter(getattr(item, fname))
-					if value is not None:
-						feat[GEOJSON_FIELD_PROPERTIES][value[0]] =		\
-								__simple_render_to_json(value[1])
+			feat[GEOJSON_FIELD_PROPERTIES][fname] =				\
+					__simple_render_to_json(getattr(item, fname))
 		feat[GEOJSON_FIELD_TYPE] = GEOJSON_VALUE_FEATURE
 		g = getattr(item, geom_field)
 		if bbox is not None:

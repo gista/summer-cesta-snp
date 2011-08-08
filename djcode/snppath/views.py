@@ -57,7 +57,8 @@ def testsnpline(request):
 	geom_simplify = int(request.GET['geom_simplify'])
 	bbox = map(lambda x: float(x), request.GET['bbox'].split(','))
 	bbox_poly = Polygon.from_bbox(bbox)
-	resp = shortcuts.render_to_geojson(Path.objects.all(), 900913, geom_simplify, bbox_poly)
+	resp = shortcuts.render_to_geojson(Path.objects.all(), 900913, geom_simplify, bbox_poly,
+					fields=())
 	return HttpResponse(json.dumps(resp), mimetype='application/json')
 
 def testuser(request):
@@ -79,27 +80,10 @@ def testpoints(request):
 	GET params: type
 	"""
 
-	def get_category(type_):
-		for s in settings.POI_TYPES:
-			if s[0] == type_:
-				return ('category', s[1])
-
-	def has_article(value):
-		if value is not None:
-			return ('has_article', True)
-		else:
-			return ('has_article', False)
-
 	type_ = int(request.GET['type'])
 	pois = Poi.objects.filter(type__exact=type_).exclude(active__exact=False)
-	ffilter = {'name':None,
-		   'type':get_category,
-		   'active':None,
-		   'priority':None,
-		   'jos_photo_id':None,
-		   'jos_article_id':has_article,
-		   'photo':lambda x:('has_photo', False)}
-	resp = shortcuts.render_to_geojson(pois, 900913, fieldfilter=ffilter)
+	resp = shortcuts.render_to_geojson(pois, 900913, fields=('category', 'area', 'note',			\
+								 'has_photo', 'has_article'))
 	return HttpResponse(json.dumps(resp), mimetype='application/json')
 
 def testpoint(request):
