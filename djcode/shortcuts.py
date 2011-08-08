@@ -72,12 +72,9 @@ def render_to_geojson(queryset, transform=None, simplify=None, bbox=None, maxfea
 	* maxfeatures parameter gives maximum number of rendered features based on priority field.
 	Parameter should be instance of collections.namedtuple('MaxFeatures', ['maxfeatures', 'priority_field'])
 	* bbox is boundary box (django.contrib.gis.geos.Polygon instance) which bounds rendered features
-	(feature must be entire within boundary box)
 	'''
 
 	geom_field = find_geom_field(queryset)
-
-	srid = getattr(queryset[0], geom_field).srid
 
 	if bbox is not None:
 		#queryset.filter(<geom_field>__intersects=bbox)
@@ -86,6 +83,10 @@ def render_to_geojson(queryset, transform=None, simplify=None, bbox=None, maxfea
 	if maxfeatures is not None:
 		queryset.order_by(maxfeatures.priority_field)
 		queryset = queryset[:maxfeatures.maxfeatures]
+
+	srid = None
+	if len(queryset) > 0:
+		srid = getattr(queryset[0], geom_field).srid
 
 	if transform is not None:
 		to_srid = transform
@@ -96,15 +97,16 @@ def render_to_geojson(queryset, transform=None, simplify=None, bbox=None, maxfea
 		properties = queryset.model._meta.get_all_field_names()
 
 	features = list()
-	crs = dict()
-	crs[GEOJSON_FIELD_TYPE] = GEOJSON_VALUE_LINK
-	crs_properties = dict()
-	crs_properties[GEOJSON_FIELD_HREF] = '{0}{1}/'.format(SPATIAL_REF_SITE, to_srid)
-	crs_properties[GEOJSON_FIELD_TYPE] = 'proj4'
-	crs[GEOJSON_FIELD_PROPERTIES] = crs_properties
 	collection = dict()
-	collection[GEOJSON_FIELD_CRS] = crs
-	collection[GEOJSON_FIELD_SRID] = to_srid
+	if srid is not None:
+		crs = dict()
+		crs[GEOJSON_FIELD_TYPE] = GEOJSON_VALUE_LINK
+		crs_properties = dict()
+		crs_properties[GEOJSON_FIELD_HREF] = '{0}{1}/'.format(SPATIAL_REF_SITE, to_srid)
+		crs_properties[GEOJSON_FIELD_TYPE] = 'proj4'
+		crs[GEOJSON_FIELD_PROPERTIES] = crs_properties
+		collection[GEOJSON_FIELD_CRS] = crs
+		collection[GEOJSON_FIELD_SRID] = to_srid
 	for item in queryset:
 		feat = dict()
 
@@ -129,23 +131,19 @@ def render_to_geojson(queryset, transform=None, simplify=None, bbox=None, maxfea
 	collection[GEOJSON_FIELD_TYPE] = GEOJSON_VALUE_FEATURE_COLLECTION
 	collection[GEOJSON_FIELD_FEATURES] = features
 
-	if len(queryset) == 0:				#if geojson is empty, don't calculate bbox
-		return collection
-
-	if transform is not None:
-		poly = Polygon.from_bbox(queryset.extent())
-		poly.srid = srid
-		poly.transform(to_srid)
-		collection[GEOJSON_FIELD_BBOX] = poly.extent
-	else:
-		collection[GEOJSON_FIELD_BBOX] = queryset.extent()
+	if len(queryset) > 0:
+		if transform is not None:
+			poly = Polygon.from_bbox(queryset.extent())
+			poly.srid = srid
+			poly.transform(to_srid)
+			collection[GEOJSON_FIELD_BBOX] = poly.extent
+		else:
+			collection[GEOJSON_FIELD_BBOX] = queryset.extent()
 
 	if prettyprint == True:
 		return simplejson.dumps(collection, indent=4)
 	else:
 		return simplejson.dumps(collection)
-
-
 
 
 def __parse_meta(meta):
