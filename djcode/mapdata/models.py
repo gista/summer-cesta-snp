@@ -59,6 +59,27 @@ class Poi(models.Model):
 	the_geom       = models.PointField(help_text='Spatial representation of the POI in the WGS84.')
 	objects        = models.GeoManager()
 
+	@property
+	def has_photo(self):
+		if self.photo is None and self.jos_photo_id is None:
+			return False
+		else:
+			return True
+
+	@property
+	def has_article(self):
+		if self.jos_article_id is not None:
+			return True
+		else:
+			return False
+
+	@property
+	def category(self):
+		from django.conf import settings
+		for s in settings.POI_TYPES:
+			if s[0] == self.type:
+				return s[1]
+
 	class Meta:
 		get_latest_by = 'created_at'
 		verbose_name = 'Point of interest'
