@@ -56,16 +56,16 @@ def __simple_render_to_json(obj):
 	else:
 		return str(obj)
 
-def find_geom_field(query_set):
+def find_geom_field(queryset):
 	"""Function returns geometry field name in model of query set. If doesn't exist, raise ValueError"""
-	for field in query_set.model._meta.fields:
+	for field in queryset.model._meta.fields:
 		geom_field = field.name if isinstance(field, GeometryField) else None
 	if geom_field is None:
 		raise ValueError
 	else:
 		return geom_field
 
-def render_to_geojson(query_set, proj_transform=None, geom_simplify=None, bbox=None, maxfeatures=None, fields=None):
+def render_to_geojson(queryset, transform=None, simplify=None, bbox=None, maxfeatures=None, properties=None, prettyprint=False):
 	'''
 	Shortcut to render a GeoJson FeatureCollection from a Django QuerySet.
 	Currently computes a bbox and adds a crs member as a sr.org link.
@@ -73,26 +73,27 @@ def render_to_geojson(query_set, proj_transform=None, geom_simplify=None, bbox=N
 	Parameter should be instance of collections.namedtuple('MaxFeatures', ['maxfeatures', 'priority_field'])
 	* bbox is boundary box (django.contrib.gis.geos.Polygon instance) which bounds rendered features
 	(feature must be entire within boundary box)
-	fieldfilter parameter is a dictionary in form:{fname:filter}, where fname is a field name and filter is callable with one parameter (field value).
-	fieldfilter is called on every field and returns (propname, value). value is stored then in the properties field with name propname of geojson. If field name is not in keys,
-	value of field is stored without any change in property with the same name as name of field. If filter returns None, value is not stored in geojson.
 	'''
 
-	geom_field = find_geom_field(query_set)
+	geom_field = find_geom_field(queryset)
 
-	srid = getattr(query_set[0], geom_field).srid
+	srid = getattr(queryset[0], geom_field).srid
 
 	if bbox is not None:
-		#query_set.filter(<geom_field>__intersects=bbox)
-		query_set = query_set.filter(**{'{0}__intersects'.format(geom_field):bbox})
-	if maxfeatures is not None:
-		query_set.order_by(maxfeatures.priority_field)
-		query_set = query_set[:maxfeatures.maxfeatures]
+		#queryset.filter(<geom_field>__intersects=bbox)
+		queryset = queryset.filter(**{'{0}__intersects'.format(geom_field):bbox})
 
-	if proj_transform is not None:
-		to_srid = proj_transform
+	if maxfeatures is not None:
+		queryset.order_by(maxfeatures.priority_field)
+		queryset = queryset[:maxfeatures.maxfeatures]
+
+	if transform is not None:
+		to_srid = transform
 	else:
 		to_srid = srid
+
+	if properties is None:
+		properties = queryset.model._meta.get_all_field_names()
 
 	features = list()
 	crs = dict()
@@ -104,12 +105,12 @@ def render_to_geojson(query_set, proj_transform=None, geom_simplify=None, bbox=N
 	collection = dict()
 	collection[GEOJSON_FIELD_CRS] = crs
 	collection[GEOJSON_FIELD_SRID] = to_srid
-	for item in query_set:
+	for item in queryset:
 		feat = dict()
 
 		#filling feature properties with dict: {<field_name>:<field_value>}
 		feat[GEOJSON_FIELD_PROPERTIES] = dict()
-		for fname in fields:
+		for fname in properties:
 			if fname == geom_field:
 				continue
 			feat[GEOJSON_FIELD_PROPERTIES][fname] =				\
@@ -118,28 +119,31 @@ def render_to_geojson(query_set, proj_transform=None, geom_simplify=None, bbox=N
 		g = getattr(item, geom_field)
 		if bbox is not None:
 			g = bbox.intersection(g)	#cutting off everything except intersection with bbox
-		if proj_transform is not None:
+		if transform is not None:
 			g.transform(to_srid)
-		if geom_simplify is not None:
-			g = g.simplify(geom_simplify)
+		if simplify is not None:
+			g = g.simplify(simplify)
 		feat[GEOJSON_FIELD_GEOMETRY] = simplejson.loads(g.geojson)
 		features.append(feat)
 
 	collection[GEOJSON_FIELD_TYPE] = GEOJSON_VALUE_FEATURE_COLLECTION
 	collection[GEOJSON_FIELD_FEATURES] = features
 
-	if len(query_set) == 0:				#if geojson is empty, don't calculate bbox
+	if len(queryset) == 0:				#if geojson is empty, don't calculate bbox
 		return collection
 
-	if proj_transform is not None:
-		poly = Polygon.from_bbox(query_set.extent())
+	if transform is not None:
+		poly = Polygon.from_bbox(queryset.extent())
 		poly.srid = srid
 		poly.transform(to_srid)
 		collection[GEOJSON_FIELD_BBOX] = poly.extent
 	else:
-		collection[GEOJSON_FIELD_BBOX] = query_set.extent()
+		collection[GEOJSON_FIELD_BBOX] = queryset.extent()
 
-	return collection
+	if prettyprint == True:
+		return simplejson.dumps(collection, indent=4)
+	else:
+		return simplejson.dumps(collection)
 
 
 
