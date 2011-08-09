@@ -21,8 +21,37 @@ activeUsersStore = Ext.extend(Ext.data.JsonStore, {
                 },
                 {
                     name: 'username',
-                    mapping: 'username',
+                    mapping: 'username'
+                },
+                {
+                    name: 'track_name',
+                    mapping: 'track_name',
                     type: 'string'
+                },
+                {
+                    name: 'first_name',
+                    mapping: 'first_name',
+                    type: 'string'
+                },
+                {
+                    name: 'last_name',
+                    mapping: 'last_name',
+                    type: 'string'
+                },
+                {
+                    name: 'email',
+                    mapping: 'email',
+                    type: 'string'
+                },
+                {
+                    name: 'phone',
+                    mapping: 'phone',
+                    type: 'string'
+                },
+                {
+                    name: 'is_active',
+                    mapping: 'is_active',
+                    type: 'boolean'
                 },
                 {
                     name: 'last_location_time',
@@ -32,13 +61,8 @@ activeUsersStore = Ext.extend(Ext.data.JsonStore, {
                 },
                 {
                     name: 'description',
-                    mapping: 'description',
-                    type: 'string'
-                },
-                {
-                    name: 'is_active',
-                    mapping: 'is_active',
-                    type: 'boolean'
+                    type: 'string',
+                    mapping: 'description'
                 }
             ]
         }, cfg));
@@ -51,7 +75,7 @@ inactiveUsersStore = Ext.extend(Ext.data.JsonStore, {
         inactiveUsersStore.superclass.constructor.call(this, Ext.apply({
             storeId: 'inactiveUsers',
             root: 'live_users',
-            fields: [
+                        fields: [
                 {
                     name: 'id',
                     mapping: 'id',
@@ -59,8 +83,37 @@ inactiveUsersStore = Ext.extend(Ext.data.JsonStore, {
                 },
                 {
                     name: 'username',
-                    mapping: 'username',
+                    mapping: 'username'
+                },
+                {
+                    name: 'track_name',
+                    mapping: 'track_name',
                     type: 'string'
+                },
+                {
+                    name: 'first_name',
+                    mapping: 'first_name',
+                    type: 'string'
+                },
+                {
+                    name: 'last_name',
+                    mapping: 'last_name',
+                    type: 'string'
+                },
+                {
+                    name: 'email',
+                    mapping: 'email',
+                    type: 'string'
+                },
+                {
+                    name: 'phone',
+                    mapping: 'phone',
+                    type: 'string'
+                },
+                {
+                    name: 'is_active',
+                    mapping: 'is_active',
+                    type: 'boolean'
                 },
                 {
                     name: 'last_location_time',
@@ -70,13 +123,8 @@ inactiveUsersStore = Ext.extend(Ext.data.JsonStore, {
                 },
                 {
                     name: 'description',
-                    mapping: 'description',
-                    type: 'string'
-                },
-                {
-                    name: 'is_active',
-                    mapping: 'is_active',
-                    type: 'boolean'
+                    type: 'string',
+                    mapping: 'description'
                 }
             ]
         }, cfg));

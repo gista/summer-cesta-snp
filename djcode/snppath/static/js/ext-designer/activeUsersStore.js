@@ -29,6 +29,36 @@ activeUsersStore = Ext.extend(Ext.data.JsonStore, {
                     mapping: 'username'
                 },
                 {
+                    name: 'track_name',
+                    mapping: 'track_name',
+                    type: 'string'
+                },
+                {
+                    name: 'first_name',
+                    mapping: 'first_name',
+                    type: 'string'
+                },
+                {
+                    name: 'last_name',
+                    mapping: 'last_name',
+                    type: 'string'
+                },
+                {
+                    name: 'email',
+                    mapping: 'email',
+                    type: 'string'
+                },
+                {
+                    name: 'phone',
+                    mapping: 'phone',
+                    type: 'string'
+                },
+                {
+                    name: 'is_active',
+                    mapping: 'is_active',
+                    type: 'boolean'
+                },
+                {
                     name: 'last_location_time',
                     mapping: 'last_location_time',
                     type: 'date',
