@@ -23,7 +23,7 @@ Ext.onReady(function() {
 		numZoomLevels: 20,
 		});
 	var osm = new OpenLayers.Layer.OSM("Satelitná mapa");
-	map.addLayers([gmap, osm]);
+	map.addLayers([osm,gmap]);
 
 	// call add overlayers function
 	addOverLayers();
@@ -176,7 +176,7 @@ function addOverLayers(){
 				strategyArticle
 				],
 			protocol: new OpenLayers.Protocol.HTTP({
-				url: "/mapdata/geojson/pois?type="+ OVER_LAYERS[6][0],
+				url: "/mapdata/geojson/pois/?" + Ext.urlEncode({type:OVER_LAYERS[6][0]}),
 				format: new OpenLayers.Format.GeoJSON({
 					ignoreExtraDims: true,
 					projection: new OpenLayers.Projection("EPSG:900913")
@@ -191,7 +191,7 @@ function addOverLayers(){
 				strategyArticle
 				],
 			protocol: new OpenLayers.Protocol.HTTP({
-				url: "/mapdata/geojson/pois?type="+ OVER_LAYERS[5][0],
+				url: "/mapdata/geojson/pois/?" + Ext.urlEncode({type:OVER_LAYERS[5][0]}),
 				format: new OpenLayers.Format.GeoJSON({
 					ignoreExtraDims: true,
 					projection: new OpenLayers.Projection("EPSG:900913")
@@ -206,7 +206,7 @@ function addOverLayers(){
 				strategyArticle
 				],
 			protocol: new OpenLayers.Protocol.HTTP({
-				url: "/mapdata/geojson/pois?type="+ OVER_LAYERS[4][0],
+				url: "/mapdata/geojson/pois/?" + Ext.urlEncode({type:OVER_LAYERS[4][0]}),
 				format: new OpenLayers.Format.GeoJSON({
 					ignoreExtraDims: true,
 					projection: new OpenLayers.Projection("EPSG:900913")
@@ -221,7 +221,7 @@ function addOverLayers(){
 				strategyArticle				
 				],
 			protocol: new OpenLayers.Protocol.HTTP({
-				url: "/mapdata/geojson/pois?type="+ OVER_LAYERS[3][0],
+				url: "/mapdata/geojson/pois/?" + Ext.urlEncode({type:OVER_LAYERS[3][0]}),
 				format: new OpenLayers.Format.GeoJSON({
 					ignoreExtraDims: true,
 					projection: new OpenLayers.Projection("EPSG:900913")
@@ -236,7 +236,7 @@ function addOverLayers(){
 				strategyArticle				
 				],
 			protocol: new OpenLayers.Protocol.HTTP({
-				url: "/mapdata/geojson/pois?type="+ OVER_LAYERS[2][0],
+				url: "/mapdata/geojson/pois/?" + Ext.urlEncode({type:OVER_LAYERS[2][0]}),
 				format: new OpenLayers.Format.GeoJSON({
 					ignoreExtraDims: true,
 					projection: new OpenLayers.Projection("EPSG:900913")
@@ -251,7 +251,7 @@ function addOverLayers(){
 				strategyArticle
 				],
 			protocol: new OpenLayers.Protocol.HTTP({
-				url: "/mapdata/geojson/pois?type="+ OVER_LAYERS[1][0],
+				url: "/mapdata/geojson/pois/?" + Ext.urlEncode({type:OVER_LAYERS[1][0]}),
 				format: new OpenLayers.Format.GeoJSON({
 					ignoreExtraDims: true,
 					projection: new OpenLayers.Projection("EPSG:900913")
@@ -266,7 +266,7 @@ function addOverLayers(){
 				strategyArticle				
 				],
 			protocol: new OpenLayers.Protocol.HTTP({
-				url: "/mapdata/geojson/pois?type="+ OVER_LAYERS[0][0],
+				url: "/mapdata/geojson/pois/?" + Ext.urlEncode({type:OVER_LAYERS[0][0]}),
 				format: new OpenLayers.Format.GeoJSON({
 					ignoreExtraDims: true,
 					projection: new OpenLayers.Projection("EPSG:900913")
@@ -317,7 +317,7 @@ function addSnpPathLayer(){
 			},
 		strategies: [new OpenLayers.Strategy.Fixed()],
 		protocol: new OpenLayers.Protocol.HTTP({
-			url: "/mapdata/geojson/snppath?geom_simplify=25&bbox="+ mapBounds.toBBOX(),
+			url: "mapdata/geojson/snppath/?" + Ext.urlEncode({geom_simplify:25, bbox:mapBounds.toBBOX()}),
 			format: new OpenLayers.Format.GeoJSON({
 				ignoreExtraDims: true,
 				projection: new OpenLayers.Projection("EPSG:900913")

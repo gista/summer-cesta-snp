@@ -16,7 +16,7 @@ activeUsersStore = Ext.extend(Ext.data.JsonStore, {
         activeUsersStore.superclass.constructor.call(this, Ext.apply({
             storeId: 'activeUsers',
             root: 'live_users',
-            url: '/config',
+            url: 'config/',
             autoLoad: true,
             fields: [
                 {

@@ -146,6 +146,6 @@ function createPoint(feature) {
 		});
 
 	// request data depends on feature id
-	articlePointStore.proxy.conn.url = articlePointStore.url + feature.data.id;
+	articlePointStore.proxy.conn.url = articlePointStore.url + Ext.urlEncode({id:feature.data.id});
 	articlePointStore.load();
 	}

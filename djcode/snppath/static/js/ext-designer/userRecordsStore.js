@@ -15,7 +15,7 @@ userRecordsStore = Ext.extend(Ext.data.JsonStore, {
         cfg = cfg || {};
         userRecordsStore.superclass.constructor.call(this, Ext.apply({
             storeId: 'userRecords',
-            url: '/live_tracking/user',
+            url: 'live_tracking/user/?',
             fields: [
                 {
                     name: 'lon',

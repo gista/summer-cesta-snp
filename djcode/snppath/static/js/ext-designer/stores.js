@@ -12,7 +12,7 @@ activeUsersStore = Ext.extend(Ext.data.JsonStore, {
         activeUsersStore.superclass.constructor.call(this, Ext.apply({
             storeId: 'activeUsers',
             root: 'live_users',
-            url: '/config',
+            url: 'config/',
             fields: [
                 {
                     name: 'id',
@@ -88,7 +88,7 @@ userRecordsStore = Ext.extend(Ext.data.JsonStore, {
         cfg = cfg || {};
         userRecordsStore.superclass.constructor.call(this, Ext.apply({
             storeId: 'userRecords',
-            url: '/live_tracking/user',
+            url: 'live_tracking/user/?',
             fields: [
                 {
                     name: 'lon',
@@ -122,7 +122,7 @@ articlePointStore = Ext.extend(Ext.data.JsonStore, {
         articlePointStore.superclass.constructor.call(this, Ext.apply({
             storeId: 'articlePoints',
             root: 'articles',
-            url: '/mapdata/poidetail?id=',
+            url: 'mapdata/poidetail/?',
             fields: [
                 {
                     name: 'article_title',

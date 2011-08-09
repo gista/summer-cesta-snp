@@ -14,7 +14,7 @@ articlePointStore = Ext.extend(Ext.data.JsonStore, {
         articlePointStore.superclass.constructor.call(this, Ext.apply({
             storeId: 'articlePoints',
             root: 'articles',
-            url: '/mapdata/poidetail?id=',
+            url: 'mapdata/poidetail?',
             fields: [
                 {
                     name: 'article_title',
