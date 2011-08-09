@@ -293,10 +293,10 @@ function addOverLayers(){
 	for(var i=0;i<7;i++){
 		overLayers[i].events.on({
 	     		"featureselected": function(e) {			
-				console.log(e.feature.data);
+				createPoint(e.feature);
         	        	},
        			"featureunselected": function(e) {
-              			//alert("unselected");
+              			//popup = null;
         	        	}
         	    	});
 		}

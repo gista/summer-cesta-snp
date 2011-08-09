@@ -116,8 +116,36 @@ userRecordsStore = Ext.extend(Ext.data.JsonStore, {
     }
 });
 
+articlePointStore = Ext.extend(Ext.data.JsonStore, {
+    constructor: function(cfg) {
+        cfg = cfg || {};
+        articlePointStore.superclass.constructor.call(this, Ext.apply({
+            storeId: 'articlePoints',
+            root: 'articles',
+            url: '/mapdata/poidetail?id=',
+            fields: [
+                {
+                    name: 'article_title',
+                    mapping: 'article_title',
+                    type: 'string'
+                },
+                {
+                    name: 'article_introtext',
+                    mapping: 'article_introtext',
+                    type: 'string'
+                },
+                {
+                    name: 'article_url',
+                    mapping: 'article_url',
+                    type: 'string'
+                }
+            ]
+        }, cfg));
+    }
+});
 
 // instantiative Stores for next use
 var activeUsersStore = new activeUsersStore();
 var inactiveUsersStore = new inactiveUsersStore();
 var userRecordsStore = new userRecordsStore();
+var articlePointStore = new articlePointStore();
