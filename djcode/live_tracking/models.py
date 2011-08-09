@@ -10,17 +10,17 @@ class User(models.Model):
 	phone =			models.CharField(max_length=30, blank=True)
 
 	def __unicode__(self):
-		return "%s (%s)" % (self.username, self.track_name)
+		return "%s" % self.username
 
 class Track(models.Model):
 	""" Class representing a track in live tracking application."""
 	name = 			models.CharField(max_length=50, help_text='The name of the track.')
 	description = 	models.TextField(blank=True, help_text='Description of the track.')
-	users = 		models.ManyToManyField(User, blank=True, help_text='Inactive users assigned to the track.', related_name="live_tracking_track_set")
+	users = 		models.ManyToManyField(User, blank=True, verbose_name="inactive users", help_text='Inactive users assigned to the track.', related_name="live_tracking_track_set")
 	active_users = 	models.ManyToManyField(User, blank=True, help_text='Active users assigned to the track.')
 
 	def __unicode__(self):
-		return "%s (%s)" % (self.name, self.description)
+		return "%s" % self.name
 
 class Message(models.Model):
 	""" Class representing a message sent by a user."""
