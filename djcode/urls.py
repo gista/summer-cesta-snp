@@ -11,6 +11,7 @@ urlpatterns = patterns('',
 	url(r'^config$', 'djcode.snppath.views.testconfig', name='testconfig'),
 	url(r'^live_tracking/user$', 'djcode.snppath.views.testuser', name='testuser'),
 	url(r'^mapdata/poidetail$', 'djcode.snppath.views.testpoint', name='testpoint'),
+	url(r'^mapdata/geojson/pois$', 'djcode.snppath.views.testpoints', name='testpoints'),
 	url(r'^mapdata/geojson/snppath$', 'djcode.snppath.views.testsnpline', name='testsnpline'),
 
 	url(r'^admin/', include(admin.site.urls)),

@@ -25,29 +25,8 @@ Ext.onReady(function() {
 	var osm = new OpenLayers.Layer.OSM("Satelitná mapa");
 	map.addLayers([gmap, osm]);
 
-	var OVER_LAYERS = [
-		[1, 'útulne, prístrešky', true],
-		[2, 'chaty', true],
-		[3, 'voda', true],
-		[4, 'stravovanie, krčmy', true],
-		[5, 'potraviny', true],
-		[6, 'zaujímavé miesta', false],
-		[7, 'nezaradené', false],
-		];
-
-	// append map over layers as specified
-	var overLayers = [ 
-		new OpenLayers.Layer.Vector(OVER_LAYERS[6][1], {visibility:OVER_LAYERS[6][2]}),
-		new OpenLayers.Layer.Vector(OVER_LAYERS[5][1], {visibility:OVER_LAYERS[5][2]}),	
-		new OpenLayers.Layer.Vector(OVER_LAYERS[4][1], {visibility:OVER_LAYERS[4][2]}),	
-		new OpenLayers.Layer.Vector(OVER_LAYERS[3][1], {visibility:OVER_LAYERS[3][2]}),	
-		new OpenLayers.Layer.Vector(OVER_LAYERS[2][1], {visibility:OVER_LAYERS[2][2]}),		
-		new OpenLayers.Layer.Vector(OVER_LAYERS[1][1], {visibility:OVER_LAYERS[1][2]}),			
-		new OpenLayers.Layer.Vector(OVER_LAYERS[0][1], {visibility:OVER_LAYERS[0][2]}),	
-		];
-	
-	map.addLayers(overLayers);
-
+	// call add overlayers function
+	addOverLayers();
 
 	// the place where the map should added 
 	var mapPanel = Ext.getCmp('appMap');
@@ -119,6 +98,127 @@ Ext.onReady(function() {
 
 	activeUsersStore.load();
 	});
+
+function addOverLayers(){
+
+	var OVER_LAYERS = [
+		[1, 'útulne, prístrešky', true],
+		[2, 'chaty', true],
+		[3, 'voda', true],
+		[4, 'stravovanie, krčmy', true],
+		[5, 'potraviny', true],
+		[6, 'zaujímavé miesta', false],
+		[7, 'nezaradené', false],
+		];
+
+	// append map over layers as specified
+	var overLayers = [ 
+		new OpenLayers.Layer.Vector(OVER_LAYERS[6][1], {
+			visibility:OVER_LAYERS[6][2],
+			strategies: [new OpenLayers.Strategy.Fixed()],
+			protocol: new OpenLayers.Protocol.HTTP({
+				url: "/mapdata/geojson/pois?type="+ OVER_LAYERS[6][0],
+				format: new OpenLayers.Format.GeoJSON({
+					ignoreExtraDims: true,
+					projection: new OpenLayers.Projection("EPSG:900913")
+					})
+				})
+			}),
+		new OpenLayers.Layer.Vector(OVER_LAYERS[5][1], {
+			visibility:OVER_LAYERS[5][2],
+			strategies: [new OpenLayers.Strategy.Fixed()],
+			protocol: new OpenLayers.Protocol.HTTP({
+				url: "/mapdata/geojson/pois?type="+ OVER_LAYERS[5][0],
+				format: new OpenLayers.Format.GeoJSON({
+					ignoreExtraDims: true,
+					projection: new OpenLayers.Projection("EPSG:900913")
+					})
+				})
+			}),
+		new OpenLayers.Layer.Vector(OVER_LAYERS[4][1], {
+			visibility:OVER_LAYERS[4][2],
+			strategies: [new OpenLayers.Strategy.Fixed()],
+			protocol: new OpenLayers.Protocol.HTTP({
+				url: "/mapdata/geojson/pois?type="+ OVER_LAYERS[4][0],
+				format: new OpenLayers.Format.GeoJSON({
+					ignoreExtraDims: true,
+					projection: new OpenLayers.Projection("EPSG:900913")
+					})
+				})
+			}),
+		new OpenLayers.Layer.Vector(OVER_LAYERS[3][1], {
+			visibility:OVER_LAYERS[3][2],
+			strategies: [new OpenLayers.Strategy.Fixed()],
+			protocol: new OpenLayers.Protocol.HTTP({
+				url: "/mapdata/geojson/pois?type="+ OVER_LAYERS[3][0],
+				format: new OpenLayers.Format.GeoJSON({
+					ignoreExtraDims: true,
+					projection: new OpenLayers.Projection("EPSG:900913")
+					})
+				})
+			}),
+		new OpenLayers.Layer.Vector(OVER_LAYERS[2][1], {
+			visibility:OVER_LAYERS[2][2],
+			strategies: [new OpenLayers.Strategy.Fixed()],
+			protocol: new OpenLayers.Protocol.HTTP({
+				url: "/mapdata/geojson/pois?type="+ OVER_LAYERS[2][0],
+				format: new OpenLayers.Format.GeoJSON({
+					ignoreExtraDims: true,
+					projection: new OpenLayers.Projection("EPSG:900913")
+					})
+				})
+			}),
+		new OpenLayers.Layer.Vector(OVER_LAYERS[1][1], {
+			visibility:OVER_LAYERS[1][2],
+			strategies: [new OpenLayers.Strategy.Fixed()],
+			protocol: new OpenLayers.Protocol.HTTP({
+				url: "/mapdata/geojson/pois?type="+ OVER_LAYERS[1][0],
+				format: new OpenLayers.Format.GeoJSON({
+					ignoreExtraDims: true,
+					projection: new OpenLayers.Projection("EPSG:900913")
+					})
+				})
+			}),
+		new OpenLayers.Layer.Vector(OVER_LAYERS[0][1], {
+			visibility:OVER_LAYERS[0][2],
+			strategies: [new OpenLayers.Strategy.Fixed()],
+			protocol: new OpenLayers.Protocol.HTTP({
+				url: "/mapdata/geojson/pois?type="+ OVER_LAYERS[0][0],
+				format: new OpenLayers.Format.GeoJSON({
+					ignoreExtraDims: true,
+					projection: new OpenLayers.Projection("EPSG:900913")
+					})
+				})
+			}),
+		];
+	
+	// Add overLayers to map layers
+	map.addLayers(overLayers);
+
+	// Add a select feature control
+	var select_feature_control = new OpenLayers.Control.SelectFeature(overLayers,{
+			clickout: true, toggle: false,
+       			multiple: false, hover: false,
+			}
+		);
+	map.addControl(select_feature_control);
+	select_feature_control.activate();
+
+	// Add on select feature listener
+	console.log(overLayers[0]);
+	
+	for(var i=0;i<7;i++){
+		overLayers[i].events.on({
+	     		"featureselected": function(e) {			
+				console.log(e.feature.data.id);
+        	        	},
+       			"featureunselected": function(e) {
+              			//alert("unselected");
+        	        	}
+        	    	});
+		}
+	
+	}
 
 function addSnpPathLayer(){
 	// create bbox from map for url request & convert to correct projection
