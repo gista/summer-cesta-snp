@@ -82,8 +82,7 @@ def testpoints(request):
 
 	type_ = int(request.GET['type'])
 	pois = Poi.objects.filter(type__exact=type_).exclude(active__exact=False)
-	resp = shortcuts.render_to_geojson(pois, 900913, properties=('category', 'area', 'note',			\
-								 'has_photo', 'has_article'))
+	resp = shortcuts.render_to_geojson(pois, 900913, properties=('id', 'has_photo', 'has_article'))
 	return HttpResponse(resp, mimetype='application/json')
 
 def testpoint(request):
@@ -95,6 +94,8 @@ def testpoint(request):
 	poi = Poi.objects.get(id=id)
 	resp = dict()
 	jos_article_ids = poi.jos_article_id.all()
+	resp['area'] = poi.area.name
+	resp['note'] = poi.note
 	resp['articles'] = list()
 	for article_id in jos_article_ids:
 		article = Jos_content.objects.get(id=article_id.id)
