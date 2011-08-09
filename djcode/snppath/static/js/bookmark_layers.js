@@ -27,12 +27,19 @@ Ext.onReady(function() {
 		});
 
 	// Checkbox events for check/uncheck in Filter panel
-	Ext.getCmp("has_photo").on('check', function(){
-		alert("Photo!");		
+	Ext.getCmp("has_photo").on('check', function(el,checked){
+		if (checked)
+			strategyPhoto.setFilter(filterHasPhoto);		
+		else 
+			strategyPhoto.setFilter(filterPhoto);						
+			
 		});
 
-	Ext.getCmp("has_article").on('check', function(){
-		alert("Article!");		
+	Ext.getCmp("has_article").on('check', function(el,checked){
+		if (checked)
+			strategyArticle.setFilter(filterHasArticle);	
+		else
+			strategyArticle.setFilter(filterArticle);
 		});
 
 	});

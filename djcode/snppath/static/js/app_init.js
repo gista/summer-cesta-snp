@@ -111,11 +111,70 @@ function addOverLayers(){
 		[7, 'nezaradené', false],
 		];
 
+
+	// create basic filter for applied for a map
+	filterPhoto = new OpenLayers.Filter.Logical({
+		type: OpenLayers.Filter.Logical.OR,
+		filters: [
+			new OpenLayers.Filter.Comparison({
+				type: OpenLayers.Filter.Comparison.EQUAL_TO,
+				property: 'has_photo',
+				value: true
+				}),
+			new OpenLayers.Filter.Comparison({
+				type: OpenLayers.Filter.Comparison.EQUAL_TO,
+				property: 'has_photo',
+				value: false
+				})
+			]
+		});
+
+	filterArticle = new OpenLayers.Filter.Logical({
+		type: OpenLayers.Filter.Logical.OR,
+		filters: [
+			new OpenLayers.Filter.Comparison({
+				type: OpenLayers.Filter.Comparison.EQUAL_TO,
+				property: 'has_article',
+				value: true
+				}),
+			new OpenLayers.Filter.Comparison({
+				type: OpenLayers.Filter.Comparison.EQUAL_TO,
+				property: 'has_article',
+				value: false
+				})
+			]
+		});
+
+	// create filter for photos & articles
+	filterHasPhoto = new OpenLayers.Filter.Comparison({
+			type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			property: 'has_photo',
+			value: true
+			});
+
+	filterHasArticle = new OpenLayers.Filter.Comparison({
+			type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			property: 'has_article',
+			value: true
+			});
+
+	strategyPhoto = new OpenLayers.Strategy.Filter({
+		filter: filterPhoto
+		});
+
+	strategyArticle = new OpenLayers.Strategy.Filter({
+		filter: filterHasArticle
+		});
+
 	// append map over layers as specified
 	var overLayers = [ 
 		new OpenLayers.Layer.Vector(OVER_LAYERS[6][1], {
 			visibility:OVER_LAYERS[6][2],
-			strategies: [new OpenLayers.Strategy.Fixed()],
+			strategies: [
+				new OpenLayers.Strategy.Fixed(),
+				strategyPhoto,
+				strategyArticle
+				],
 			protocol: new OpenLayers.Protocol.HTTP({
 				url: "/mapdata/geojson/pois?type="+ OVER_LAYERS[6][0],
 				format: new OpenLayers.Format.GeoJSON({
@@ -126,7 +185,11 @@ function addOverLayers(){
 			}),
 		new OpenLayers.Layer.Vector(OVER_LAYERS[5][1], {
 			visibility:OVER_LAYERS[5][2],
-			strategies: [new OpenLayers.Strategy.Fixed()],
+			strategies: [
+				new OpenLayers.Strategy.Fixed(),
+				strategyPhoto,
+				strategyArticle
+				],
 			protocol: new OpenLayers.Protocol.HTTP({
 				url: "/mapdata/geojson/pois?type="+ OVER_LAYERS[5][0],
 				format: new OpenLayers.Format.GeoJSON({
@@ -137,7 +200,11 @@ function addOverLayers(){
 			}),
 		new OpenLayers.Layer.Vector(OVER_LAYERS[4][1], {
 			visibility:OVER_LAYERS[4][2],
-			strategies: [new OpenLayers.Strategy.Fixed()],
+			strategies: [
+				new OpenLayers.Strategy.Fixed(),
+				strategyPhoto,
+				strategyArticle
+				],
 			protocol: new OpenLayers.Protocol.HTTP({
 				url: "/mapdata/geojson/pois?type="+ OVER_LAYERS[4][0],
 				format: new OpenLayers.Format.GeoJSON({
@@ -148,7 +215,11 @@ function addOverLayers(){
 			}),
 		new OpenLayers.Layer.Vector(OVER_LAYERS[3][1], {
 			visibility:OVER_LAYERS[3][2],
-			strategies: [new OpenLayers.Strategy.Fixed()],
+			strategies: [
+				new OpenLayers.Strategy.Fixed(),
+				strategyPhoto,
+				strategyArticle				
+				],
 			protocol: new OpenLayers.Protocol.HTTP({
 				url: "/mapdata/geojson/pois?type="+ OVER_LAYERS[3][0],
 				format: new OpenLayers.Format.GeoJSON({
@@ -159,7 +230,11 @@ function addOverLayers(){
 			}),
 		new OpenLayers.Layer.Vector(OVER_LAYERS[2][1], {
 			visibility:OVER_LAYERS[2][2],
-			strategies: [new OpenLayers.Strategy.Fixed()],
+			strategies: [
+				new OpenLayers.Strategy.Fixed(),
+				strategyPhoto,
+				strategyArticle				
+				],
 			protocol: new OpenLayers.Protocol.HTTP({
 				url: "/mapdata/geojson/pois?type="+ OVER_LAYERS[2][0],
 				format: new OpenLayers.Format.GeoJSON({
@@ -170,7 +245,11 @@ function addOverLayers(){
 			}),
 		new OpenLayers.Layer.Vector(OVER_LAYERS[1][1], {
 			visibility:OVER_LAYERS[1][2],
-			strategies: [new OpenLayers.Strategy.Fixed()],
+			strategies: [
+				new OpenLayers.Strategy.Fixed(),
+				strategyPhoto,
+				strategyArticle
+				],
 			protocol: new OpenLayers.Protocol.HTTP({
 				url: "/mapdata/geojson/pois?type="+ OVER_LAYERS[1][0],
 				format: new OpenLayers.Format.GeoJSON({
@@ -181,7 +260,11 @@ function addOverLayers(){
 			}),
 		new OpenLayers.Layer.Vector(OVER_LAYERS[0][1], {
 			visibility:OVER_LAYERS[0][2],
-			strategies: [new OpenLayers.Strategy.Fixed()],
+			strategies: [
+				new OpenLayers.Strategy.Fixed(),
+				strategyPhoto,
+				strategyArticle				
+				],
 			protocol: new OpenLayers.Protocol.HTTP({
 				url: "/mapdata/geojson/pois?type="+ OVER_LAYERS[0][0],
 				format: new OpenLayers.Format.GeoJSON({
@@ -210,7 +293,7 @@ function addOverLayers(){
 	for(var i=0;i<7;i++){
 		overLayers[i].events.on({
 	     		"featureselected": function(e) {			
-				console.log(e.feature.data.id);
+				console.log(e.feature.data);
         	        	},
        			"featureunselected": function(e) {
               			//alert("unselected");
