@@ -163,9 +163,9 @@ LOGGING = {
 
 # SNPPath settings
 SNP_SRID = 900913
-SNPPATH_COOKIE_SESSION_ID_NAME = '9fb5dc180d643162e1e24919a8ede8dd'
+SNP_COOKIE_SESSION_ID_NAME = '9fb5dc180d643162e1e24919a8ede8dd'
 GOOGLE_MAPS_API_KEY ='ABQIAAAAFBvNBHAal2xO0j7v7Q9naRR9JtsG2NQtVs3m4JfgsLQ3OEspOBSNmo8pyxdC4DLkQxfFEgu3cHiqMA' #map.cestasnp.sk
-POI_TYPES = (
+SNP_POI_TYPES = (
 	(1, 'hut, shelter'),
 	(2, 'cottage'),
 	(3, 'water'),
@@ -175,6 +175,6 @@ POI_TYPES = (
 	(7, 'other'),
 )
 
-PATH_TYPES = (
+SNP_PATH_TYPES = (
 	(1, 'SNP path'),
 )

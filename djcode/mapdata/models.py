@@ -15,7 +15,7 @@ class Area(models.Model):
 class Path(models.Model):
 	"""Model representing path of Cesta hrdinov SNP and other surrounding paths."""
 	area    = models.ForeignKey(Area, help_text='Area, which path belongs to.')
-	type    = models.IntegerField(choices=settings.PATH_TYPES, default=1, help_text='Type of the path (default 1).')
+	type    = models.IntegerField(choices=settings.SNP_PATH_TYPES, default=1, help_text='Type of the path (default 1).')
 	note    = models.TextField(blank = True, help_text = 'note about the path')
 
 	the_geom = models.LineStringField(help_text = 'Spatial representation of the path in the WGS84.')
@@ -44,7 +44,7 @@ class Poi(models.Model):
 	"""Model representing Point of interest (POI)."""
 	name           = models.CharField(max_length=50, help_text='Name of the POI.')
 	area           = models.ForeignKey(Area, help_text='Area, which POI is situated in.')
-	type           = models.IntegerField(choices=settings.POI_TYPES, help_text='Type of the POI.')
+	type           = models.IntegerField(choices=settings.SNP_POI_TYPES, help_text='Type of the POI.')
 	active         = models.BooleanField(default=True, help_text='Boolean of controlling displaying POI in the map.')
 	priority       = models.IntegerField(default=5, help_text='Displaying priority of the POI in the map.')
 	note           = models.TextField(blank=True, help_text='Note about the POI.')
@@ -76,7 +76,7 @@ class Poi(models.Model):
 	@property
 	def category(self):
 		from django.conf import settings
-		for s in settings.POI_TYPES:
+		for s in settings.SNP_POI_TYPES:
 			if s[0] == self.type:
 				return s[1]
 

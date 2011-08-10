@@ -13,8 +13,8 @@ SNP_DEFAULT_ZOOMLEVEL	= 8
 def testauth(request):
 	resp = 'AUTHENTICATION TEST PAGE'
 	resp += '\nCOOKIES: %s' % str(request.COOKIES)
-	if request.COOKIES.has_key(settings.SNPPATH_COOKIE_SESSION_ID_NAME):
-		user = authenticate(jos_session_id=request.COOKIES[settings.SNPPATH_COOKIE_SESSION_ID_NAME])
+	if request.COOKIES.has_key(settings.SNP_COOKIE_SESSION_ID_NAME):
+		user = authenticate(jos_session_id=request.COOKIES[settings.SNP_COOKIE_SESSION_ID_NAME])
 		resp += '\nUSER: %s' % user
 
 		if user is not None and user.is_active:
@@ -38,7 +38,7 @@ def config(request):
 	"""
 	lusers = User.objects.all()
 	resp = {'location':{'lon':SNP_DEFAULT_LON, 'lat':SNP_DEFAULT_LAT, 'zoomlevel':SNP_DEFAULT_ZOOMLEVEL},
-		'poi_types':[poi_type[1] for poi_type in settings.POI_TYPES],
+		'poi_types':[poi_type[1] for poi_type in settings.SNP_POI_TYPES],
 		'live_users':list()}
 	for luser in lusers:
 		tracks = list()
