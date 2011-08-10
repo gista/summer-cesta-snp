@@ -1,3 +1,5 @@
+// app_init.js
+
 var map;
 var geoExtMapPanel;
 // Stores
@@ -47,7 +49,7 @@ Ext.onReady(function() {
 		});
 
 	// on load listeners for init stores
-	activeUsersStore.on('load', function(store){
+	configStore.on('load', function(store){
 		var jData = store.reader.jsonData
 		
 		// set map default config
@@ -55,31 +57,39 @@ Ext.onReady(function() {
 		var point = new OpenLayers.LonLat(record.lon, record.lat); 
 		map.setCenter(point.transform(new OpenLayers.Projection("EPSG:4326"), map.getProjectionObject()),record.zoomlevel);
 
-
-		//var point = new OpenLayers.LonLat(jData.location.lon, jData.location.lat); 
-		//console.log(point);
-		//map.setCenter(point.transform(new OpenLayers.Projection("EPSG:4326"), map.getProjectionObject()),jData.location.zoomlevel);
-
 		// after setup the center & zoomlevel we add SnpPathLayer
 		addSnpPathLayer();
 
-		/* fill the poi types combobox with data read from JsonDATA 
-		[not properly working as in API - http://dev.sencha.com/deploy/ext-3.4.0/docs/source/Combo.html#cfg-Ext.form.ComboBox-store]
+		// fill the poi types combobox with data read from JsonDATA 
 		var comboBox = Ext.getCmp('pointCats');
 		comboBox.store = jData.poi_types;
-		comboBox.update();
-		*/
+		
+		// prepare data for loading into stores with specific content
+		var activeTracks = [];
+		var inactiveTracks = [];
+		var data = jData.live_users;
+		for(var i=0;i<data.length;i++){
+			var tracks = data[i].tracks;
+			for(var j=0;j<tracks.length;j++){
+				if (tracks[j].is_active){
+					activeTracks.push({username:data[i].username, track_id:tracks[j].id,
+						description:tracks[j].description, last_location_time: tracks[j].last_location_time});
+					}
+				else {
+					inactiveTracks.push({username:data[i].username, track_id:tracks[j].id, 
+						description:tracks[j].description, last_location_time: tracks[j].last_location_time});
 
-		// fill the data with JsonData read from UserStore
-		inactiveUsersStore.loadData(jData);
+					}
+				}
+			}
 
-		// filter just active users in store
-		store.filter('is_active', true);
-		});
+		//console.log(activeTracks);
+		//console.log(inactiveTracks);
 
-	inactiveUsersStore.on('load', function(store){
-		// filter just active users in store
-		store.filter('is_active', false);		
+		// fill the stores with created active & inactive records
+		activeLiveTrackingStore.loadData(activeTracks);
+		inactiveLiveTrackingStore.loadData(inactiveTracks);
+
 		});
 
 	userRecordsStore.on('load', function(store){
@@ -96,7 +106,7 @@ Ext.onReady(function() {
 		liveTrackingRecordPanel.show();	
 		});
 
-	activeUsersStore.load();
+	configStore.load();
 	});
 
 function addOverLayers(){

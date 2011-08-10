@@ -1,3 +1,4 @@
+// stores.js
 /*
  *
  * File: stores.js
@@ -6,13 +7,13 @@
  *
  */
 
-activeUsersStore = Ext.extend(Ext.data.JsonStore, {
+configStore = Ext.extend(Ext.data.JsonStore, {
     constructor: function(cfg) {
         cfg = cfg || {};
-        activeUsersStore.superclass.constructor.call(this, Ext.apply({
-            storeId: 'activeUsers',
-            root: 'live_users',
+        configStore.superclass.constructor.call(this, Ext.apply({
+            storeId: 'configStore',
             url: 'config/',
+            root: 'live_users',
             fields: [
                 {
                     name: 'id',
@@ -21,11 +22,7 @@ activeUsersStore = Ext.extend(Ext.data.JsonStore, {
                 },
                 {
                     name: 'username',
-                    mapping: 'username'
-                },
-                {
-                    name: 'track_name',
-                    mapping: 'track_name',
+                    mapping: 'username',
                     type: 'string'
                 },
                 {
@@ -47,15 +44,31 @@ activeUsersStore = Ext.extend(Ext.data.JsonStore, {
                     name: 'phone',
                     mapping: 'phone',
                     type: 'string'
+                }
+            ]
+        }, cfg));
+    }
+});
+
+activeLiveTrackingStore = Ext.extend(Ext.data.JsonStore, {
+    constructor: function(cfg) {
+        cfg = cfg || {};
+        activeLiveTrackingStore.superclass.constructor.call(this, Ext.apply({
+            storeId: 'activeTrackRecords',
+            sortField: 'last_location_time',
+            fields: [
+                {
+                    name: 'track_id',
+                    mapping: 'track_id',
+                    type: 'int'
                 },
                 {
-                    name: 'is_active',
-                    mapping: 'is_active',
-                    type: 'boolean'
+                    name: 'username',
+                    mapping: 'username',
+                    type: 'string'
                 },
                 {
                     name: 'last_location_time',
-                    mapping: 'last_location_time',
                     type: 'date',
                     dateFormat: 'Y-m-d h:i:s'
                 },
@@ -69,55 +82,25 @@ activeUsersStore = Ext.extend(Ext.data.JsonStore, {
     }
 });
 
-inactiveUsersStore = Ext.extend(Ext.data.JsonStore, {
+inactiveLiveTrackingStore = Ext.extend(Ext.data.JsonStore, {
     constructor: function(cfg) {
         cfg = cfg || {};
-        inactiveUsersStore.superclass.constructor.call(this, Ext.apply({
-            storeId: 'inactiveUsers',
-            root: 'live_users',
-                        fields: [
+        inactiveLiveTrackingStore.superclass.constructor.call(this, Ext.apply({
+            storeId: 'inactiveTrackRecords',
+            sortField: 'last_location_time',
+            fields: [
                 {
-                    name: 'id',
-                    mapping: 'id',
+                    name: 'track_id',
+                    mapping: 'track_id',
                     type: 'int'
                 },
                 {
                     name: 'username',
-                    mapping: 'username'
-                },
-                {
-                    name: 'track_name',
-                    mapping: 'track_name',
+                    mapping: 'username',
                     type: 'string'
-                },
-                {
-                    name: 'first_name',
-                    mapping: 'first_name',
-                    type: 'string'
-                },
-                {
-                    name: 'last_name',
-                    mapping: 'last_name',
-                    type: 'string'
-                },
-                {
-                    name: 'email',
-                    mapping: 'email',
-                    type: 'string'
-                },
-                {
-                    name: 'phone',
-                    mapping: 'phone',
-                    type: 'string'
-                },
-                {
-                    name: 'is_active',
-                    mapping: 'is_active',
-                    type: 'boolean'
                 },
                 {
                     name: 'last_location_time',
-                    mapping: 'last_location_time',
                     type: 'date',
                     dateFormat: 'Y-m-d h:i:s'
                 },
@@ -136,7 +119,7 @@ userRecordsStore = Ext.extend(Ext.data.JsonStore, {
         cfg = cfg || {};
         userRecordsStore.superclass.constructor.call(this, Ext.apply({
             storeId: 'userRecords',
-            url: 'live_tracking/user/?',
+            url: 'live_tracking/messages/?',
             fields: [
                 {
                     name: 'lon',
@@ -193,7 +176,10 @@ articlePointStore = Ext.extend(Ext.data.JsonStore, {
 });
 
 // instantiative Stores for next use
-var activeUsersStore = new activeUsersStore();
-var inactiveUsersStore = new inactiveUsersStore();
+var configStore = new configStore();
+
+var activeLiveTrackingStore = new activeLiveTrackingStore();
+var inactiveLiveTrackingStore = new inactiveLiveTrackingStore();
+
 var userRecordsStore = new userRecordsStore();
 var articlePointStore = new articlePointStore();
