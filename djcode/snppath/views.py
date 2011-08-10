@@ -73,27 +73,3 @@ def testuser(request):
 		'time':msg.time.isoformat(), 'message':msg.text}		\
 		for msg in Message.objects.filter(user=luser)]
 	return HttpResponse(json.dumps(resp), mimetype='application/json')
-
-
-
-def testpoint(request):
-	"""
-	GET params: id
-	Now I am sending U only static id=1
-	"""
-	id = int(request.GET['id'])
-	poi = Poi.objects.get(id=id)
-	resp = dict()
-	jos_article_ids = poi.jos_article_id.all()
-	resp['area'] = poi.area.name
-	resp['note'] = poi.note
-	resp['articles'] = list()
-	for article_id in jos_article_ids:
-		article = Jos_content.objects.get(id=article_id.id)
-		resp['articles'].append({'article_title':article.title, 'article_introtext':article.introtext, \
-					 'article_url':article.urls})
-	jos_photos_ids = poi.jos_photo_id.all()
-	resp['photos_jos'] = [jos_photo_id.id for jos_photo_id in jos_photos_ids]
-	photos = poi.photo.all()
-	resp['photos_map'] = [photo.id for photo in photos]
-	return HttpResponse(json.dumps(resp), mimetype='application/json')
