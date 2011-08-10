@@ -11,7 +11,7 @@ def snppath(request):
 	bbox = map(lambda x: float(x), request.GET['bbox'].split(','))
 	bbox_poly = Polygon.from_bbox(bbox)
 	resp = render_to_geojson(Path.objects.all(), 900913, geom_simplify, bbox_poly,
-					properties=())
+				 properties=())
 	return HttpResponse(resp, mimetype='application/json')
 
 def pois(request):

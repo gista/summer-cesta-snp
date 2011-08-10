@@ -91,7 +91,7 @@ def render_to_geojson(queryset, transform=None, simplify=None, bbox=None, maxfea
 
 	if transform is not None:
 		to_srid = transform
-		queryset.transform(to_srid)
+		queryset = queryset.transform(to_srid)
 	else:
 		to_srid = srid
 
