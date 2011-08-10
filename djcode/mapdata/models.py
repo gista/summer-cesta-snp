@@ -73,13 +73,6 @@ class Poi(models.Model):
 		else:
 			return False
 
-	@property
-	def category(self):
-		from django.conf import settings
-		for s in settings.SNP_POI_TYPES:
-			if s[0] == self.type:
-				return s[1]
-
 	class Meta:
 		get_latest_by = 'created_at'
 		verbose_name = 'Point of interest'
