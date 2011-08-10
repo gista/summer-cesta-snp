@@ -11,6 +11,10 @@ from mapdata.models import *
 from joomla.models import Jos_content
 from django.contrib.gis.geos import Polygon
 
+SNP_DEFAULT_LON		= 19.258336054784
+SNP_DEFAULT_LAT		= 48.8176576494
+SNP_DEFAULT_ZOOMLEVEL	= 8
+
 def testauth(request):
 	resp = 'AUTHENTICATION TEST PAGE'
 	resp += '\nCOOKIES: %s' % str(request.COOKIES)
@@ -33,21 +37,27 @@ def testhelp(request):
 	resp = 'Loaded My help content.'
 	return HttpResponse(resp, mimetype="text/plain")
 
-def testconfig(request):
+def config(request):
 	"""
 	A little bit corrected JSON
 	"""
 	lusers = User.objects.all()
-	resp = {'location':{'lon':19.258336054784, 'lat':48.8176576494, 'zoomlevel':8},
+	resp = {'location':{'lon':SNP_DEFAULT_LON, 'lat':SNP_DEFAULT_LAT, 'zoomlevel':SNP_DEFAULT_ZOOMLEVEL},
 		'poi_types':[poi_type[1] for poi_type in settings.POI_TYPES],
 		'live_users':list()}
 	for luser in lusers:
-		#FIXME: last_location_time field of User is not in live_tracking model
+		tracks = list()
+		for track in Track.objects.filter(user=luser):
+			track_last_time = Message.objects.filter(track=track).latest().time.isoformat()
+			tracks.append({'id':track.pk, 'name':track.name,
+				       'description':track.description,
+				       'is_active':track.is_active,
+				       'last_location_time':track_last_time})
 		resp['live_users'].append({'id':luser.id, 'username':luser.username,
-				'track_name':luser.track_name, 'first_name':luser.first_name,
-				'last_name':luser.last_name, 'email':luser.email, 'phone':luser.phone,
-				'is_active':luser.is_active, 'last_location_time':'None',
-				'description':luser.description})
+					   'first_name':luser.first_name,
+					   'last_name':luser.last_name,
+					   'email':luser.email, 'phone':luser.phone,
+					   'tracks':tracks})
 	return HttpResponse(json.dumps(resp), mimetype='application/json')
 
 def testsnpline(request):
