@@ -43,6 +43,7 @@ GEOJSON_FIELD_SRID	 = 'srid'
 GEOJSON_FIELD_GEOMETRY	 = 'geometry'
 GEOJSON_FIELD_FEATURES	 = 'features'
 GEOJSON_FIELD_BBOX	 = 'bbox'
+GEOJSON_FIELD_ID	 = 'id'
 
 #Geojson field values
 GEOJSON_VALUE_LINK		 = 'link'
@@ -110,6 +111,7 @@ def render_to_geojson(queryset, transform=None, simplify=None, bbox=None, maxfea
 		collection[GEOJSON_FIELD_SRID] = to_srid
 	for item in queryset:
 		feat = dict()
+		feat[GEOJSON_FIELD_ID] = item.pk
 
 		#filling feature properties with dict: {<field_name>:<field_value>}
 		feat[GEOJSON_FIELD_PROPERTIES] = dict()
