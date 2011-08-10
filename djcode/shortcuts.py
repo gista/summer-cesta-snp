@@ -72,14 +72,13 @@ def render_to_geojson(queryset, transform=None, simplify=None, bbox=None, maxfea
 	* maxfeatures parameter gives maximum number of rendered features based on priority field.
 	Parameter should be instance of collections.namedtuple('MaxFeatures', ['maxfeatures', 'priority_field'])
 	* bbox is boundary box (django.contrib.gis.geos.Polygon instance) which bounds rendered features
-	(feature must be entire within boundary box)
 	'''
 
 	geom_field = find_geom_field(queryset)
 
 	if bbox is not None:
-		#queryset.filter(<geom_field>__contained=bbox)
-		queryset = queryset.filter(**{'{0}__contained'.format(geom_field):bbox})
+		#queryset.filter(<geom_field>__intersects=bbox)
+		queryset = queryset.filter(**{'{0}__intersects'.format(geom_field):bbox})
 
 	if maxfeatures is not None:
 		queryset.order_by(maxfeatures.priority_field)
@@ -137,6 +136,7 @@ def render_to_geojson(queryset, transform=None, simplify=None, bbox=None, maxfea
 			collection[GEOJSON_FIELD_BBOX] = poly.extent
 		else:
 			collection[GEOJSON_FIELD_BBOX] = queryset.extent()
+
 	if prettyprint == True:
 		return simplejson.dumps(collection, indent=4)
 	else:

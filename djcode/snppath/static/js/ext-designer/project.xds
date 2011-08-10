@@ -1,0 +1,816 @@
+{
+    "name": "project.xds",
+    "projectId": "C5ABFDAF-1078-4E10-B8B7-F82889F8834E",
+    "settings": {
+        "urlPrefix": "http://localhost:8000/",
+        "directAPI": "",
+        "spacesToIndent": "4",
+        "codeGenFormat": "Class",
+        "extPath": "http://extjs.cachefly.net/ext-3.3.1/",
+        "exportPath": ".",
+        "lineEnding": "LF",
+        "instantiateStore": true,
+        "exportXDSFiles": true,
+        "genTimestamps": true
+    },
+    "xdsVersion": "1.1.2",
+    "components": [
+        {
+            "id": "MyViewport",
+            "cid": "viewport",
+            "jsClass": "MyViewport",
+            "snapToGrid": 10,
+            "userConfig": {
+                "layout": "border"
+            },
+            "cn": [
+                {
+                    "id": "MyTabPanel",
+                    "cid": "tabpanel",
+                    "jsClass": "MyTabPanel",
+                    "snapToGrid": 10,
+                    "userConfig": {
+                        "activeTab": 1,
+                        "region": "west",
+                        "width": 250,
+                        "collapsible": true,
+                        "frame": true,
+                        "id": "appTabs"
+                    },
+                    "cn": [
+                        {
+                            "id": "MyPanel",
+                            "cid": "panel",
+                            "jsClass": "MyPanel",
+                            "snapToGrid": 10,
+                            "userConfig": {
+                                "title": "Vrstvy<br/>&nbsp;",
+                                "frame": true,
+                                "layout": "border"
+                            },
+                            "cn": [
+                                {
+                                    "id": "MyPanel4",
+                                    "cid": "panel",
+                                    "jsClass": "MyPanel4",
+                                    "snapToGrid": 10,
+                                    "userConfig": {
+                                        "title": "-ext-undefined-",
+                                        "region": "center",
+                                        "frame": "-ext-undefined-"
+                                    },
+                                    "cn": [
+                                        {
+                                            "id": "MyPanel6",
+                                            "cid": "panel",
+                                            "jsClass": "MyPanel6",
+                                            "snapToGrid": 10,
+                                            "userConfig": {
+                                                "title": "-ext-undefined-",
+                                                "frame": true,
+                                                "padding": "-ext-undefined-",
+                                                "id": ""
+                                            },
+                                            "cn": [
+                                                {
+                                                    "id": "MyPanel7",
+                                                    "cid": "panel",
+                                                    "jsClass": "MyPanel7",
+                                                    "snapToGrid": 10,
+                                                    "userConfig": {
+                                                        "title": "-ext-undefined-",
+                                                        "id": "appBaseLayersHolder"
+                                                    }
+                                                },
+                                                {
+                                                    "id": "MyPanel8",
+                                                    "cid": "panel",
+                                                    "jsClass": "MyPanel8",
+                                                    "snapToGrid": 10,
+                                                    "userConfig": {
+                                                        "title": "-ext-undefined-",
+                                                        "id": "appOverLayersHolder"
+                                                    }
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "id": "MyPanel5",
+                                            "cid": "panel",
+                                            "jsClass": "MyPanel5",
+                                            "snapToGrid": 10,
+                                            "userConfig": {
+                                                "title": "Filter",
+                                                "frame": true,
+                                                "style": "",
+                                                "bodyStyle": "padding:10px"
+                                            },
+                                            "cn": [
+                                                {
+                                                    "id": "MyCheckbox",
+                                                    "cid": "checkbox",
+                                                    "jsClass": "MyCheckbox",
+                                                    "snapToGrid": 10,
+                                                    "userConfig": {
+                                                        "boxLabel": "k bodu je fotografia",
+                                                        "id": "has_photo"
+                                                    }
+                                                },
+                                                {
+                                                    "id": "MyCheckbox1",
+                                                    "cid": "checkbox",
+                                                    "jsClass": "MyCheckbox1",
+                                                    "snapToGrid": 10,
+                                                    "userConfig": {
+                                                        "boxLabel": "k bodu je článok",
+                                                        "id": "has_article"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "id": "MyContainer3",
+                                    "cid": "container",
+                                    "jsClass": "MyContainer3",
+                                    "snapToGrid": 10,
+                                    "userConfig": {
+                                        "region": "south",
+                                        "width": 100,
+                                        "height": 120
+                                    },
+                                    "cn": [
+                                        {
+                                            "id": "MyBoxComponent2",
+                                            "cid": "boxcomponent",
+                                            "jsClass": "MyBoxComponent2",
+                                            "snapToGrid": 10,
+                                            "userConfig": {
+                                                "height": 110,
+                                                "width": 110,
+                                                "autoEl": "{\n\t\t\t\t'tag': 'img',\n'src':'http://www.jmorganmarketing.com/wp-content/uploads/2010/11/image4.jpg',\n\t\t\t\t'align':'left',\n\t\t\t\t}"
+                                            }
+                                        },
+                                        {
+                                            "id": "MyBoxComponent3",
+                                            "cid": "boxcomponent",
+                                            "jsClass": "MyBoxComponent3",
+                                            "snapToGrid": 10,
+                                            "userConfig": {
+                                                "height": 110,
+                                                "width": 110,
+                                                "autoEl": "{\n\t\t\t\t'tag': 'img',\n'src':'http://www.jmorganmarketing.com/wp-content/uploads/2010/11/image4.jpg',\n\t\t\t\t'align':'right',\n\t\t\t\t}"
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "id": "MyPanel1",
+                            "cid": "panel",
+                            "jsClass": "MyPanel1",
+                            "snapToGrid": 10,
+                            "userConfig": {
+                                "title": "LIVE<br/>sledovanie",
+                                "frame": true,
+                                "layout": "border",
+                                "width": 250
+                            },
+                            "cn": [
+                                {
+                                    "id": "MyPanel9",
+                                    "cid": "panel",
+                                    "jsClass": "MyPanel9",
+                                    "snapToGrid": 10,
+                                    "userConfig": {
+                                        "title": "-ext-undefined-",
+                                        "region": "center",
+                                        "width": "-ext-undefined-",
+                                        "layout": "vbox"
+                                    },
+                                    "cn": [
+                                        {
+                                            "id": "MyGrid",
+                                            "cid": "grid",
+                                            "jsClass": "MyGrid",
+                                            "snapToGrid": 10,
+                                            "userConfig": {
+                                                "title": "Aktuálne v teréne",
+                                                "store": "activeUsers",
+                                                "height": "-ext-undefined-",
+                                                "hideHeaders": true,
+                                                "id": "liveTrackingActive",
+                                                "autoHeight": "-ext-undefined-",
+                                                "frame": true,
+                                                "hidden": "-ext-undefined-",
+                                                "defaults": "{\n\t      \t\t\tsortable: false,\n\t\t\t\tfixed: true,\n\t\t\t\tresizable: false,\n\t      \t\t\t}",
+                                                "width": 235,
+                                                "flex": 2
+                                            },
+                                            "cn": [
+                                                {
+                                                    "id": "MyColumn",
+                                                    "cid": "gridcolumn",
+                                                    "jsClass": "MyColumn",
+                                                    "snapToGrid": 10,
+                                                    "userConfig": {
+                                                        "dataIndex": "username",
+                                                        "header": "-ext-undefined-",
+                                                        "sortable": true,
+                                                        "resizable": "-ext-undefined-",
+                                                        "width": 100
+                                                    }
+                                                },
+                                                {
+                                                    "id": "MyColumn2",
+                                                    "cid": "datecolumn",
+                                                    "jsClass": "MyColumn2",
+                                                    "snapToGrid": 10,
+                                                    "userConfig": {
+                                                        "dataIndex": "last_location_time",
+                                                        "header": "-ext-undefined-",
+                                                        "sortable": true,
+                                                        "resizable": "-ext-undefined-",
+                                                        "width": 115,
+                                                        "format": "d.m.Y - h:m"
+                                                    }
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "id": "MyGrid1",
+                                            "cid": "grid",
+                                            "jsClass": "MyGrid1",
+                                            "snapToGrid": 10,
+                                            "userConfig": {
+                                                "title": "Cestu ukončili",
+                                                "store": "inactiveUsers",
+                                                "hideHeaders": true,
+                                                "id": "liveTrackingInactive",
+                                                "frame": true,
+                                                "hidden": "-ext-undefined-",
+                                                "defaults": "{\n\t      \t\t\tsortable: false,\n\t\t\t\tfixed: true,\n\t\t\t\tresizable: false,\n\t      \t\t\t}",
+                                                "width": 235,
+                                                "floating": "-ext-undefined-",
+                                                "flex": 2
+                                            },
+                                            "cn": [
+                                                {
+                                                    "id": "MyColumn4",
+                                                    "cid": "gridcolumn",
+                                                    "jsClass": "MyColumn4",
+                                                    "snapToGrid": 10,
+                                                    "userConfig": {
+                                                        "dataIndex": "username",
+                                                        "header": "-ext-undefined-",
+                                                        "sortable": true,
+                                                        "resizable": "-ext-undefined-",
+                                                        "width": 100
+                                                    }
+                                                },
+                                                {
+                                                    "id": "MyColumn6",
+                                                    "cid": "datecolumn",
+                                                    "jsClass": "MyColumn6",
+                                                    "snapToGrid": 10,
+                                                    "userConfig": {
+                                                        "dataIndex": "last_location_time",
+                                                        "header": "-ext-undefined-",
+                                                        "sortable": true,
+                                                        "resizable": "-ext-undefined-",
+                                                        "width": 115,
+                                                        "format": "d.m.Y - h:m"
+                                                    }
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "id": "MyGrid2",
+                                            "cid": "grid",
+                                            "jsClass": "MyGrid2",
+                                            "snapToGrid": 10,
+                                            "userConfig": {
+                                                "title": "Aktuálne v teréne",
+                                                "store": "userRecords",
+                                                "id": "liveTrackingRecords",
+                                                "enableHdMenu": false,
+                                                "frame": true,
+                                                "hideHeaders": true,
+                                                "autoHeight": "-ext-undefined-",
+                                                "defaults": "{\n\t      \t\t\tsortable: false,\n\t\t\t\tfixed: true,\n\t\t\t\tresizable: false,\n\t      \t\t\t}",
+                                                "viewConfig": "{\nforceFit: true,\n}",
+                                                "border": false,
+                                                "hidden": true,
+                                                "width": 235,
+                                                "flex": 1
+                                            },
+                                            "cn": [
+                                                {
+                                                    "id": "MyToolbar",
+                                                    "cid": "toolbar",
+                                                    "jsClass": "MyToolbar",
+                                                    "dock": "tbar",
+                                                    "snapToGrid": 10,
+                                                    "userConfig": {
+                                                        "autoHeight": "-ext-undefined-",
+                                                        "autoWidth": "-ext-undefined-"
+                                                    },
+                                                    "cn": [
+                                                        {
+                                                            "id": "MyText",
+                                                            "cid": "tbtext",
+                                                            "jsClass": "MyText",
+                                                            "snapToGrid": 10,
+                                                            "userConfig": {
+                                                                "text": "-ext-undefined-",
+                                                                "id": "liveTrackingUsername"
+                                                            }
+                                                        },
+                                                        {
+                                                            "id": "MyFill",
+                                                            "cid": "tbfill",
+                                                            "jsClass": "MyFill",
+                                                            "snapToGrid": 10
+                                                        },
+                                                        {
+                                                            "id": "MyButtonGroup",
+                                                            "cid": "buttongroup",
+                                                            "jsClass": "MyButtonGroup",
+                                                            "snapToGrid": 10,
+                                                            "userConfig": {
+                                                                "title": "-ext-undefined-",
+                                                                "columns": 2,
+                                                                "autoWidth": true,
+                                                                "frame": false
+                                                            },
+                                                            "cn": [
+                                                                {
+                                                                    "id": "MyButton1",
+                                                                    "cid": "button",
+                                                                    "jsClass": "MyButton1",
+                                                                    "snapToGrid": 10,
+                                                                    "userConfig": {
+                                                                        "text": "Refresh",
+                                                                        "id": "refreshButton"
+                                                                    }
+                                                                },
+                                                                {
+                                                                    "id": "MyButton2",
+                                                                    "cid": "button",
+                                                                    "jsClass": "MyButton2",
+                                                                    "snapToGrid": 10,
+                                                                    "userConfig": {
+                                                                        "text": "Return",
+                                                                        "id": "backButton"
+                                                                    }
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "id": "MyColumn1",
+                                                    "cid": "templatecolumn",
+                                                    "jsClass": "MyColumn1",
+                                                    "snapToGrid": 10,
+                                                    "userConfig": {
+                                                        "dataIndex": "-ext-undefined-",
+                                                        "header": "-ext-undefined-",
+                                                        "sortable": true,
+                                                        "resizable": "-ext-undefined-",
+                                                        "width": 210,
+                                                        "hideable": false,
+                                                        "tpl": "<b>{time:date(\"d.m.Y H:i:s\")}</b><br/><br/>{message}",
+                                                        "menuDisabled": true
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "id": "MyContainer5",
+                                    "cid": "container",
+                                    "jsClass": "MyContainer3",
+                                    "snapToGrid": 10,
+                                    "userConfig": {
+                                        "width": 100,
+                                        "height": 120,
+                                        "region": "south"
+                                    },
+                                    "cn": [
+                                        {
+                                            "id": "MyBoxComponent",
+                                            "cid": "boxcomponent",
+                                            "jsClass": "MyBoxComponent2",
+                                            "snapToGrid": 10,
+                                            "userConfig": {
+                                                "height": 110,
+                                                "width": 110,
+                                                "autoEl": "{\n\t\t\t\t'tag': 'img',\n'src':'http://www.jmorganmarketing.com/wp-content/uploads/2010/11/image4.jpg',\n\t\t\t\t'align':'left',\n\t\t\t\t}"
+                                            }
+                                        },
+                                        {
+                                            "id": "MyBoxComponent1",
+                                            "cid": "boxcomponent",
+                                            "jsClass": "MyBoxComponent3",
+                                            "snapToGrid": 10,
+                                            "userConfig": {
+                                                "height": 110,
+                                                "width": 110,
+                                                "autoEl": "{\n\t\t\t\t'tag': 'img',\n'src':'http://www.jmorganmarketing.com/wp-content/uploads/2010/11/image4.jpg',\n\t\t\t\t'align':'right',\n\t\t\t\t}"
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "id": "MyPanel2",
+                            "cid": "panel",
+                            "jsClass": "MyPanel2",
+                            "snapToGrid": 10,
+                            "userConfig": {
+                                "title": "Pridaj<br/>bod",
+                                "frame": true,
+                                "layout": "border"
+                            },
+                            "cn": [
+                                {
+                                    "id": "MyForm",
+                                    "cid": "form",
+                                    "jsClass": "MyForm",
+                                    "snapToGrid": 10,
+                                    "userConfig": {
+                                        "title": "-ext-undefined-",
+                                        "region": "center",
+                                        "frame": true,
+                                        "labelAlign": "top",
+                                        "labelWidth": 0,
+                                        "defaults": "{\n'width':'220px'\n}",
+                                        "buttonAlign": "center",
+                                        "width": 250
+                                    },
+                                    "cn": [
+                                        {
+                                            "id": "MyTextField",
+                                            "cid": "textfield",
+                                            "jsClass": "MyTextField",
+                                            "snapToGrid": 10,
+                                            "userConfig": {
+                                                "fieldLabel": "Názov bodu*",
+                                                "anchor": "100%",
+                                                "id": "pointName"
+                                            }
+                                        },
+                                        {
+                                            "id": "MyCombo",
+                                            "cid": "combobox",
+                                            "jsClass": "MyCombo",
+                                            "snapToGrid": 10,
+                                            "userConfig": {
+                                                "fieldLabel": "Kategória",
+                                                "anchor": "100%",
+                                                "id": "pointCats",
+                                                "store": "-ext-undefined-"
+                                            }
+                                        },
+                                        {
+                                            "id": "MyLabel",
+                                            "cid": "label",
+                                            "jsClass": "MyLabel",
+                                            "snapToGrid": 10,
+                                            "userConfig": {
+                                                "text": "Súradnice",
+                                                "html": "<b>Súradnice</b><hr/>",
+                                                "style": "{'font-size':'15px'}"
+                                            }
+                                        },
+                                        {
+                                            "id": "MyTextField1",
+                                            "cid": "textfield",
+                                            "jsClass": "MyTextField1",
+                                            "snapToGrid": 10,
+                                            "userConfig": {
+                                                "fieldLabel": "Zemepisná šírka: * (napr. 48.45789):",
+                                                "anchor": "100%",
+                                                "id": "pointLat"
+                                            }
+                                        },
+                                        {
+                                            "id": "MyTextField2",
+                                            "cid": "textfield",
+                                            "jsClass": "MyTextField2",
+                                            "snapToGrid": 10,
+                                            "userConfig": {
+                                                "fieldLabel": "Zemepisná dĺžka: * (napr. 19.45732):",
+                                                "anchor": "100%",
+                                                "id": "pointLon",
+                                                "labelStyle": "-ext-undefined-"
+                                            }
+                                        },
+                                        {
+                                            "id": "MyTextField3",
+                                            "cid": "textfield",
+                                            "jsClass": "MyTextField3",
+                                            "snapToGrid": 10,
+                                            "userConfig": {
+                                                "fieldLabel": "Fotografia",
+                                                "anchor": "100%",
+                                                "id": "pointPhoto"
+                                            }
+                                        },
+                                        {
+                                            "id": "MyTextArea",
+                                            "cid": "textarea",
+                                            "jsClass": "MyTextArea",
+                                            "snapToGrid": 10,
+                                            "userConfig": {
+                                                "anchor": "100%",
+                                                "fieldLabel": "Poznámka",
+                                                "id": "pointNotes"
+                                            }
+                                        },
+                                        {
+                                            "id": "MyButton",
+                                            "cid": "button",
+                                            "jsClass": "MyButton",
+                                            "snapToGrid": 10,
+                                            "userConfig": {
+                                                "text": "Pridaj",
+                                                "width": "-ext-undefined-"
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "id": "MyContainer4",
+                                    "cid": "container",
+                                    "jsClass": "MyContainer3",
+                                    "snapToGrid": 10,
+                                    "userConfig": {
+                                        "region": "south",
+                                        "width": 100,
+                                        "height": 120
+                                    },
+                                    "cn": [
+                                        {
+                                            "id": "MyBoxComponent4",
+                                            "cid": "boxcomponent",
+                                            "jsClass": "MyBoxComponent2",
+                                            "snapToGrid": 10,
+                                            "userConfig": {
+                                                "height": 110,
+                                                "width": 110,
+                                                "autoEl": "{\n\t\t\t\t'tag': 'img',\n'src':'http://www.jmorganmarketing.com/wp-content/uploads/2010/11/image4.jpg',\n\t\t\t\t'align':'left',\n\t\t\t\t}"
+                                            }
+                                        },
+                                        {
+                                            "id": "MyBoxComponent5",
+                                            "cid": "boxcomponent",
+                                            "jsClass": "MyBoxComponent3",
+                                            "snapToGrid": 10,
+                                            "userConfig": {
+                                                "height": 110,
+                                                "width": 110,
+                                                "autoEl": "{\n\t\t\t\t'tag': 'img',\n'src':'http://www.jmorganmarketing.com/wp-content/uploads/2010/11/image4.jpg',\n\t\t\t\t'align':'right',\n\t\t\t\t}"
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id": "MyContainer",
+                    "cid": "container",
+                    "jsClass": "MyContainer",
+                    "snapToGrid": 10,
+                    "userConfig": {
+                        "region": "center",
+                        "width": 100,
+                        "layout": "border",
+                        "id": "-ext-undefined-"
+                    },
+                    "cn": [
+                        {
+                            "id": "MyPanel3",
+                            "cid": "panel",
+                            "jsClass": "MyPanel3",
+                            "snapToGrid": 10,
+                            "userConfig": {
+                                "title": "-ext-undefined-",
+                                "id": "appMap",
+                                "autoWidth": "-ext-undefined-",
+                                "layout": "fit",
+                                "autoHeight": "-ext-undefined-",
+                                "region": "center"
+                            }
+                        },
+                        {
+                            "id": "MyContainer1",
+                            "cid": "container",
+                            "jsClass": "MyContainer1",
+                            "snapToGrid": 10,
+                            "userConfig": {
+                                "region": "north",
+                                "width": "-ext-undefined-",
+                                "height": 100,
+                                "id": "appHeader"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "id": "MyContainer2",
+                    "cid": "container",
+                    "jsClass": "MyContainer2",
+                    "snapToGrid": 10,
+                    "userConfig": {
+                        "region": "south",
+                        "width": 100,
+                        "height": 50,
+                        "id": "appFooter"
+                    }
+                }
+            ]
+        }
+    ],
+    "stores": [
+        {
+            "id": "MyStore1",
+            "cid": "jsonstore",
+            "jsClass": "activeUsersStore",
+            "snapToGrid": 10,
+            "userConfig": {
+                "storeId": "activeUsers",
+                "root": "live_users",
+                "url": "/config",
+                "autoLoad": true
+            },
+            "cn": [
+                {
+                    "id": "MyField",
+                    "cid": "datafield",
+                    "jsClass": "MyField",
+                    "snapToGrid": 10,
+                    "userConfig": {
+                        "name": "id",
+                        "mapping": "id",
+                        "type": "int"
+                    }
+                },
+                {
+                    "id": "MyField1",
+                    "cid": "datafield",
+                    "jsClass": "MyField1",
+                    "snapToGrid": 10,
+                    "userConfig": {
+                        "name": "username",
+                        "mapping": "username"
+                    }
+                },
+                {
+                    "id": "MyField2",
+                    "cid": "datafield",
+                    "jsClass": "MyField2",
+                    "snapToGrid": 10,
+                    "userConfig": {
+                        "name": "last_location_time",
+                        "mapping": "last_location_time",
+                        "type": "date",
+                        "dateFormat": "Y-m-d h:i:s"
+                    }
+                },
+                {
+                    "id": "MyField3",
+                    "cid": "datafield",
+                    "jsClass": "MyField3",
+                    "snapToGrid": 10,
+                    "userConfig": {
+                        "name": "description",
+                        "type": "string",
+                        "mapping": "description"
+                    }
+                }
+            ]
+        },
+        {
+            "id": "MyStore",
+            "cid": "jsonstore",
+            "jsClass": "inactiveUsersStore",
+            "snapToGrid": 10,
+            "userConfig": {
+                "storeId": "inactiveUsers",
+                "root": "live_users"
+            },
+            "cn": [
+                {
+                    "id": "MyField4",
+                    "cid": "datafield",
+                    "jsClass": "MyField",
+                    "snapToGrid": 10,
+                    "userConfig": {
+                        "name": "id",
+                        "mapping": "id",
+                        "type": "int"
+                    }
+                },
+                {
+                    "id": "MyField5",
+                    "cid": "datafield",
+                    "jsClass": "MyField1",
+                    "snapToGrid": 10,
+                    "userConfig": {
+                        "name": "username",
+                        "mapping": "username"
+                    }
+                },
+                {
+                    "id": "MyField6",
+                    "cid": "datafield",
+                    "jsClass": "MyField2",
+                    "snapToGrid": 10,
+                    "userConfig": {
+                        "name": "last_location_time",
+                        "mapping": "last_location_time",
+                        "type": "date",
+                        "dateFormat": "Y-m-d h:i:s"
+                    }
+                },
+                {
+                    "id": "MyField7",
+                    "cid": "datafield",
+                    "jsClass": "MyField3",
+                    "snapToGrid": 10,
+                    "userConfig": {
+                        "name": "description",
+                        "type": "string",
+                        "mapping": "description"
+                    }
+                }
+            ]
+        },
+        {
+            "id": "MyStore2",
+            "cid": "jsonstore",
+            "jsClass": "userRecordsStore",
+            "snapToGrid": 10,
+            "userConfig": {
+                "storeId": "userRecords",
+                "url": "/live_tracking/user",
+                "autoLoad": "-ext-undefined-"
+            },
+            "cn": [
+                {
+                    "id": "MyField8",
+                    "cid": "datafield",
+                    "jsClass": "MyField8",
+                    "snapToGrid": 10,
+                    "userConfig": {
+                        "name": "lon",
+                        "mapping": "lon",
+                        "type": "float"
+                    }
+                },
+                {
+                    "id": "MyField9",
+                    "cid": "datafield",
+                    "jsClass": "MyField9",
+                    "snapToGrid": 10,
+                    "userConfig": {
+                        "name": "lat",
+                        "mapping": "lat",
+                        "type": "float"
+                    }
+                },
+                {
+                    "id": "MyField10",
+                    "cid": "datafield",
+                    "jsClass": "MyField10",
+                    "snapToGrid": 10,
+                    "userConfig": {
+                        "name": "time",
+                        "type": "date",
+                        "mapping": "time",
+                        "dateFormat": "Y-m-d h:i:s"
+                    }
+                },
+                {
+                    "id": "MyField11",
+                    "cid": "datafield",
+                    "jsClass": "MyField11",
+                    "snapToGrid": 10,
+                    "userConfig": {
+                        "name": "message",
+                        "type": "string",
+                        "mapping": "message"
+                    }
+                }
+            ]
+        }
+    ]
+}
