@@ -3,13 +3,8 @@ from django.shortcuts import render_to_response
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login
 from django.template import RequestContext
-from django.conf import settings
-import json
-import shortcuts
-from live_tracking.models import *
-from mapdata.models import *
-from joomla.models import Jos_content
-from django.contrib.gis.geos import Polygon
+from django.utils import simplejson
+from live_tracking.models import User, Track, Message
 
 SNP_DEFAULT_LON		= 19.258336054784
 SNP_DEFAULT_LAT		= 48.8176576494
@@ -58,4 +53,4 @@ def config(request):
 					   'last_name':luser.last_name,
 					   'email':luser.email, 'phone':luser.phone,
 					   'tracks':tracks})
-	return HttpResponse(json.dumps(resp), mimetype='application/json')
+	return HttpResponse(simplejson.dumps(resp), mimetype='application/json')
