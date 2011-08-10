@@ -60,17 +60,6 @@ def config(request):
 					   'tracks':tracks})
 	return HttpResponse(json.dumps(resp), mimetype='application/json')
 
-def testsnpline(request):
-	"""
-	GET params: geom_simplify, bbox
-	"""
-	geom_simplify = int(request.GET['geom_simplify'])
-	bbox = map(lambda x: float(x), request.GET['bbox'].split(','))
-	bbox_poly = Polygon.from_bbox(bbox)
-	resp = shortcuts.render_to_geojson(Path.objects.all(), 900913, geom_simplify, bbox_poly,
-					properties=())
-	return HttpResponse(resp, mimetype='application/json')
-
 def testuser(request):
 	"""
 	GET params: id, track_name
