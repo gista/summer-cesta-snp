@@ -59,17 +59,3 @@ def config(request):
 					   'email':luser.email, 'phone':luser.phone,
 					   'tracks':tracks})
 	return HttpResponse(json.dumps(resp), mimetype='application/json')
-
-def testuser(request):
-	"""
-	GET params: id, track_name
-	Sending U depends on user click keys id & track_name
-	"""
-	id = int(request.GET['id'])
-	#track_name = int(request.GET['track_name'])	#FIXME: id is primary key, track_name is needed then?
-	luser = User.objects.get(id=id)			#avoiding track_name
-	resp = [{'lon':msg.the_geom.x if msg.the_geom is not None else None,	\
-		'lat':msg.the_geom.y if msg.the_geom is not None else None,	\
-		'time':msg.time.isoformat(), 'message':msg.text}		\
-		for msg in Message.objects.filter(user=luser)]
-	return HttpResponse(json.dumps(resp), mimetype='application/json')

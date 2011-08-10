@@ -8,7 +8,7 @@ urlpatterns = patterns('',
 	url(r'^testauth/$', 'djcode.snppath.views.testauth', name='testauth'),
 	url(r'^help/$', 'djcode.snppath.views.testhelp', name='testhelp'),
 	url(r'^config/', include('djcode.snppath.urls')),
-	url(r'^live_tracking/user/$', 'djcode.snppath.views.testuser', name='testuser'),
+	url(r'^live_tracking/', include('djcode.live_tracking.urls')),
 	url(r'^mapdata/', include('djcode.mapdata.urls')),
 	url(r'^admin/', include(admin.site.urls)),
 )
