@@ -25,7 +25,8 @@ DATABASES = {
 		'HOST': '',
 		'PORT': 3308,
 		'USER': '',
-		'PASSWORD': ''
+		'PASSWORD': '',
+		'TEST_MIRROR': 'default'
 	}
 }
 
