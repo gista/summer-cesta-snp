@@ -4,6 +4,7 @@ from django.contrib.gis.geos import Polygon
 from mapdata.models import Path, Poi
 from joomla.models import Jos_content
 from django.utils import simplejson
+from django.conf import settings
 
 def snppath(request):
 	"""
@@ -12,7 +13,7 @@ def snppath(request):
 	geom_simplify = int(request.GET['geom_simplify'])
 	bbox = map(lambda x: float(x), request.GET['bbox'].split(','))
 	bbox_poly = Polygon.from_bbox(bbox)
-	resp = render_to_geojson(Path.objects.all(), 900913, geom_simplify, bbox_poly,
+	resp = render_to_geojson(Path.objects.all(), settings.SNP_SRID, geom_simplify, bbox_poly,
 				 properties=())
 	return HttpResponse(resp, mimetype='application/json')
 
@@ -27,7 +28,7 @@ def pois(request):
 	"""
 	type_ = int(request.GET['type'])
 	pois = Poi.objects.filter(type__exact=type_).exclude(active__exact=False)
-	resp = render_to_geojson(pois, 900913, properties=('has_photo', 'has_article'))
+	resp = render_to_geojson(pois, settings.SNP_SRID, properties=('has_photo', 'has_article'))
 	return HttpResponse(resp, mimetype='application/json')
 
 def poidetail(request):
