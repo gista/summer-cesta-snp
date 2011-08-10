@@ -70,7 +70,7 @@ activeLiveTrackingStore = Ext.extend(Ext.data.JsonStore, {
                 {
                     name: 'last_location_time',
                     type: 'date',
-                    dateFormat: 'Y-m-d h:i:s'
+                    dateFormat: 'Y-m-dTh:i:s'
                 },
                 {
                     name: 'description',
@@ -102,7 +102,7 @@ inactiveLiveTrackingStore = Ext.extend(Ext.data.JsonStore, {
                 {
                     name: 'last_location_time',
                     type: 'date',
-                    dateFormat: 'Y-m-d h:i:s'
+                    dateFormat: 'Y-m-dTh:i:s'
                 },
                 {
                     name: 'description',
@@ -135,7 +135,7 @@ userRecordsStore = Ext.extend(Ext.data.JsonStore, {
                     name: 'time',
                     type: 'date',
                     mapping: 'time',
-                    dateFormat: 'Y-m-d h:i:s'
+                    dateFormat: 'Y-m-dTh:i:s'
                 },
                 {
                     name: 'message',

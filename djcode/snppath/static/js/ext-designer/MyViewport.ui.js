@@ -116,7 +116,7 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
                                     {
                                         xtype: 'grid',
                                         title: 'Aktuálne v teréne',
-                                        store: 'activeUsers',
+                                        store: 'activeTrackRecords',
                                         hideHeaders: true,
                                         frame: true,
                                         defaults: {
@@ -147,7 +147,7 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
                                     {
                                         xtype: 'grid',
                                         title: 'Cestu ukončili',
-                                        store: 'inactiveUsers',
+                                        store: 'inactiveTrackRecords',
                                         hideHeaders: true,
                                         frame: true,
                                         defaults: {
