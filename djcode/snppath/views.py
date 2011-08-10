@@ -74,15 +74,7 @@ def testuser(request):
 		for msg in Message.objects.filter(user=luser)]
 	return HttpResponse(json.dumps(resp), mimetype='application/json')
 
-def testpoints(request):
-	"""
-	GET params: type
-	"""
 
-	type_ = int(request.GET['type'])
-	pois = Poi.objects.filter(type__exact=type_).exclude(active__exact=False)
-	resp = shortcuts.render_to_geojson(pois, 900913, properties=('id', 'has_photo', 'has_article'))
-	return HttpResponse(resp, mimetype='application/json')
 
 def testpoint(request):
 	"""
