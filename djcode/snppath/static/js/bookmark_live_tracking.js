@@ -20,7 +20,7 @@ Ext.onReady(function() {
 		liveTrackingRecordPanel.setTitle("Aktuálne v teréne");
 
 		// set user click (specified parameters) & load the data into Record Grid panel
-		liveTrackingUrl = userRecordsStore.url + Ext.urlEncode({id:record.id,track_name:record.track_name}); 
+		liveTrackingUrl = userRecordsStore.url + Ext.urlEncode({track_id:record.track_id}); 
 		userRecordsStore.proxy.conn.url = liveTrackingUrl;
 		userRecordsStore.load();	
 
@@ -36,7 +36,7 @@ Ext.onReady(function() {
 		liveTrackingRecordPanel.setTitle("Cestu ukončili");
 
 		// set user click (specified parameters) & load the data into Record Grid panel
-		liveTrackingUrl = userRecordsStore.url + Ext.urlEncode({id:record.id,track_name:record.track_name}); 
+		liveTrackingUrl = userRecordsStore.url + Ext.urlEncode({track_id:record.track_id}); 
 		userRecordsStore.proxy.conn.url = liveTrackingUrl;
 		userRecordsStore.load();
 
