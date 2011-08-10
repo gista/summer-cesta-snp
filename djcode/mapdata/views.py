@@ -1,10 +1,52 @@
-from shortcuts import render_to_geojson
+from shortcuts import render_to_geojson, render_to_gpx
 from django.http import HttpResponse
 from django.contrib.gis.geos import Polygon
 from mapdata.models import Path, Poi
 from joomla.models import Jos_content
 from django.utils import simplejson
 from django.conf import settings
+
+from datetime import date, datetime
+
+GPX_FILE_NAME = 'snp.gpx'
+
+GPX_METADATA = {
+	'name':GPX_FILE_NAME,
+	'desc':'GPX file of SNP',
+	'author': {
+		'name':'cestasnp.sk',
+		'email':'info@cestasnp.sk',
+		'link':{
+			'href':'http://www.cestasnp.sk',
+			'text':'CestaSNP.sk',
+			'type':'text/html',
+		}
+	},
+	'copyright':{
+		'author':'cesta.snp',
+		'year':date.today(),
+		'license':'/license/',
+	},
+	'link':[{
+		'href':'http://www.cestasnp.sk',
+		'text':'CestaSNP.sk',
+		'type':'text/html',
+	}],
+	'time':datetime.today(),
+	'keywords':'SNP',
+}
+GPX_POI_MAPPING = {
+	'time': 'created_at',
+	'name': 'name',
+	'cmt' : 'note',
+	'src' : 'created_by',
+	'type': 'type',
+}
+
+GPX_PATH_MAPPING = {
+	'cmt' : 'note',
+	'type' : 'type',
+}
 
 def snppath(request):
 	"""
@@ -53,3 +95,14 @@ def poidetail(request):
 	photos = poi.photo.all()
 	resp['photos_map'] = [photo.pk for photo in photos]
 	return HttpResponse(simplejson.dumps(resp), mimetype='application/json')
+
+def gpx(request):
+	"""Returns GPX file."""
+	gpx = render_to_gpx('cestasnp.sk', Poi.objects.all(), Path.objects.all(), GPX_METADATA,
+			    GPX_POI_MAPPING, GPX_PATH_MAPPING)
+
+	response = HttpResponse(gpx, content_type='text/xml')
+	response['Content-Disposition'] = 'attachment; filename={0}'.format(GPX_FILE_NAME)
+	response['Content-Length'] = len(gpx)
+
+	return response
