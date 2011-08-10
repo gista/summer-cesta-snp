@@ -1,5 +1,5 @@
 from django.core.management.base import NoArgsCommand, CommandError
-from live_tracking.models import User, Message, Sync_log
+from live_tracking.models import User, Track, Message, Sync_log
 from django.contrib.gis.geos import Point
 from django.db import transaction
 from collections import namedtuple
@@ -15,7 +15,7 @@ OLDEST_DATE = date(2000, 1, 1)
 EMPTY_DATE = '0000-00-00'
 
 class Command(NoArgsCommand):
-	"""Class extending django-admin commands. Called with python manage.py loadtrackingdata
+	"""Class extending django-admin commands. Called with python manage.py snp-livemessages
 	and updates DB of live tracking based on informations from remote server.
 	"""
 
@@ -87,37 +87,33 @@ class Command(NoArgsCommand):
 		except ValueError:
 			raise CommandError('Error extracting json from string:\n{0}'.format(msgs_json))
 
-	def __try_create_user(self, user_id, user_info):
-		"""Creates or updates user in DB with ID user_id, based on data from json user_info.
-		* If user doesn't exist in DB, it will be created, otherwise will be untouched.
+	def __get_or_create_track(self, user_id, user_info):
+		"""Creates or fetch track and user in/from DB with ID user_id, based on data from json user_info.
 		"""
 		try:
-			usr_db = User.objects.get(id=user_id)
+			user = User.objects.get(id=user_id)
 		except User.DoesNotExist:
-			usr = User(id=user_id, username=user_info['user'], track_name=user_info['device'])
-			if user_info['description'] is not None:
-				usr.description = user_info['description']
+			user = User(id=user_id, username=user_info['user'])
+			user.save()
+		try:
+			track = Track.objects.get(name=user_info['device'], user__id=user_id)
+		except Track.DoesNotExist:
+			description = user_info.get('description', '') or ''
+			track = Track(name=user_info['device'], user=user, description=description)
+			track.save()
+		return track
 
-			if user_info['date_from'] is not None and user_info['date_from'] != EMPTY_DATE:
-				usr.date_from = datetime.strptime(user_info['date_from'],
-								DATE_FORMAT).date()
-
-			if user_info['date_to'] is not None and user_info['date_to'] != EMPTY_DATE:
-				usr.date_to = datetime.strptime(user_info['date_to'],
-								DATE_FORMAT).date()
-
-			usr.save()
-			return usr
-		return usr_db
-
-	def __add_msgs(self, user, msgs_json):
-		"""Adds messages to DB from user based on json msgs_json informations."""
+	def __add_msgs(self, track, msgs_json):
+		"""Adds messages to DB for user's track based on json msgs_json informations."""
 		if self.__is_empty_json(msgs_json):
 			return
 
 		#iterate only over message infos belonging to given user
-		for msg_info in filter(lambda x:x['device_id'] == user.id, msgs_json.values()):
-			msg = Message(user=user)
+		for msg_info in filter(lambda x: int(x['device_id']) == track.user.id, msgs_json.values()):
+			if not track.is_active:
+				track.is_active = True
+				track.save()
+			msg = Message(track=track)
 			if msg_info['located'] is not None:
 				msg.time = datetime.strptime(msg_info['located'], DATETIME_FORMAT)
 			if msg_info['status'] is not None:
@@ -136,8 +132,8 @@ class Command(NoArgsCommand):
 			msg.save()
 
 	def handle_noargs(self, **options):
-		"""Handler of Command class. Adds and updates users, adds all messages created
-		later than last stored message of given user. On success writes to sync_log actual
+		"""Handler of Command class. Adds and updates users and their tracks, adds all messages created
+		later than last stored message of given user's track. On success writes to sync_log actual
 		date and time and success value.
 		"""
 		sync_log = Sync_log(time=datetime.today(), success=False)
@@ -145,7 +141,7 @@ class Command(NoArgsCommand):
 			with transaction.commit_on_success():
 				users_json = self.__fetch_users_json()
 				user_ids = users_json.keys()
-				new_users = (self.__try_create_user(user_id, users_json[user_id]) for user_id in user_ids)
+				tracks = (self.__get_or_create_track(int(user_id), users_json[user_id]) for user_id in user_ids)
 				try:
 					latest_db_msg = Sync_log.objects.filter(success=True).latest()
 					fetch_from = latest_db_msg.time + timedelta(seconds = 1)
@@ -154,8 +150,8 @@ class Command(NoArgsCommand):
 				finally:
 					msgs_json = self.__fetch_msgs_json(user_ids,
 									datetime_from=fetch_from)
-				for user in new_users:
-					self.__add_msgs(user, msgs_json)
+				for track in tracks:
+					self.__add_msgs(track, msgs_json)
 			sync_log.success = True
 		finally:
 			sync_log.save()
