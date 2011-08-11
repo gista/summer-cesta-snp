@@ -198,3 +198,20 @@ function showPopup(loc){
 
 	popupPoint.show();
 	}	
+
+//Function to handle measures of length and area 
+
+function handleMeasurements(event) {
+	var geometry = event.geometry;
+	var units = event.units;
+	var order = event.order;
+	var measure = event.measure;
+	var out = "";
+	if(order == 1){
+		out += "Nameraná&nbsp;dĺžka:&nbsp;" + measure.toFixed(2) + "&nbsp;" + units;
+		}
+	else {
+		out += "Nameraná&nbsp;plocha:&nbsp;" + measure.toFixed(2) + "&nbsp;" + units + "<sup>2</sup>";
+		}
+	Ext.Msg.alert('Meranie', out);
+  	}

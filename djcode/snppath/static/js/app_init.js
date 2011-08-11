@@ -131,6 +131,77 @@ function addMapControls(){
 		new OpenLayers.Control.MousePosition(),
 		]);
 
+	// Toggle buttons for map functionality	
+	
+	var lengthMeasureToggleButton, areaMeasureToggleButton, clickToggleButton;
+
+	
+	// Controller to measure the length of points
+
+	var lengthMeasureController = new OpenLayers.Control.Measure(OpenLayers.Handler.Path, {
+		persist: true,
+		immediate: true,
+		geodesic: true,
+    		eventListeners: {
+  			"measure": handleMeasurements,
+    			//"measurepartial": handleMeasurements	
+    			}
+		});
+
+	map.addControl(lengthMeasureController);
+
+	lengthMeasureToggleButton = new OpenLayers.Control.Button({
+		title: 'Meranie vzdialenosti',
+		displayClass: 'olControlAreaMeasureButton', 
+		eventListeners: {
+			'activate': function(){
+				//areaMeasureToggleButton.deactivate();
+				//clickToggleButton.deactivate();
+
+				lengthMeasureController.activate();
+				},
+			'deactivate': function(){
+				lengthMeasureController.deactivate();
+				}	
+			},
+		type: OpenLayers.Control.TYPE_TOGGLE
+		});
+
+	/*
+	Controller to measure the area size	
+	*/
+
+	var areaMeasureController = new OpenLayers.Control.Measure(OpenLayers.Handler.Polygon, {
+		persist: true,
+		immediate: true,
+		geodesic: true,
+    		eventListeners: {
+			"measure": handleMeasurements,
+ 			//"measurepartial": handleMeasurements
+    			}
+		});
+
+	map.addControl(areaMeasureController);
+	
+	//Toggle button to activate/deactivate the area measure controller	
+
+	areaMeasureToggleButton = new OpenLayers.Control.Button({
+		title: 'Meranie plochy',
+		displayClass: "olControlAreaMeasureButton", 
+		eventListeners: {
+			'activate': function(){
+				lengthMeasureToggleButton.deactivate();
+				clickToggleButton.deactivate();
+
+				areaMeasureController.activate();
+				},
+			'deactivate': function(){
+				areaMeasureController.deactivate();
+				}	
+			},
+		type: OpenLayers.Control.TYPE_TOGGLE
+		});
+
 	// Click controller to show the point info	
 
 	var clickController = new OpenLayers.Control.Click({
@@ -142,15 +213,17 @@ function addMapControls(){
 
 	map.addControl(clickController);
 
-	/*
-	Toggle button to activate/deactivate the click controller	
-	*/
+	
+	// Toggle button to activate/deactivate the click controller	
 
-	var clickToggleButton = new OpenLayers.Control.Button({
+	clickToggleButton = new OpenLayers.Control.Button({
 		title: 'Zobrazenie info o bode (súradnice + permalink)',
 		displayClass: "olControlClickButton", 
 		eventListeners: {
 			'activate': function(){
+				lengthMeasureToggleButton.deactivate();
+				areaMeasureToggleButton.deactivate();
+
 				clickController.activate();
 				},
 			'deactivate': function(){
@@ -190,17 +263,20 @@ function addMapControls(){
 			} 
 		});	
 
-	var control_panel = new OpenLayers.Control.Panel({
+	var controlPanel = new OpenLayers.Control.Panel({
 		displayClass: 'olControlRightToolbar',		
 		});
 
-	control_panel.addControls([
+	controlPanel.addControls([
+		lengthMeasureToggleButton,
+		areaMeasureToggleButton,
+		areaMeasureToggleButton,
 		clickToggleButton,
 		gpxButton,
 		helpButton,
 		]);
 
-	map.addControl(control_panel);	
+	map.addControl(controlPanel);	
 
 	}
 
