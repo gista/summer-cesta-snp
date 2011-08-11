@@ -20,12 +20,20 @@ Ext.onReady(function() {
 	map = new OpenLayers.Map('map', options);
 
 	// add required base layers
-	var gmap = new OpenLayers.Layer.Google("Turistická mapa",{
+	var gmap = new OpenLayers.Layer.Google("Google Hybrid",{
 		type: google.maps.MapTypeId.HYBRID, 
 		numZoomLevels: 20,
 		});
-	var osm = new OpenLayers.Layer.OSM("Satelitná mapa");
-	map.addLayers([osm,gmap]);
+	
+	var freemap_urls = ["http://t1.freemap.sk/T", "http://t2.freemap.sk/T",
+	    "http://t3.freemap.sk/T", "http://t4.freemap.sk/T"]
+	var fmap = new OpenLayers.Layer.TMS("Turistická mapa", freemap_urls,{
+		type: "jpeg",
+		getURL: get_freemap_url,
+		attribution: "<a href='http://www.freemap.sk' target='_blank'>Freemap Slovakia</a>, <a href='http://www.openstreetmap.org' target='_blan-->k'>OpenStreetMap</a>",
+		});
+
+	map.addLayers([fmap, gmap]);
 
 	// call add overlayers function
 	addOverLayers();
