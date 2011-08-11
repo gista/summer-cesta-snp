@@ -117,6 +117,7 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
                                         xtype: 'grid',
                                         title: 'Aktuálne v teréne',
                                         store: 'activeTrackRecords',
+					autoExpandColumn: 'last_location_time',
                                         hideHeaders: true,
                                         frame: true,
                                         defaults: {
@@ -133,13 +134,13 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
                                                 xtype: 'gridcolumn',
                                                 dataIndex: 'username',
                                                 sortable: true,
-                                                width: 100
+                                                width: 95
                                             },
                                             {
                                                 xtype: 'datecolumn',
                                                 dataIndex: 'last_location_time',
                                                 sortable: true,
-                                                width: 115,
+						id: 'last_location_time',
                                                 format: 'd.m.Y - h:m'
                                             }
                                         ]
@@ -148,6 +149,7 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
                                         xtype: 'grid',
                                         title: 'Cestu ukončili',
                                         store: 'inactiveTrackRecords',
+					autoExpandColumn: 'last_location_time',
                                         hideHeaders: true,
                                         frame: true,
                                         defaults: {
@@ -164,13 +166,13 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
                                                 xtype: 'gridcolumn',
                                                 dataIndex: 'username',
                                                 sortable: true,
-                                                width: 100
+                                                width: 95
                                             },
                                             {
                                                 xtype: 'datecolumn',
                                                 dataIndex: 'last_location_time',
                                                 sortable: true,
-                                                width: 115,
+						id: 'last_location_time',
                                                 format: 'd.m.Y - h:m'
                                             }
                                         ]
