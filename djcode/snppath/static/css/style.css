@@ -6,3 +6,35 @@
 	white-space: normal; 
 }
 	
+/* Map Controllers */
+
+.olControlRightToolbar {
+	float: right;
+	height: 250px;
+	top: 5px;
+	right: 5px;
+	width: 30px;
+	}
+
+.olControlRightToolbar div {
+	background-repeat: no-repeat;
+	float: right;
+	height: 24px;
+	margin: 5px;
+	width: 24px;	
+	}
+
+.olControlRightToolbar .olControlGPXButtonItemInactive {
+	cursor: pointer;
+	margin: 5px;
+	background-image: url("http://openlayers.org/dev/theme/default/img/pan_off.png");
+	background-repeat: no-repeat;	
+}
+
+.olControlRightToolbar .olControlHelpButtonItemInactive {
+	cursor: pointer;
+	margin: 5px;
+	background-image: url("http://openlayers.org/dev/theme/default/img/pan_off.png");
+	background-repeat: no-repeat;	
+}
+

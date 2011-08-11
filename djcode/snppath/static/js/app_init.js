@@ -30,6 +30,9 @@ Ext.onReady(function() {
 	// call add overlayers function
 	addOverLayers();
 
+	// call add map controls
+	addMapControls();
+
 	// the place where the map should added 
 	var mapPanel = Ext.getCmp('appMap');
 
@@ -111,6 +114,57 @@ Ext.onReady(function() {
 
 	configStore.load();
 	});
+
+function addMapControls(){
+	
+	map.addControls([
+		new OpenLayers.Control.Permalink(),
+		new OpenLayers.Control.ScaleLine(),
+		new OpenLayers.Control.MousePosition(),
+		]);
+
+	// Controller button to export POI into GPX	
+
+	var gpxButton = new OpenLayers.Control.Button({
+		title: 'Exportovanie všetkých dát do .gpx',
+    		displayClass: "olControlGPXButton", 
+		trigger: function(){
+			document.location.href = "gpx/"
+			} 
+		});	
+
+	// help window with autoLoaded html data from URL 'help'
+
+	var helpWindow = new Ext.Window({
+		autoWidth: true,
+		autoHeight: true,
+		title: 'Help',
+		closeAction: 'hide', 
+		autoLoad:{
+			url: 'help/',			
+			},					
+		});
+
+	var helpButton = new OpenLayers.Control.Button({
+		title: 'Zobrazenie pomocníka',
+    		displayClass: "olControlHelpButton", 
+		trigger: function(){
+			helpWindow.show();	
+			} 
+		});	
+
+	var control_panel = new OpenLayers.Control.Panel({
+		displayClass: 'olControlRightToolbar',		
+		});
+
+	control_panel.addControls([
+		gpxButton,
+		helpButton,
+		]);
+
+	map.addControl(control_panel);	
+
+	}
 
 function addOverLayers(){
 
