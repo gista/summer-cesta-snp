@@ -52,9 +52,15 @@ def snppath(request):
 	"""
 	Returns geojson with StringLines of SNP path intersecting with bbox.
 	"""
-	geom_simplify = int(request.GET['geom_simplify'])
-	bbox = map(lambda x: float(x), request.GET['bbox'].split(','))
-	bbox_poly = Polygon.from_bbox(bbox)
+	try:
+		geom_simplify = int(request.GET['geom_simplify'])
+	except KeyError:
+		geom_simplify = None
+	try:
+		bbox = map(lambda x: float(x), request.GET['bbox'].split(','))
+		bbox_poly = Polygon.from_bbox(bbox)
+	except KeyError:
+		bbox_poly = None
 	resp = render_to_geojson(Path.objects.all(), settings.SNP_SRID, geom_simplify, bbox_poly,
 				 properties=())
 	return HttpResponse(resp, mimetype='application/json')
