@@ -231,7 +231,7 @@ function addMapControls(){
 		title: 'Exportovanie všetkých dát do .gpx',
     		displayClass: "olControlGPXButton", 
 		trigger: function(){
-			document.location.href = "gpx/"
+			document.location.href = "mapdata/gpx/"
 			} 
 		});	
 
