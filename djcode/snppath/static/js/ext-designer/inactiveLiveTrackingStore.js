@@ -16,6 +16,7 @@ inactiveLiveTrackingStore = Ext.extend(Ext.data.JsonStore, {
         inactiveLiveTrackingStore.superclass.constructor.call(this, Ext.apply({
             storeId: 'inactiveTrackRecords',
             sortField: 'last_location_time',
+            sortDir: 'DESC',
             fields: [
                 {
                     name: 'track_id',
