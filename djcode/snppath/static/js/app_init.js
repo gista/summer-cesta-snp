@@ -499,7 +499,7 @@ function addSnpPathLayer(){
 			},
 		strategies: [new OpenLayers.Strategy.Fixed()],
 		protocol: new OpenLayers.Protocol.HTTP({
-			url: "mapdata/geojson/snppath/?" + Ext.urlEncode({geom_simplify:25, bbox:mapBounds.toBBOX()}),
+			url: "mapdata/geojson/snppath/?" + Ext.urlEncode({simplify:25, bbox:mapBounds.toBBOX()}),
 			format: new OpenLayers.Format.GeoJSON({
 				ignoreExtraDims: true,
 				projection: new OpenLayers.Projection("EPSG:900913")

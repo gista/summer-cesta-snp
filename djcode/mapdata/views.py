@@ -53,7 +53,7 @@ def snppath(request):
 	Returns geojson with StringLines of SNP path intersecting with bbox.
 	"""
 	try:
-		geom_simplify = int(request.GET['geom_simplify'])
+		geom_simplify = int(request.GET['simplify'])
 	except KeyError:
 		geom_simplify = None
 	try:
