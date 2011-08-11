@@ -2,6 +2,8 @@ from django.contrib.gis import admin
 from django.conf import settings
 from models import User, Track, Message, Sync_log
 
+geoadmin_extra_js = ["http://maps.google.com/maps/api/js?v=3.2&sensor=false", "%sjs/freemap.js" % settings.STATIC_URL]
+
 class User_admin(admin.ModelAdmin):
 	list_display = ("id", "username", "first_name", "last_name", "email", "phone",)
 	search_fields = ("username", "first_name", "last_name", "phone",)
@@ -14,7 +16,7 @@ class Sync_log_admin(admin.ModelAdmin):
 	ordering = ("time",)
 
 class Message_GeoAdmin(admin.OSMGeoAdmin):
-	extra_js = ["http://maps.google.com/maps/api/js?v=3.2&sensor=false"]
+	extra_js = geoadmin_extra_js
 	map_template = 'gis/admin/geoadmin.html'
 	openlayers_url = '%sjs/openlayers-211-rc1/OpenLayers.js' % settings.STATIC_URL
 	list_display = ("user", "track", "time", "text",)
