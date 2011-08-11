@@ -493,7 +493,8 @@ function addSnpPathLayer(){
 	var snpPathLayer = new OpenLayers.Layer.Vector("SNP Path", {
 		style: {
 			strokeColor: "red", 
-			strokeWidth: 2, 
+			strokeWidth: 4,
+			strokeOpacity: 0.5,
 			cursor: "pointer"
 			},
 		strategies: [new OpenLayers.Strategy.Fixed()],
