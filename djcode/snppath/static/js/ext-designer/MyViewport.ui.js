@@ -184,7 +184,6 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
                                         store: 'userRecords',
                                         enableHdMenu: false,
                                         frame: true,
-                                        hideHeaders: true,
                                         defaults: {
                                             sortable: false,
                                             fixed: true,

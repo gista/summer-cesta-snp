@@ -1,5 +1,7 @@
 //// BOOKMARK LIVE tracking	
 
+var liveTrackingDescription;
+
 Ext.onReady(function() {
 	// actual live trackin URL holder for refresh button
 	var liveTrackingUrl;
@@ -12,10 +14,10 @@ Ext.onReady(function() {
 		var record = grid.getStore().getAt(rowIndex).data;		
 		// set username & description
 		Ext.fly('liveTrackingUsername').update(record.username);
-		//Ext.fly('liveTrackingDescription').update(record.description);
-		console.log(record.username);
-		console.log(record.description);
-
+		if (record.description)
+			liveTrackingRecordPanel.getColumnModel().setColumnHeader(0, '<b>Popis:</b> '+ record.description);
+		else 
+			liveTrackingRecordPanel.getColumnModel().setColumnHeader(0, '');
 		// set correct title for Record Grid panel
 		liveTrackingRecordPanel.setTitle("Aktuálne v teréne");
 
@@ -31,6 +33,12 @@ Ext.onReady(function() {
 
 	liveTrackingInactivePanel.on('rowclick', function(grid, rowIndex, e) {
 		var record = grid.getStore().getAt(rowIndex).data;
+		// set username & description
+		Ext.fly('liveTrackingUsername').update(record.username);
+		if (record.description)
+			liveTrackingRecordPanel.getColumnModel().setColumnHeader(0, '<b>Popis:</b> '+ record.description);
+		else 
+			liveTrackingRecordPanel.getColumnModel().setColumnHeader(0, '');
 
 		// set correct title for Record Grid panel
 		liveTrackingRecordPanel.setTitle("Cestu ukončili");
@@ -71,7 +79,7 @@ Ext.onReady(function() {
 			liveTrackingRecordPanel.hide();
 			liveTrackingActivePanel.show();
 			liveTrackingInactivePanel.show();
-			});			
+			});		
 		});
 
 
