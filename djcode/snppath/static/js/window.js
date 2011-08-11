@@ -149,3 +149,52 @@ function createPoint(feature) {
 	articlePointStore.proxy.conn.url = articlePointStore.url + Ext.urlEncode({id:feature.fid});
 	articlePointStore.load();
 	}
+
+var popupPoint;
+
+function showPopup(loc){
+	// set the map center as user clicked
+	map.setCenter(loc);
+	loc = loc.transform(map.projection, map.displayProjection);
+
+	// create permalink
+	var permalink = document.location.href + 
+			"?zoom=" + map.zoom + 
+			"&lat=" + loc.lat + //.toFixed(5) + 
+			"&lon=" + loc.lon; //.toFixed(5);
+
+	// if there was already some point popup shown, destroy the old one
+	if (popupPoint)
+		popupPoint.destroy();		
+
+	// create popup for user click point
+	popupPoint = new GeoExt.Popup({
+   		title: "Bod na mape",
+     		autoWidth: true,
+		unpinnable: false,
+		map: map,
+		location: map.getCenter(),
+		items:[{
+			xtype: "box",
+			style:{
+				"font-size": "13px",
+				"padding": "10px"		
+				},
+			autoEl: {
+	    			html: "<b>Súradnice:</b><br/> [" + loc.lon + 
+						 "," + loc.lat + "]",
+				},
+			},{
+			xtype: "box",
+			style:{	
+				"font-size":"13px",
+				"padding": "10px"		
+				},
+			autoEl: {
+	    			html: "<b>Permalink:</b><br/> " + permalink,
+				},
+	    		}]
+   		});
+
+	popupPoint.show();
+	}	

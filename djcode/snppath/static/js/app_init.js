@@ -123,6 +123,35 @@ function addMapControls(){
 		new OpenLayers.Control.MousePosition(),
 		]);
 
+	// Click controller to show the point info	
+
+	var clickController = new OpenLayers.Control.Click({
+		trigger: function(e) {
+			var userClick = map.getLonLatFromViewPortPx(e.xy); 
+			showPopup(userClick);
+			},
+		});
+
+	map.addControl(clickController);
+
+	/*
+	Toggle button to activate/deactivate the click controller	
+	*/
+
+	var clickToggleButton = new OpenLayers.Control.Button({
+		title: 'Zobrazenie info o bode (súradnice + permalink)',
+		displayClass: "olControlClickButton", 
+		eventListeners: {
+			'activate': function(){
+				clickController.activate();
+				},
+			'deactivate': function(){
+				clickController.deactivate();
+				}	
+			},
+		type: OpenLayers.Control.TYPE_TOGGLE
+		});
+
 	// Controller button to export POI into GPX	
 
 	var gpxButton = new OpenLayers.Control.Button({
@@ -158,6 +187,7 @@ function addMapControls(){
 		});
 
 	control_panel.addControls([
+		clickToggleButton,
 		gpxButton,
 		helpButton,
 		]);

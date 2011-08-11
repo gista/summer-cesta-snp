@@ -19,22 +19,35 @@
 .olControlRightToolbar div {
 	background-repeat: no-repeat;
 	float: right;
-	height: 24px;
+	height: 30px;
 	margin: 5px;
-	width: 24px;	
+	width: 30px;	
 	}
+
+.olControlRightToolbar .olControlClickButtonItemActive{
+	cursor: pointer;
+	margin: 5px;
+	background-image: url("/static/icons/point_on.png");
+	}
+
+.olControlRightToolbar .olControlClickButtonItemInactive{
+	cursor: pointer;
+	margin: 5px;
+	background-image: url("/static/icons/point_off.png");
+	background-repeat: no-repeat;	
+}
 
 .olControlRightToolbar .olControlGPXButtonItemInactive {
 	cursor: pointer;
 	margin: 5px;
-	background-image: url("http://openlayers.org/dev/theme/default/img/pan_off.png");
+	background-image: url("/static/icons/gpx.gif");
 	background-repeat: no-repeat;	
 }
 
 .olControlRightToolbar .olControlHelpButtonItemInactive {
 	cursor: pointer;
 	margin: 5px;
-	background-image: url("http://openlayers.org/dev/theme/default/img/pan_off.png");
+	background-image: url("/static/icons/help.gif");
 	background-repeat: no-repeat;	
 }
 
