@@ -104,6 +104,9 @@ Ext.onReady(function() {
 		// after loading data show the Record grid panel
 		liveTrackingRecordPanel.getSelectionModel().selectFirstRow();
 		liveTrackingRecordPanel.show();	
+		
+		// set the correct height for the vertical scrollers in track messages
+		liveTrackingRecordPanel.setHeight(Ext.getCmp('liveTrackingPanel').getHeight());	
 		});
 
 	configStore.load();

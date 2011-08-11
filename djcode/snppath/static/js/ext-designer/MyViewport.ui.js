@@ -112,6 +112,7 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
                                 xtype: 'panel',
                                 region: 'center',
                                 layout: 'vbox',
+				id: 'liveTrackingPanel',
                                 items: [
                                     {
                                         xtype: 'grid',
