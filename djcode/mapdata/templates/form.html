@@ -1,0 +1,11 @@
+{% csrf_token %}
+
+{% for field in form %}
+        <div class="x-form-item " tabindex="-1">
+		<label style="width: auto;" class="x-form-item-label">{{ field.label }}</label>
+		<div class="x-form-element" style="padding-left: 0pt;">		
+			{{ field }}
+		</div>
+	<div class="x-form-clear-left"></div>
+	</div>
+{% endfor %}

@@ -117,25 +117,47 @@ from django import forms
 from django.utils import html
 
 class PoiForm(forms.ModelForm):
-	latitude = forms.FloatField(required=True)
-    	longitude = forms.FloatField(required=True)
+	lat = forms.FloatField(required=True,
+			label="Zemepisna sirka:(napr. 48.45789)")
+    	lon = forms.FloatField(required=True,
+			label = u"Zemepisna dlzka:(napr. 18.437129)")
+	#photo
+
 	class Meta:
 		model = Poi
-		fields = ['name', 'type', 'latitude', 'longitude', 'note']
+		fields = ['name', 'type', 'lat', 'lon', 'note']
+		widgets = {
+            		'note': forms.Textarea(attrs={'style':'width: 216px; height: 60px;'}),
+        	}
 
+
+from django.shortcuts import render_to_response
+from django.template import RequestContext
+
+from django.views.decorators.csrf import csrf_protect
+
+from django.contrib.gis.geos import Point
+
+
+csrf_protect
 def poi(request):
-	"""Return poi form"""
+	"""
+	Methods:	
+	GET	- Return the Poi form
+	POST	- Send user data to verification & answer
+	"""
 	if request.method == 'POST':
 		form = PoiForm(request.POST)
-		print request.POST
 		if form.is_valid():
-			#poi = form.save(commit=False)
-			print form.cleaned_data['note']
-			print form.cleaned_data['name']
-			print form.cleaned_data['type']
-			return HttpResponse('"{success":True}"', mimetype='text/javascript')
+			poi = form.save(commit=False)
+			poi.the_geom = Point(form.cleaned_data['lon'], form.cleaned_data['lat'])
+			print Point(form.cleaned_data['lon'], form.cleaned_data['lat'])
+			# FIXME: after sent correct data the response 
+			return HttpResponse('{"success":true}', mimetype='application/json')
 		else:
-            		return HttpResponse('"{success":False}"', mimetype='text/javascript')
+            		return HttpResponse('{"success":false}', mimetype='application/json')
 	else:
 		form = PoiForm()
-	return HttpResponse(form.as_p(), mimetype='text/plain')
+	return render_to_response("form.html", 
+				{'form':form},
+				context_instance=RequestContext(request))
