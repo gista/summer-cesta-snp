@@ -6,9 +6,7 @@ from django.template import RequestContext
 from django.utils import simplejson
 from live_tracking.models import User, Track, Message
 
-SNP_DEFAULT_LON		= 19.258336054784
-SNP_DEFAULT_LAT		= 48.8176576494
-SNP_DEFAULT_ZOOMLEVEL	= 8
+
 
 def testauth(request):
 	resp = 'AUTHENTICATION TEST PAGE'
@@ -37,7 +35,7 @@ def config(request):
 	A little bit corrected JSON
 	"""
 	lusers = User.objects.all()
-	resp = {'location':{'lon':SNP_DEFAULT_LON, 'lat':SNP_DEFAULT_LAT, 'zoomlevel':SNP_DEFAULT_ZOOMLEVEL},
+	resp = {'location':{'lon':settings.SNP_DEFAULT_LON, 'lat':settings.SNP_DEFAULT_LAT, 'zoomlevel':settings.SNP_DEFAULT_ZOOMLEVEL},
 		'poi_types':[poi_type[1] for poi_type in settings.SNP_POI_TYPES],
 		'live_users':list()}
 	for luser in lusers:
