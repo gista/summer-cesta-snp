@@ -1,4 +1,4 @@
-from joomla.models import Jos_session
+from joomla.models import Jos_session, JosUsers
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 
@@ -20,7 +20,15 @@ class JoomlaAuth(object):
 		except User.DoesNotExist:
 			user = User(username=jos_session.username)
 			user.set_unusable_password()
-			user.save()
+		
+		try:
+			jos_user = JosUsers.objects.get(id=jos_session.userid)
+			user.email = jos_user.email
+			if jos_user.name:
+				parsed_name = jos_user.name.split(" ", 1)
+				user.first_name, user.last_name = parsed_name if len(parsed_name) > 1 else ("", parsed_name[0])
+		except:
+			pass
 		
 		# update user privileges
 		user.is_active = True
