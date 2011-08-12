@@ -29,9 +29,15 @@ class Jos_article_id(models.Model):
 	"""Model representing ID of article in DB of Joomla"""
 	id = models.IntegerField(_(u'id'), primary_key = True)
 
+	def __unicode__(self):
+		return str(self.id)
+
 class Jos_photo_id(models.Model):
 	"""Model representing ID of photo in DB of Joomla"""
 	id = models.IntegerField(_(u'id'), primary_key = True)
+
+	def __unicode__(self):
+		return str(self.id)
 
 class Photo(models.Model):
 	title = models.CharField(_(u'title'), max_length=50)
