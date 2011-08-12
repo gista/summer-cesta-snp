@@ -112,3 +112,30 @@ def gpx(request):
 	response['Content-Length'] = len(gpx)
 
 	return response
+
+from django import forms
+from django.utils import html
+
+class PoiForm(forms.ModelForm):
+	latitude = forms.FloatField(required=True)
+    	longitude = forms.FloatField(required=True)
+	class Meta:
+		model = Poi
+		fields = ['name', 'type', 'latitude', 'longitude', 'note']
+
+def poi(request):
+	"""Return poi form"""
+	if request.method == 'POST':
+		form = PoiForm(request.POST)
+		print request.POST
+		if form.is_valid():
+			#poi = form.save(commit=False)
+			print form.cleaned_data['note']
+			print form.cleaned_data['name']
+			print form.cleaned_data['type']
+			return HttpResponse('"{success":True}"', mimetype='text/javascript')
+		else:
+            		return HttpResponse('"{success":False}"', mimetype='text/javascript')
+	else:
+		form = PoiForm()
+	return HttpResponse(form.as_p(), mimetype='text/plain')

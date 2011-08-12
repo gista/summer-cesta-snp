@@ -274,6 +274,43 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
                             }
                         ]
                     },
+		    {
+			xtype: 'panel',
+                        title: 'Pridaj<br/>bod',
+                        frame: true,
+			layout: 'border',
+			items:[
+			    {
+				xtype: 'form',
+				id: 'poiform',
+                                region: 'center',
+				frame: true,
+				width: 250,
+				autoLoad:{
+					url: 'mapdata/poi/',			
+					},	
+				buttons:[
+				      {
+            				text: 'Save',
+            				type: 'submit',
+            				scope: this,
+					handler: function() { 
+						Ext.getCmp('poiform').getForm().submit({
+							method: 'POST',
+						    	url: 'mapdata/poi/',
+						    	success: function(f, a) {
+								f.setValues(a.result.data);           
+						    		},            
+						    	failure: function(f, a) { 
+								f.markInvalid(a.result.errors);
+						    		}            
+                					})
+            					}	
+					}],
+			    }				
+				]
+			
+		    },
                     {
                         xtype: 'panel',
                         title: 'Pridaj<br/>bod',
