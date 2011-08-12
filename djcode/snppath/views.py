@@ -7,23 +7,13 @@ from django.utils import simplejson
 from live_tracking.models import User, Track, Message
 
 
-
-def testauth(request):
-	resp = 'AUTHENTICATION TEST PAGE'
-	resp += '\nCOOKIES: %s' % str(request.COOKIES)
+def home(request):
 	if request.COOKIES.has_key(settings.SNP_COOKIE_SESSION_ID_NAME):
 		user = authenticate(jos_session_id=request.COOKIES[settings.SNP_COOKIE_SESSION_ID_NAME])
-		resp += '\nUSER: %s' % user
 
 		if user is not None and user.is_active:
 			login(request, user)
 
-			resp += '\nIS_STAFF: %s' % user.is_staff
-			resp += '\nIS_SUPERUSER: %s' %  user.is_superuser
-
-	return HttpResponse(resp, mimetype="text/plain")
-
-def home(request):
 	return render_to_response("index.html", {}, context_instance=RequestContext(request))
 
 def testhelp(request):

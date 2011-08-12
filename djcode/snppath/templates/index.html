@@ -27,4 +27,9 @@
 	<script type="text/javascript" src="{{ STATIC_URL }}js/bookmark_layers.js"></script>
 	<script type="text/javascript" src="{{ STATIC_URL }}js/bookmark_live_tracking.js"></script>
 	<script type="text/javascript" src="{{ STATIC_URL }}js/window.js"></script>
+
+	{# debug #}
+	<script type="text/javascript">
+		console.log('D: USERNAME: {{ user }}, IS STAFF: {{ user.is_staff }}, IS SUPERUSER: {{ user.is_superuser }}')
+	</script>
 {% endblock %}
