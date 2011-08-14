@@ -114,18 +114,17 @@ def gpx(request):
 	return response
 
 from django import forms
-from django.utils import html
 
 class PoiForm(forms.ModelForm):
 	lat = forms.FloatField(required=True,
 			label="Zemepisna sirka:(napr. 48.45789)")
     	lon = forms.FloatField(required=True,
 			label = u"Zemepisna dlzka:(napr. 18.437129)")
-	#photo
+	photo = forms.ImageField(required=False)
 
 	class Meta:
 		model = Poi
-		fields = ['name', 'type', 'lat', 'lon', 'note']
+		fields = ['name', 'type', 'lat', 'lon', 'note', 'photo']
 		widgets = {
             		'note': forms.Textarea(attrs={'style':'width: 216px; height: 60px;'}),
         	}
@@ -135,9 +134,7 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 
 from django.views.decorators.csrf import csrf_protect
-
 from django.contrib.gis.geos import Point
-
 
 csrf_protect
 def poi(request):
@@ -147,15 +144,17 @@ def poi(request):
 	POST	- Send user data to verification & answer
 	"""
 	if request.method == 'POST':
-		form = PoiForm(request.POST)
+		form = PoiForm(request.POST, request.FILES)
 		if form.is_valid():
 			poi = form.save(commit=False)
 			poi.the_geom = Point(form.cleaned_data['lon'], form.cleaned_data['lat'])
-			print Point(form.cleaned_data['lon'], form.cleaned_data['lat'])
-			# FIXME: after sent correct data the response 
-			return HttpResponse('{"success":true}', mimetype='application/json')
+			#print Point(form.cleaned_data['lon'], form.cleaned_data['lat'])
+			print request.FILES # FIXME: here I get photo queryset
+			
+			return HttpResponse('{"success":true}', mimetype='text/html')
 		else:
-            		return HttpResponse('{"success":false}', mimetype='application/json')
+			# FIXME: here will be server answer, which I will be handled with JS 
+            		return HttpResponse('{"success":false}', mimetype='text/html')
 	else:
 		form = PoiForm()
 	return render_to_response("form.html", 

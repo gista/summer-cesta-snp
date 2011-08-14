@@ -283,6 +283,7 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 			    {
 				xtype: 'form',
 				id: 'poiform',
+				fileUpload: true,
                                 region: 'center',
 				frame: true,
 				width: 250,
