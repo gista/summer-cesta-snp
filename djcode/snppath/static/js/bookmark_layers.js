@@ -14,6 +14,11 @@ Ext.onReady(function() {
  			})
 		});
 
+	// function for setup the icon image as in layers specified
+	iconAdder = function(t,p,n,r){	
+		n.setIcon(n.layer.getOptions().styleMap.styles.default.defaultStyle.externalGraphic);	
+		}
+
 	// create tree panel with over layers
 	var mapOverLayersTree = new Ext.tree.TreePanel({
 		autoHeight: true,
@@ -23,7 +28,11 @@ Ext.onReady(function() {
 			layerStore: geoExtMapPanel.layers,
 			expanded: true,
 			cls: 'x-tree-title-invisible',
- 			})
+			listeners:{
+				beforeinsert: iconAdder,
+				append: iconAdder,		
+				}
+ 			}),
 		});
 
 	// Checkbox events for check/uncheck in Filter panel
