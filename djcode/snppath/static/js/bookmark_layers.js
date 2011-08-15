@@ -16,7 +16,9 @@ Ext.onReady(function() {
 
 	// function for setup the icon image as in layers specified
 	iconAdder = function(t,p,n,r){	
-		n.setIcon(n.layer.getOptions().styleMap.styles.default.defaultStyle.externalGraphic);	
+		var icon = n.layer.getOptions().styleMap.styles.default.defaultStyle.externalGraphic;
+		if (icon)
+			n.setIcon(icon);	
 		}
 
 	// create tree panel with over layers

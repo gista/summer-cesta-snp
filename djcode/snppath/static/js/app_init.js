@@ -419,14 +419,18 @@ function addSnpPathLayer(){
 	var mapBounds = map.calculateBounds();
 	mapBounds.transform(map.projection,map.displayProjection);
 
-	// SNPpath layer
-	var snpPathLayer = new OpenLayers.Layer.Vector("SNP Path", {
-		style: {
-			strokeColor: "red", 
+	var defaultStyle = new OpenLayers.Style({
+	  		strokeColor: "red", 
 			strokeWidth: 4,
 			strokeOpacity: 0.5,
 			cursor: "pointer"
-			},
+			});
+
+	// SNPpath layer
+	var snpPathLayer = new OpenLayers.Layer.Vector("SNP Path", {
+		styleMap: new OpenLayers.StyleMap({
+			'default': defaultStyle,
+			}),
 		strategies: [new OpenLayers.Strategy.Fixed()],
 		protocol: new OpenLayers.Protocol.HTTP({
 			url: "mapdata/geojson/snppath/?" + Ext.urlEncode({simplify:25, bbox:mapBounds.toBBOX()}),
