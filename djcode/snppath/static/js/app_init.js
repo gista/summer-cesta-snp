@@ -283,13 +283,13 @@ function addMapControls(){
 function addOverLayers(){
 
 	var OVER_LAYERS = [
-		[1, 'útulne, prístrešky', true],
-		[2, 'chaty', true],
-		[3, 'voda', true],
-		[4, 'stravovanie, krčmy', true],
-		[5, 'potraviny', true],
-		[6, 'zaujímavé miesta', false],
-		[7, 'nezaradené', false],
+		[1, 'útulne, prístrešky', true, '/static/icons/shelter.svg', '/static/icons/shelter_b.svg'],
+		[2, 'chaty', true, '/static/icons/chalet.svg', '/static/icons/chalet_b.svg'],
+		[3, 'voda', true, '/static/icons/water.svg', '/static/icons/water_b.svg'],
+		[4, 'stravovanie, krčmy', true, '/static/icons/market.svg', '/static/icons/marget.svg'],
+		[5, 'potraviny', true, '/static/icons/food.svg', '/static/icons/food_b.svg'],
+		[6, 'zaujímavé miesta', false, '/static/icons/poi.svg', '/static/icons/poi_b.svg'],
+		[7, 'nezaradené', false, '/static/icons/unknown.svg', '/static/icons/unknown_b.svg'],
 		];
 
 
@@ -347,114 +347,44 @@ function addOverLayers(){
 		filter: filterHasArticle
 		});
 
+	var styleMap = [];
+	for(var i=0;i<OVER_LAYERS.length;i++){
+		var defaultStyle = new OpenLayers.Style({
+	  		'pointRadius': 10,
+	  		'externalGraphic': OVER_LAYERS[i][3]
+			});
+		var selectStyle = new OpenLayers.Style({
+	  		'pointRadius': 10,
+	  		'externalGraphic': OVER_LAYERS[i][4]
+			});
+		styleMap[i] = new OpenLayers.StyleMap({
+			'default': defaultStyle,
+                       	'select': selectStyle
+			});
+		}
+
+	var overLayers = [];
+
 	// append map over layers as specified
-	var overLayers = [ 
-		new OpenLayers.Layer.Vector(OVER_LAYERS[6][1], {
-			visibility:OVER_LAYERS[6][2],
+	for(var i=0;i<OVER_LAYERS.length;i++){
+		var j = OVER_LAYERS.length-1-i;
+		overLayers[i] = new OpenLayers.Layer.Vector(OVER_LAYERS[j][1], {
+			visibility:OVER_LAYERS[j][2],
+			styleMap: styleMap[j],
 			strategies: [
 				new OpenLayers.Strategy.Fixed(),
 				strategyPhoto,
 				strategyArticle
 				],
 			protocol: new OpenLayers.Protocol.HTTP({
-				url: "/mapdata/geojson/pois/?" + Ext.urlEncode({type:OVER_LAYERS[6][0]}),
+				url: "/mapdata/geojson/pois/?" + Ext.urlEncode({type:OVER_LAYERS[j][0]}),
 				format: new OpenLayers.Format.GeoJSON({
 					ignoreExtraDims: true,
 					projection: new OpenLayers.Projection("EPSG:900913")
 					})
 				})
-			}),
-		new OpenLayers.Layer.Vector(OVER_LAYERS[5][1], {
-			visibility:OVER_LAYERS[5][2],
-			strategies: [
-				new OpenLayers.Strategy.Fixed(),
-				strategyPhoto,
-				strategyArticle
-				],
-			protocol: new OpenLayers.Protocol.HTTP({
-				url: "/mapdata/geojson/pois/?" + Ext.urlEncode({type:OVER_LAYERS[5][0]}),
-				format: new OpenLayers.Format.GeoJSON({
-					ignoreExtraDims: true,
-					projection: new OpenLayers.Projection("EPSG:900913")
-					})
-				})
-			}),
-		new OpenLayers.Layer.Vector(OVER_LAYERS[4][1], {
-			visibility:OVER_LAYERS[4][2],
-			strategies: [
-				new OpenLayers.Strategy.Fixed(),
-				strategyPhoto,
-				strategyArticle
-				],
-			protocol: new OpenLayers.Protocol.HTTP({
-				url: "/mapdata/geojson/pois/?" + Ext.urlEncode({type:OVER_LAYERS[4][0]}),
-				format: new OpenLayers.Format.GeoJSON({
-					ignoreExtraDims: true,
-					projection: new OpenLayers.Projection("EPSG:900913")
-					})
-				})
-			}),
-		new OpenLayers.Layer.Vector(OVER_LAYERS[3][1], {
-			visibility:OVER_LAYERS[3][2],
-			strategies: [
-				new OpenLayers.Strategy.Fixed(),
-				strategyPhoto,
-				strategyArticle				
-				],
-			protocol: new OpenLayers.Protocol.HTTP({
-				url: "/mapdata/geojson/pois/?" + Ext.urlEncode({type:OVER_LAYERS[3][0]}),
-				format: new OpenLayers.Format.GeoJSON({
-					ignoreExtraDims: true,
-					projection: new OpenLayers.Projection("EPSG:900913")
-					})
-				})
-			}),
-		new OpenLayers.Layer.Vector(OVER_LAYERS[2][1], {
-			visibility:OVER_LAYERS[2][2],
-			strategies: [
-				new OpenLayers.Strategy.Fixed(),
-				strategyPhoto,
-				strategyArticle				
-				],
-			protocol: new OpenLayers.Protocol.HTTP({
-				url: "/mapdata/geojson/pois/?" + Ext.urlEncode({type:OVER_LAYERS[2][0]}),
-				format: new OpenLayers.Format.GeoJSON({
-					ignoreExtraDims: true,
-					projection: new OpenLayers.Projection("EPSG:900913")
-					})
-				})
-			}),
-		new OpenLayers.Layer.Vector(OVER_LAYERS[1][1], {
-			visibility:OVER_LAYERS[1][2],
-			strategies: [
-				new OpenLayers.Strategy.Fixed(),
-				strategyPhoto,
-				strategyArticle
-				],
-			protocol: new OpenLayers.Protocol.HTTP({
-				url: "/mapdata/geojson/pois/?" + Ext.urlEncode({type:OVER_LAYERS[1][0]}),
-				format: new OpenLayers.Format.GeoJSON({
-					ignoreExtraDims: true,
-					projection: new OpenLayers.Projection("EPSG:900913")
-					})
-				})
-			}),
-		new OpenLayers.Layer.Vector(OVER_LAYERS[0][1], {
-			visibility:OVER_LAYERS[0][2],
-			strategies: [
-				new OpenLayers.Strategy.Fixed(),
-				strategyPhoto,
-				strategyArticle				
-				],
-			protocol: new OpenLayers.Protocol.HTTP({
-				url: "/mapdata/geojson/pois/?" + Ext.urlEncode({type:OVER_LAYERS[0][0]}),
-				format: new OpenLayers.Format.GeoJSON({
-					ignoreExtraDims: true,
-					projection: new OpenLayers.Projection("EPSG:900913")
-					})
-				})
-			}),
-		];
+			});			
+		}
 	
 	// Add overLayers to map layers
 	map.addLayers(overLayers);
