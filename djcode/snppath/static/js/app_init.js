@@ -72,8 +72,8 @@ Ext.onReady(function() {
 		addSnpPathLayer();
 
 		// fill the poi types combobox with data read from JsonDATA 
-		var comboBox = Ext.getCmp('pointCats');
-		comboBox.store = jData.poi_types;
+		//var comboBox = Ext.getCmp('pointCats');
+		//comboBox.store = jData.poi_types;
 		
 		// prepare data for loading into stores with specific content
 		var activeTracks = [];

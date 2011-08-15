@@ -1,10 +1,15 @@
 from shortcuts import render_to_geojson, render_to_gpx
 from django.http import HttpResponse
-from django.contrib.gis.geos import Polygon
-from mapdata.models import Path, Poi
-from joomla.models import Jos_content
+from django.contrib.gis.geos import Polygon, Point
 from django.utils import simplejson
 from django.conf import settings
+from django.shortcuts import render_to_response
+from django.template import RequestContext
+from django.views.decorators.csrf import csrf_protect
+from mapdata.models import Path, Poi, Area
+from joomla.models import Jos_content
+
+from mapdata.forms import PoiForm
 
 from datetime import date, datetime
 
@@ -112,3 +117,33 @@ def gpx(request):
 	response['Content-Length'] = len(gpx)
 
 	return response
+
+csrf_protect
+def poi(request):
+	"""
+	Methods:	
+	GET	- Return the Poi form
+	POST	- Send user data to verification & answer
+	"""
+	if request.method == 'POST':
+		form = PoiForm(request.POST, request.FILES)
+		if form.is_valid():
+			print "valid %f" % form.cleaned_data['lon']
+			poi = form.save(commit=False)
+			point = Point(form.cleaned_data['lon'], form.cleaned_data['lat'])
+			# FIXME: function to get point area
+			poi.area = Area.objects.all()[0]
+			poi.the_geom = point
+			poi.save()
+			# FIXME: save many-to-many
+			print request.FILES			
+			return HttpResponse('{"success":true}', mimetype='text/html') # ExtJS upload form requires html response!
+		else:
+			# FIXME: here will be server answer, which I will be handled with JS 
+			print form['name'].errors[0]
+            		return HttpResponse('{"success":false}', mimetype='text/html') # ExtJS upload form requires html response!
+	else:
+		form = PoiForm()
+	return render_to_response("form.html", 
+				{'form':form},
+				context_instance=RequestContext(request))

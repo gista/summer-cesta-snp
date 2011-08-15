@@ -1,0 +1,58 @@
+{% csrf_token %}
+<div class="x-form-item " tabindex="-1">
+	<label style="width: auto;" class="x-form-item-label">{{ form.name.label }}</label>
+	<div class="x-form-element" style="padding-left: 0pt;">		
+	{{ form.name }}
+	</div>
+<div class="x-form-clear-left"></div>
+</div>
+
+<div class="x-form-item " tabindex="-1">
+	<label style="width: auto;" class="x-form-item-label">{{ form.type.label }}</label>
+	<div class="styled-select">		
+	{{ form.type }}
+	</div>
+<div class="x-form-clear-left"></div>
+</div>
+
+<label style="font-size: 15px;"><b>Súradnice</b><hr></label>
+
+<div class="x-form-item " tabindex="-1">
+	<label style="width: auto;" class="x-form-item-label">{{ form.lat.label }}</label>
+	<div class="x-form-element" style="padding-left: 0pt;">		
+	{{ form.lat }}
+	</div>
+<div class="x-form-clear-left"></div>
+</div>
+
+<div class="x-form-item " tabindex="-1">
+	<label style="width: auto;" class="x-form-item-label">{{ form.lon.label }}</label>
+	<div class="x-form-element" style="padding-left: 0pt;">		
+	{{ form.lon }}
+	</div>
+<div class="x-form-clear-left"></div>
+</div>
+
+<div class="x-form-item " tabindex="-1">
+	<label style="width: auto;" class="x-form-item-label">{{ form.note.label }}</label>
+	<div class="x-form-element" style="padding-left: 0pt;">		
+	{{ form.note }}
+	</div>
+<div class="x-form-clear-left"></div>
+</div>
+
+<label style="font-size: 15px;"><b>Fotografie</b><hr></label>
+
+<div id="multiuploader">
+	<input type="hidden" value="1" id="fileCounter" />	
+
+<div class="upload" id="myDiv0">
+	<label for="realupload0">{{ form.photo.label }} #1</label>
+<div class="fakeupload" id="fakeupload0">
+	<input type="text" name="fakeupload0" /><!-- browse button is here as background -->	
+</div>
+			
+<input type="file" name="{{ form.photo.html_name }}" id="realupload0" class="realupload" onchange="this.form.fakeupload0.value=this.value; addFormInput(1);">
+</div>
+
+</div>

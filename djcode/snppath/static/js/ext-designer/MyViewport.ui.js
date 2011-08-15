@@ -274,75 +274,30 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
                             }
                         ]
                     },
-                    {
-                        xtype: 'panel',
+		    {
+			xtype: 'panel',
                         title: 'Pridaj<br/>bod',
                         frame: true,
-                        layout: 'border',
-                        items: [
-                            {
-                                xtype: 'form',
+			layout: 'border',
+			items:[
+			    {
+				xtype: 'form',
+				id: 'poiform',
+				fileUpload: true,
                                 region: 'center',
-                                frame: true,
-                                labelAlign: 'top',
-                                labelWidth: 0,
-                                defaults: {
-                                    'width': '220px'
-                                },
-                                buttonAlign: 'center',
-                                width: 250,
-                                items: [
-                                    {
-                                        xtype: 'textfield',
-                                        fieldLabel: 'Názov bodu*',
-                                        anchor: '100%',
-                                        id: 'pointName'
-                                    },
-                                    {
-                                        xtype: 'combo',
-                                        fieldLabel: 'Kategória',
-                                        anchor: '100%',
-                                        id: 'pointCats'
-                                    },
-                                    {
-                                        xtype: 'label',
-                                        text: 'Súradnice',
-                                        html: '<b>Súradnice</b><hr/>',
-                                        style: {
-                                            'font-size': '15px'
-                                        }
-                                    },
-                                    {
-                                        xtype: 'textfield',
-                                        fieldLabel: 'Zemepisná šírka: * (napr. 48.45789):',
-                                        anchor: '100%',
-                                        id: 'pointLat'
-                                    },
-                                    {
-                                        xtype: 'textfield',
-                                        fieldLabel: 'Zemepisná dĺžka: * (napr. 19.45732):',
-                                        anchor: '100%',
-                                        id: 'pointLon'
-                                    },
-                                    {
-                                        xtype: 'textfield',
-                                        fieldLabel: 'Fotografia',
-                                        anchor: '100%',
-                                        id: 'pointPhoto'
-                                    },
-                                    {
-                                        xtype: 'textarea',
-                                        anchor: '100%',
-                                        fieldLabel: 'Poznámka',
-                                        id: 'pointNotes'
-                                    },
-                                    {
-                                        xtype: 'button',
-                                        text: 'Pridaj'
-                                    }
-                                ]
-                            },
-                            {
+				frame: true,
+				width: 250,
+				autoLoad:{
+					url: 'mapdata/poi/',			
+					},						
+				buttons:[
+				      {
+            				text: 'Pridaj',
+            				type: 'submit',
+					id: 'formSubmit',
+				      }
+					],
+			    },{
                                 xtype: 'container',
                                 region: 'south',
                                 width: 100,
@@ -371,9 +326,10 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
                                         }
                                     }
                                 ]
-                            }
-                        ]
-                    }
+                            }			
+				]
+			
+		    },
                 ]
             },
             {
