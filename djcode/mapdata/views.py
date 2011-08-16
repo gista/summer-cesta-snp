@@ -118,7 +118,7 @@ def gpx(request):
 
 	return response
 
-csrf_protect
+@csrf_protect
 def poi(request):
 	"""
 	Methods:	
