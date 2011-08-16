@@ -33,6 +33,7 @@ GPX_FIELD_PDOP		= 'pdop'
 GPX_FIELD_SAT		= 'sat'
 GPX_FIELD_NUMBER	= 'number'
 GPX_FIELD_ELE		= 'ele'
+GPX_XML_HEADER		= '<?xml version="1.0" encoding="UTF-8"?>'
 
 #Geojson field names
 GEOJSON_FIELD_TYPE	 = 'type'
@@ -214,8 +215,8 @@ def __decorate_waypoint(poi, poi_mapping, wpt):
 			raise ValueError
 		return val
 
-	gpx_fields = {GPX_FIELD_TIME:time_constr, GPX_FIELD_GEOIDHEIGHT:float, GPX_FIELD_NAME:str, GPX_FIELD_CMT:str,
-		      GPX_FIELD_DESC:str, GPX_FIELD_SRC:str, GPX_FIELD_SYM:str, GPX_FIELD_TYPE:str,
+	gpx_fields = {GPX_FIELD_TIME:time_constr, GPX_FIELD_GEOIDHEIGHT:float, GPX_FIELD_NAME:unicode, GPX_FIELD_CMT:unicode,
+		      GPX_FIELD_DESC:unicode, GPX_FIELD_SRC:unicode, GPX_FIELD_SYM:unicode, GPX_FIELD_TYPE:unicode,
 		      GPX_FIELD_SAT:pos_int_constr, GPX_FIELD_HDOP:float, GPX_FIELD_VDOP:float, GPX_FIELD_PDOP:float}
 	for gpx_field, poi_field in poi_mapping.items():
 		func_name = 'set_{0}'.format(gpx_field)
@@ -235,8 +236,8 @@ def __decorate_route(path, path_mapping, rte):
 			raise ValueError
 		return val
 
-	gpx_fields = {GPX_FIELD_NAME:str, GPX_FIELD_CMT:str, GPX_FIELD_DESC:str, GPX_FIELD_SRC:str,
-		      GPX_FIELD_NUMBER:pos_int_constr, GPX_FIELD_TYPE:str}
+	gpx_fields = {GPX_FIELD_NAME:unicode, GPX_FIELD_CMT:unicode, GPX_FIELD_DESC:unicode, GPX_FIELD_SRC:unicode,
+		      GPX_FIELD_NUMBER:pos_int_constr, GPX_FIELD_TYPE:unicode}
 	for gpx_field, path_field in path_mapping.items():
 		func_name = 'set_{0}'.format(gpx_field)
 		gpx_value = gpx_fields[gpx_field](getattr(path, path_field))
@@ -365,5 +366,6 @@ def render_to_gpx(creator, poi_qs=None, path_qs=None, meta=None, poi_mapping = N
 			if path_mapping is not None:
 				rte = __decorate_route(path, path_mapping, rte)
 			gpx.add_rte(rte)
+	str_out.write(GPX_XML_HEADER + '\n')
 	gpx.export(outfile=str_out, level=0, name_='gpx')
 	return str_out.getvalue()

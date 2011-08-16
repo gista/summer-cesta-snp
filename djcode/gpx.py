@@ -168,7 +168,7 @@ except ImportError, exp:
 # Globals
 #
 
-ExternalEncoding = 'ascii'
+ExternalEncoding = 'utf_8'
 Tag_pattern_ = re_.compile(r'({.*})?(.*)')
 STRING_CLEANUP_PAT = re_.compile(r"[\n\r\s]+")
 
