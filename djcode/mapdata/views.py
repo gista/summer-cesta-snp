@@ -6,7 +6,7 @@ from django.conf import settings
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.views.decorators.csrf import csrf_protect
-from mapdata.models import Path, Poi, Area
+from mapdata.models import Path, Poi, Area, Photo
 from joomla.models import Jos_content
 
 from mapdata.forms import PoiForm
@@ -128,15 +128,25 @@ def poi(request):
 	if request.method == 'POST':
 		form = PoiForm(request.POST, request.FILES)
 		if form.is_valid():
-			print "valid %f" % form.cleaned_data['lon']
 			poi = form.save(commit=False)
 			point = Point(form.cleaned_data['lon'], form.cleaned_data['lat'])
-			# FIXME: function to get point area
-			poi.area = Area.objects.all()[0]
 			poi.the_geom = point
+			poi.area = Area.objects.all()[0]
+			
+			for area in Area.objects.all():
+				if area.the_geom.intersects(point):
+					poi.area = area
+					print area
+					break
 			poi.save()
-			# FIXME: save many-to-many
-			print request.FILES			
+
+			for file in request.FILES.getlist('photo'):
+				ph = Photo(title=file.name, photo=file)
+				ph.photo.save(file.name, file)
+				ph.save()
+				poi.photo.add(ph)
+ 				poi.save()
+
 			return HttpResponse('{"success":true}', mimetype='text/html') # ExtJS upload form requires html response!
 		else:
 			# FIXME: here will be server answer, which I will be handled with JS 
