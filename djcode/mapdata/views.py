@@ -150,8 +150,9 @@ def poi(request):
 
 			return HttpResponse('{"success":true}', mimetype='text/html') # ExtJS upload form requires html response!
 		else:
-			print form.errors.items() # FIXME: e.g. [('lat', [u'Exceeded latitude!']), ('lon', [u'Exceeded longitude!'])]
-            		return HttpResponse('{"success":false, "errors":{"lon":"Exceeded latitude","lat":"Exceeded longitude"}}', mimetype='text/html') 
+			error_json = simplejson.dumps({"success":False, "errors":dict(form.errors)})
+			print error_json
+			return HttpResponse(error_json, mimetype='text/html')
 	else:
 		form = PoiForm()
 	return render_to_response("form.html", 
