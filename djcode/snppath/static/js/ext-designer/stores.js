@@ -122,6 +122,8 @@ userRecordsStore = Ext.extend(Ext.data.JsonStore, {
         userRecordsStore.superclass.constructor.call(this, Ext.apply({
             storeId: 'userRecords',
             url: 'live_tracking/messages/?',
+            sortField: 'time',
+            sortDir: 'DESC',
             fields: [
                 {
                     name: 'lon',
