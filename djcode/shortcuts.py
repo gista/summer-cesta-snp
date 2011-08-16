@@ -220,7 +220,10 @@ def __decorate_waypoint(poi, poi_mapping, wpt):
 		      GPX_FIELD_SAT:pos_int_constr, GPX_FIELD_HDOP:float, GPX_FIELD_VDOP:float, GPX_FIELD_PDOP:float}
 	for gpx_field, poi_field in poi_mapping.items():
 		func_name = 'set_{0}'.format(gpx_field)
-		gpx_value = gpx_fields[gpx_field](getattr(poi, poi_field))
+		poi_value = getattr(poi, poi_field)
+		if poi_value is None:
+			continue
+		gpx_value = gpx_fields[gpx_field](poi_value)
 		getattr(wpt, func_name)(gpx_value)
 	return wpt
 
@@ -240,7 +243,10 @@ def __decorate_route(path, path_mapping, rte):
 		      GPX_FIELD_NUMBER:pos_int_constr, GPX_FIELD_TYPE:unicode}
 	for gpx_field, path_field in path_mapping.items():
 		func_name = 'set_{0}'.format(gpx_field)
-		gpx_value = gpx_fields[gpx_field](getattr(path, path_field))
+		path_value = getattr(path, path_field)
+		if path_value is None:
+			continue
+		gpx_value = gpx_fields[gpx_field](path_value)
 		getattr(rte, func_name)(gpx_value)
 	return rte
 
