@@ -286,7 +286,7 @@ function addOverLayers(){
 		[1, 'útulne, prístrešky', true, '/static/icons/shelter.svg', '/static/icons/shelter_b.svg'],
 		[2, 'chaty', true, '/static/icons/chalet.svg', '/static/icons/chalet_b.svg'],
 		[3, 'voda', true, '/static/icons/water.svg', '/static/icons/water_b.svg'],
-		[4, 'stravovanie, krčmy', true, '/static/icons/market.svg', '/static/icons/marget.svg'],
+		[4, 'stravovanie, krčmy', true, '/static/icons/market.svg', '/static/icons/market_b.svg'],
 		[5, 'potraviny', true, '/static/icons/food.svg', '/static/icons/food_b.svg'],
 		[6, 'zaujímavé miesta', false, '/static/icons/poi.svg', '/static/icons/poi_b.svg'],
 		[7, 'nezaradené', false, '/static/icons/unknown.svg', '/static/icons/unknown_b.svg'],
