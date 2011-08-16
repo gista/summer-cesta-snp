@@ -128,6 +128,7 @@ def poi(request):
 	if request.method == 'POST':
 		form = PoiForm(request.POST, request.FILES)
 		if form.is_valid():
+			print "valid"
 			poi = form.save(commit=False)
 			point = Point(form.cleaned_data['lon'], form.cleaned_data['lat'])
 			poi.the_geom = point
@@ -149,9 +150,8 @@ def poi(request):
 
 			return HttpResponse('{"success":true}', mimetype='text/html') # ExtJS upload form requires html response!
 		else:
-			# FIXME: here will be server answer, which I will be handled with JS 
-			print form['name'].errors[0]
-            		return HttpResponse('{"success":false}', mimetype='text/html') # ExtJS upload form requires html response!
+			print form.errors.items() # FIXME: e.g. [('lat', [u'Exceeded latitude!']), ('lon', [u'Exceeded longitude!'])]
+            		return HttpResponse('{"success":false, "errors":{"lon":"Exceeded latitude","lat":"Exceeded longitude"}}', mimetype='text/html') 
 	else:
 		form = PoiForm()
 	return render_to_response("form.html", 

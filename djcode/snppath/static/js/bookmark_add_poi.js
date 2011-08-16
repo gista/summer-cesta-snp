@@ -23,8 +23,17 @@ Ext.onReady(function() {
 				alert("Success");
 				},            
 			failure: function(form,action) { 
-				alert("failure");
-				console.log(action);
+				var msg = ""
+				var errors = action.result.errors;
+				for(key in errors)
+					msg += "Field: <b>" + key + "</b> Error: " + errors[key] + "<br/>";
+				Ext.Msg.show({
+   					title:'Errors in form',
+   					msg: msg,
+   					buttons: Ext.Msg.OK,
+   					icon: Ext.MessageBox.ERROR
+					});
+				console.log(action.result);
 				}            
                 	})
             	});	

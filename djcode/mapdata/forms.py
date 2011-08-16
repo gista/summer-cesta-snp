@@ -8,6 +8,18 @@ class PoiForm(forms.ModelForm):
 			label = u"Zemepisna dlzka:(napr. 18.437129)")
 	photo = forms.ImageField(required=False)
 
+	def clean_lat(self):
+        	lat = self.cleaned_data.get('lat', '')
+        	if (lat<-90 or lat>90):
+            		raise forms.ValidationError("Exceeded latitude!")
+        	return lat
+
+	def clean_lon(self):
+        	lon = self.cleaned_data.get('lon', '')
+        	if (lon<-180 or lon>180):
+            		raise forms.ValidationError("Exceeded longitude!")
+        	return lon
+
 	class Meta:
 		model = Poi
 		fields = ['name', 'type', 'lat', 'lon', 'note', 'photo']
