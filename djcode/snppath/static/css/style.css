@@ -122,4 +122,9 @@ form input, form textarea, form select {
 .fakeupload input {
 	width:175px;
 }
-
+.error{
+	border:2px solid red;
+}
+.correct{
+	border:2px solid lime;
+}

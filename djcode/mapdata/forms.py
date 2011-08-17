@@ -8,6 +8,12 @@ class PoiForm(forms.ModelForm):
 			label = u"Zemepisna dlzka:(napr. 18.437129)")
 	photo = forms.ImageField(required=False)
 
+	def clean_name(self):
+        	name = self.cleaned_data.get('name', '')
+        	if (len(name)<5):
+            		raise forms.ValidationError("Minimum 5characters!")
+        	return name
+
 	def clean_lat(self):
         	lat = self.cleaned_data.get('lat', '')
         	if (lat<-90 or lat>90):

@@ -1,16 +1,44 @@
 {% csrf_token %}
 <div class="x-form-item " tabindex="-1">
-	<label style="width: auto;" class="x-form-item-label">{{ form.name.label }}</label>
-	<div class="x-form-element" style="padding-left: 0pt;">		
-	{{ form.name }}
+	<label style="width: auto;" class="x-form-item-label">{{ form.name.label }} 
+		<span id="error_{{ form.name.html_name }}" style="color:red;" class="x-form-item-label"></span>
+	</label>
+	
+	<div class="x-form-element" style="padding-left: 0pt;">	
+	<input id="id_{{ form.name.html_name }}" type="text" maxlength="50" name="{{ form.name.html_name }}" 
+		onblur="if (this.value.length>4){
+			Ext.get('id_{{ form.name.html_name }}').removeClass('error');
+			Ext.get('id_{{ form.name.html_name }}').addClass('correct');
+			Ext.fly('error_{{ form.name.html_name }}').update('');
+			}else{
+			Ext.get('id_{{ form.name.html_name }}').removeClass('correct');
+			Ext.get('id_{{ form.name.html_name }}').addClass('error');
+			Ext.fly('error_{{ form.name.html_name }}').update('Minimum 5characters');			
+			}">
+	
 	</div>
 <div class="x-form-clear-left"></div>
 </div>
 
 <div class="x-form-item " tabindex="-1">
-	<label style="width: auto;" class="x-form-item-label">{{ form.type.label }}</label>
-	<div class="styled-select">		
-	{{ form.type }}
+	<label style="width: auto;" class="x-form-item-label">{{ form.type.label }}
+		<span id="error_{{ form.type.html_name }}" style="color:red;" class="x-form-item-label"></span>	
+	</label>
+	<div class="x-form-element" style="padding-left: 0pt;">	
+	<select id="id_{{ form.type.html_name }}" name="{{ form.type.html_name }}" 
+		onchange="if (this.options[this.selectedIndex].value>0){
+			Ext.get('id_{{ form.type.html_name }}').removeClass('error');
+			Ext.get('id_{{ form.type.html_name }}').addClass('correct');
+			Ext.fly('error_{{ form.type.html_name }}').update('');			
+			}else{
+			Ext.get('id_{{ form.type.html_name }}').removeClass('correct');
+			Ext.get('id_{{ form.type.html_name }}').addClass('error');
+			Ext.fly('error_{{ form.type.html_name }}').update('Type must be selected.');		
+			}">
+		{% for choice in form.type.field.choices %}
+		<option value="{{ choice.0 }}">{{ choice.1 }}</option>
+		{% endfor %}
+	</select>	
 	</div>
 <div class="x-form-clear-left"></div>
 </div>
@@ -18,17 +46,39 @@
 <label style="font-size: 15px;"><b>Súradnice</b><hr></label>
 
 <div class="x-form-item " tabindex="-1">
-	<label style="width: auto;" class="x-form-item-label">{{ form.lat.label }}</label>
+	<label style="width: auto;" class="x-form-item-label">{{ form.lat.label }}<br/>
+		<span id="error_{{ form.lat.html_name }}" style="color:red;" class="x-form-item-label"></span>
+	</label>
 	<div class="x-form-element" style="padding-left: 0pt;">		
-	{{ form.lat }}
+	<input id="id_{{ form.lat.html_name }}" type="text" maxlength="50" name="{{ form.lat.html_name }}" 
+		onblur="if ((this.value.length>0) && (Number(this.value))){
+			Ext.get('id_{{ form.lat.html_name }}').removeClass('error');
+			Ext.get('id_{{ form.lat.html_name }}').addClass('correct');
+			Ext.fly('error_{{ form.lat.html_name }}').update('');
+			}else{
+			Ext.get('id_{{ form.lat.html_name }}').removeClass('correct');
+			Ext.get('id_{{ form.lat.html_name }}').addClass('error');
+			Ext.fly('error_{{ form.lat.html_name }}').update('Must be a float number');			
+			}">
 	</div>
 <div class="x-form-clear-left"></div>
 </div>
 
 <div class="x-form-item " tabindex="-1">
-	<label style="width: auto;" class="x-form-item-label">{{ form.lon.label }}</label>
+	<label style="width: auto;" class="x-form-item-label">{{ form.lon.label }}<br/>
+		<span id="error_{{ form.lon.html_name }}" style="color:red;" class="x-form-item-label"></span>		
+	</label>
 	<div class="x-form-element" style="padding-left: 0pt;">		
-	{{ form.lon }}
+	<input id="id_{{ form.lon.html_name }}" type="text" maxlength="50" name="{{ form.lon.html_name }}" 
+		onblur="if ((this.value.length>0) && (Number(this.value))){
+			Ext.get('id_{{ form.lon.html_name }}').removeClass('error');
+			Ext.get('id_{{ form.lon.html_name }}').addClass('correct');
+			Ext.fly('error_{{ form.lon.html_name }}').update('');
+			}else{
+			Ext.get('id_{{ form.lon.html_name }}').removeClass('correct');
+			Ext.get('id_{{ form.lon.html_name }}').addClass('error');
+			Ext.fly('error_{{ form.lon.html_name }}').update('Must be a float number');			
+			}">
 	</div>
 <div class="x-form-clear-left"></div>
 </div>

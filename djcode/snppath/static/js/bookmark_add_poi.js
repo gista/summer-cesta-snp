@@ -25,8 +25,12 @@ Ext.onReady(function() {
 			failure: function(form,action) { 
 				var msg = ""
 				var errors = action.result.errors;
-				for(key in errors)
+				for(key in errors){
+					Ext.fly('error_'+key).update(errors[key]);
+					Ext.get('id_'+key).removeClass('correct');
+					Ext.get('id_'+key).addClass('error');
 					msg += "Field: <b>" + key + "</b> Error: " + errors[key] + "<br/>";
+					}
 				Ext.Msg.show({
    					title:'Errors in form',
    					msg: msg,
