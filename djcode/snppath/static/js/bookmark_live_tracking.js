@@ -15,7 +15,7 @@ Ext.onReady(function() {
 		// set username & description
 		Ext.fly('liveTrackingUsername').update(record.username);
 		if (record.description)
-			liveTrackingRecordPanel.getColumnModel().setColumnHeader(0, '<b>' + gettext("Description")+ ':</b> ' record.description);
+			liveTrackingRecordPanel.getColumnModel().setColumnHeader(0, '<b>' + gettext("Description")+ ':</b> ' + record.description);
 		else 
 			liveTrackingRecordPanel.getColumnModel().setColumnHeader(0, '');
 		// set correct title for Record Grid panel
