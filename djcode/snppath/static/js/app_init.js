@@ -20,14 +20,14 @@ Ext.onReady(function() {
 	map = new OpenLayers.Map('map', options);
 
 	// add required base layers
-	var gmap = new OpenLayers.Layer.Google("Google Hybrid",{
+	var gmap = new OpenLayers.Layer.Google(gettext("Google Hybrid map"),{
 		type: google.maps.MapTypeId.HYBRID, 
 		numZoomLevels: 20,
 		});
 	
 	var freemap_urls = ["http://t1.freemap.sk/T", "http://t2.freemap.sk/T",
 	    "http://t3.freemap.sk/T", "http://t4.freemap.sk/T"]
-	var fmap = new OpenLayers.Layer.TMS("Turistická mapa", freemap_urls,{
+	var fmap = new OpenLayers.Layer.TMS(gettext("Tourist map"), freemap_urls,{
 		type: "jpeg",
 		getURL: get_freemap_url,
 		attribution: "<a href='http://www.freemap.sk' target='_blank'>Freemap Slovakia</a>, <a href='http://www.openstreetmap.org' target='_blan-->k'>OpenStreetMap</a>",
@@ -151,7 +151,7 @@ function addMapControls(){
 	map.addControl(lengthMeasureController);
 
 	lengthMeasureToggleButton = new OpenLayers.Control.Button({
-		title: 'Meranie vzdialenosti',
+		title: gettext('Length measure'),
 		displayClass: 'olControlLengthMeasureButton', 
 		eventListeners: {
 			'activate': function(){
@@ -186,7 +186,7 @@ function addMapControls(){
 	//Toggle button to activate/deactivate the area measure controller	
 
 	areaMeasureToggleButton = new OpenLayers.Control.Button({
-		title: 'Meranie plochy',
+		title: gettext('Area measure'),
 		displayClass: "olControlAreaMeasureButton", 
 		eventListeners: {
 			'activate': function(){
@@ -217,7 +217,7 @@ function addMapControls(){
 	// Toggle button to activate/deactivate the click controller	
 
 	clickToggleButton = new OpenLayers.Control.Button({
-		title: 'Zobrazenie info o bode (súradnice + permalink)',
+		title: gettext('Point info (coordinates & permalink)'),
 		displayClass: "olControlClickButton", 
 		eventListeners: {
 			'activate': function(){
@@ -236,7 +236,7 @@ function addMapControls(){
 	// Controller button to export POI into GPX	
 
 	var gpxButton = new OpenLayers.Control.Button({
-		title: 'Exportovanie všetkých dát do .gpx',
+		title: gettext('Export all data into .gpx'),
     		displayClass: "olControlGPXButton", 
 		trigger: function(){
 			document.location.href = "mapdata/gpx/"
@@ -248,7 +248,7 @@ function addMapControls(){
 	var helpWindow = new Ext.Window({
 		autoWidth: true,
 		autoHeight: true,
-		title: 'Help',
+		title: gettext('Help'),
 		closeAction: 'hide', 
 		autoLoad:{
 			url: 'help/',			
@@ -256,7 +256,7 @@ function addMapControls(){
 		});
 
 	var helpButton = new OpenLayers.Control.Button({
-		title: 'Zobrazenie pomocníka',
+		title: gettext('Show help'),
     		displayClass: "olControlHelpButton", 
 		trigger: function(){
 			helpWindow.show();	
@@ -283,13 +283,13 @@ function addMapControls(){
 function addOverLayers(){
 
 	var OVER_LAYERS = [
-		[1, 'útulne, prístrešky', true, '/static/icons/shelter.svg', '/static/icons/shelter_b.svg'],
-		[2, 'chaty', true, '/static/icons/chalet.svg', '/static/icons/chalet_b.svg'],
-		[3, 'voda', true, '/static/icons/water.svg', '/static/icons/water_b.svg'],
-		[4, 'stravovanie, krčmy', true, '/static/icons/market.svg', '/static/icons/market_b.svg'],
-		[5, 'potraviny', true, '/static/icons/food.svg', '/static/icons/food_b.svg'],
-		[6, 'zaujímavé miesta', false, '/static/icons/poi.svg', '/static/icons/poi_b.svg'],
-		[7, 'nezaradené', false, '/static/icons/unknown.svg', '/static/icons/unknown_b.svg'],
+		[1, gettext('hut, shelter'), true, '/static/icons/shelter.svg', '/static/icons/shelter_b.svg'],
+		[2, gettext('cottage'), true, '/static/icons/chalet.svg', '/static/icons/chalet_b.svg'],
+		[3, gettext('water'), true, '/static/icons/water.svg', '/static/icons/water_b.svg'],
+		[4, gettext('restaurant, pub'), true, '/static/icons/market.svg', '/static/icons/market_b.svg'],
+		[5, gettext('grocery'), true, '/static/icons/food.svg', '/static/icons/food_b.svg'],
+		[6, gettext('interesting place'), false, '/static/icons/poi.svg', '/static/icons/poi_b.svg'],
+		[7, gettext('other'), false, '/static/icons/unknown.svg', '/static/icons/unknown_b.svg'],
 		];
 
 
@@ -427,7 +427,7 @@ function addSnpPathLayer(){
 			});
 
 	// SNPpath layer
-	var snpPathLayer = new OpenLayers.Layer.Vector("SNP Path", {
+	var snpPathLayer = new OpenLayers.Layer.Vector(gettext("SNP Path"), {
 		styleMap: new OpenLayers.StyleMap({
 			'default': defaultStyle,
 			}),

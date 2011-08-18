@@ -18,9 +18,14 @@ Ext.onReady(function() {
 		Ext.getCmp('poiform').getForm().submit({
 			method: 'POST',
 			url: 'mapdata/poi/',
-			waitMsg:'Loading...',
+			waitMsg: gettext("Loading..."),
 			success: function(form,action) {
-				alert("Success");
+				Ext.Msg.show({
+   					title: gettext("Point of Interest"),
+   					msg: gettext("New poi has been successfully added."),
+   					buttons: Ext.Msg.OK,
+   					icon: Ext.MessageBox.INFO
+					});
 				},            
 			failure: function(form,action) { 
 				var msg = ""
@@ -29,15 +34,7 @@ Ext.onReady(function() {
 					Ext.fly('error_'+key).update(errors[key]);
 					Ext.get('id_'+key).removeClass('correct');
 					Ext.get('id_'+key).addClass('error');
-					msg += "Field: <b>" + key + "</b> Error: " + errors[key] + "<br/>";
 					}
-				Ext.Msg.show({
-   					title:'Errors in form',
-   					msg: msg,
-   					buttons: Ext.Msg.OK,
-   					icon: Ext.MessageBox.ERROR
-					});
-				console.log(action.result);
 				}            
                 	})
             	});	
@@ -56,7 +53,7 @@ Ext.onReady(function() {
 			Ext.DomHelper.append('multiuploader', '<div class="upload" id="'+ whereTo +'">\n</div>');
 		
 			// add photo label
-			Ext.DomHelper.append(whereTo, '<label for="realupload'+ fileNo +'">Photo #'+ (parseInt(fileNo)+1) +'</label>');
+			Ext.DomHelper.append(whereTo, '<label for="realupload'+ fileNo +'">'+ gettext("Photo") + ' #'+ (parseInt(fileNo)+1) +'</label>');
 
 			var whereForInput = 'fakeupload'+fileNo;
 

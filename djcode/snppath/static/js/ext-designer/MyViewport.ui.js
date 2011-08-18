@@ -25,7 +25,7 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
                 items: [
                     {
                         xtype: 'panel',
-                        title: 'Vrstvy<br/>&nbsp;',
+                        title: gettext("Layers") + '<br/>&nbsp;',
                         frame: true,
                         layout: 'border',
                         items: [
@@ -50,19 +50,19 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
                                     },
                                     {
                                         xtype: 'panel',
-                                        title: 'Filter',
+                                        title: gettext("Filter"),
                                         frame: true,
                                         style: '',
                                         bodyStyle: 'padding:10px',
                                         items: [
                                             {
                                                 xtype: 'checkbox',
-                                                boxLabel: 'k bodu je fotografia',
+                                                boxLabel: gettext("points has photo"),
                                                 id: 'has_photo'
                                             },
                                             {
                                                 xtype: 'checkbox',
-                                                boxLabel: 'k bodu je článok',
+                                                boxLabel: gettext("points has article"),
                                                 id: 'has_article'
                                             }
                                         ]
@@ -103,7 +103,7 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
                     },
                     {
                         xtype: 'panel',
-                        title: 'LIVE<br/>sledovanie',
+                        title: gettext("LIVE<br/>tracking"),
                         frame: true,
                         layout: 'border',
                         width: 250,
@@ -116,7 +116,7 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
                                 items: [
                                     {
                                         xtype: 'grid',
-                                        title: 'Aktuálne v teréne',
+                                        title: gettext("Actual on terrain"),
                                         store: 'activeTrackRecords',
 					autoExpandColumn: 'last_location_time',
                                         hideHeaders: true,
@@ -148,7 +148,7 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
                                     },
                                     {
                                         xtype: 'grid',
-                                        title: 'Cestu ukončili',
+                                        title: gettext("Path ended"),
                                         store: 'inactiveTrackRecords',
 					autoExpandColumn: 'last_location_time',
                                         hideHeaders: true,
@@ -180,7 +180,7 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
                                     },
                                     {
                                         xtype: 'grid',
-                                        title: 'Aktuálne v teréne',
+                                        title: gettext("Actual on terrain"),
                                         store: 'userRecords',
                                         enableHdMenu: false,
                                         frame: true,
@@ -217,12 +217,12 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
                                                     items: [
                                                         {
                                                             xtype: 'button',
-                                                            text: 'Refresh',
+                                                            text: gettext("Refresh"),
                                                             id: 'refreshButton'
                                                         },
                                                         {
                                                             xtype: 'button',
-                                                            text: 'Return',
+                                                            text: gettext("Return"),
                                                             id: 'backButton'
                                                         }
                                                     ]
@@ -276,7 +276,7 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
                     },
 		    {
 			xtype: 'panel',
-                        title: 'Pridaj<br/>bod',
+                        title: gettext("Add<br/>point"),
                         frame: true,
 			layout: 'border',
 			items:[
@@ -292,7 +292,7 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 					},						
 				buttons:[
 				      {
-            				text: 'Pridaj',
+            				text: gettext("Add"),
             				type: 'submit',
 					id: 'formSubmit',
 				      }

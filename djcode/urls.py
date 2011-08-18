@@ -3,10 +3,15 @@ from django.conf.urls.defaults import patterns, include, url
 
 admin.autodiscover()
 
+js_info_dict = {
+    'packages': ('djcode.snppath',),
+}
+
 urlpatterns = patterns('',
 	url(r'^$', 'djcode.snppath.views.home', name='home'),
 	url(r'^help/$', 'djcode.snppath.views.testhelp', name='testhelp'),
 	url(r'^media/(?P<id>\d+)/$', 'djcode.mapdata.views.testmedia', name='testmedia'),
+	url(r'^jsi18n/$', 'django.views.i18n.javascript_catalog', js_info_dict),
 	url(r'^config/', include('djcode.snppath.urls')),
 	url(r'^live_tracking/', include('djcode.live_tracking.urls')),
 	url(r'^mapdata/', include('djcode.mapdata.urls')),

@@ -8,7 +8,7 @@ Ext.onReady(function() {
 		console.log(store.reader.jsonData);
 		var data = store.reader.jsonData;
 		// setup correct point moutain read from store
-		Ext.getCmp('moutain').html = "<b>Pohorie:</b> " +data.area;
+		Ext.getCmp('moutain').html = '<b>' + gettext("Moutain") + ':</b>&nbsp;' +data.area;
 		
 		// setup correct point note read from store
 		Ext.getCmp('notes').html = data.note;
@@ -21,7 +21,7 @@ Ext.onReady(function() {
 				articlePointPanel.add({
 					title: articles[i].article_title,
 					html: articles[i].article_introtext + '<br/><br/> \
-						<a href="' + articles[i].article_url + '" target="_blank">Odkaz na článok</a> ',
+						<a href="' + articles[i].article_url + '" target="_blank">' + gettext("Link to article") + '</a> ',
 				});
 			}
 			// show article bookmark in popup
@@ -90,9 +90,9 @@ function createPoint(feature) {
 		location: feature,
 		autoWidth: true,
         	autoHeight: true,
-		title: 'Bod',
+		title: gettext("Point"),
 		items:[{
-			title: 'Informácie o bode',
+			title: gettext("Point info"),
 			frame: true,
 			defaults: {
 				frame: true,
@@ -105,13 +105,13 @@ function createPoint(feature) {
 				xtype: 'box',
 				height: 30,
 				autoEl:{		
-					html: '<b>Súradnice:</b> [ ' + point.x + ',' + point.y + ' ]',
+					html: '<b>' + gettext("Coordinates") + ':</b> [ ' + point.x + ',' + point.y + ' ]',
 					},
 				},{	
 				xtype: 'box',
 				height: 20,
 				autoEl:{		
-					html: '<b>Poznámka:</b>',
+					html: '<b>' + gettext("Note") + ':</b>',
 					},			
 				},{	
 				xtype: 'box',
@@ -119,7 +119,7 @@ function createPoint(feature) {
 				id: 'notes',		
 				}]
 			},{
-			title: 'Články k bodu',
+			title: gettext("Point articles"),
 			id: 'articles',
 			frame: true,
 			hidden: true,
@@ -131,7 +131,7 @@ function createPoint(feature) {
 				},	
 		
 			},{
-			title: 'Fotografie k bodu',
+			title: gettext("Point photos"),
 			id: 'photos',
 			frame: true,
 			hidden: true,
@@ -170,7 +170,7 @@ function showPopup(loc){
 
 	// create popup for user click point
 	popupPoint = new GeoExt.Popup({
-   		title: "Bod na mape",
+   		title: gettext("Map point"),
      		autoWidth: true,
 		unpinnable: false,
 		map: map,
@@ -182,7 +182,7 @@ function showPopup(loc){
 				"padding": "10px"		
 				},
 			autoEl: {
-	    			html: "<b>Súradnice:</b><br/> [" + loc.lon + 
+	    			html: "<b>" + gettext("Coordinates") + ":</b><br/> [" + loc.lon + 
 						 "," + loc.lat + "]",
 				},
 			},{
@@ -192,7 +192,7 @@ function showPopup(loc){
 				"padding": "10px"		
 				},
 			autoEl: {
-	    			html: "<b>Permalink:</b><br/> " + permalink,
+	    			html: "<b>" + gettext("Permalink") + ":</b><br/> " + permalink,
 				},
 	    		}]
    		});
@@ -207,12 +207,17 @@ function handleMeasurements(event) {
 	var units = event.units;
 	var order = event.order;
 	var measure = event.measure;
-	var out = "";
+	var msg = "";
 	if(order == 1){
-		out += "Nameraná&nbsp;dĺžka:&nbsp;" + measure.toFixed(2) + "&nbsp;" + units;
+		msg += gettext("Measured&nbsp;length:&nbsp;") + measure.toFixed(2) + "&nbsp;" + units;
 		}
 	else {
-		out += "Nameraná&nbsp;plocha:&nbsp;" + measure.toFixed(2) + "&nbsp;" + units + "<sup>2</sup>";
+		msg += gettext("Measured&nbsp;area:&nbsp;") + measure.toFixed(2) + "&nbsp;" + units + "<sup>2</sup>";
 		}
-	Ext.Msg.alert('Meranie', out);
+	Ext.Msg.show({
+		title: gettext("Measure"),
+		msg: msg,
+		buttons: Ext.Msg.OK,
+		icon: Ext.MessageBox.INFO
+		});
   	}

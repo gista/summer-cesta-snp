@@ -15,11 +15,11 @@ Ext.onReady(function() {
 		// set username & description
 		Ext.fly('liveTrackingUsername').update(record.username);
 		if (record.description)
-			liveTrackingRecordPanel.getColumnModel().setColumnHeader(0, '<b>Popis:</b> '+ record.description);
+			liveTrackingRecordPanel.getColumnModel().setColumnHeader(0, '<b>' + gettext("Description")+ ':</b> ' record.description);
 		else 
 			liveTrackingRecordPanel.getColumnModel().setColumnHeader(0, '');
 		// set correct title for Record Grid panel
-		liveTrackingRecordPanel.setTitle("Aktuálne v teréne");
+		liveTrackingRecordPanel.setTitle(gettext("Actual on terrain"));
 
 		// set user click (specified parameters) & load the data into Record Grid panel
 		liveTrackingUrl = userRecordsStore.url + Ext.urlEncode({track_id:record.track_id}); 
@@ -36,12 +36,12 @@ Ext.onReady(function() {
 		// set username & description
 		Ext.fly('liveTrackingUsername').update(record.username);
 		if (record.description)
-			liveTrackingRecordPanel.getColumnModel().setColumnHeader(0, '<b>Popis:</b> '+ record.description);
+			liveTrackingRecordPanel.getColumnModel().setColumnHeader(0, '<b>' + gettext("Description") + ':</b>' + record.description);
 		else 
 			liveTrackingRecordPanel.getColumnModel().setColumnHeader(0, '');
 
 		// set correct title for Record Grid panel
-		liveTrackingRecordPanel.setTitle("Cestu ukončili");
+		liveTrackingRecordPanel.setTitle(gettext("Path ended"));
 
 		// set user click (specified parameters) & load the data into Record Grid panel
 		liveTrackingUrl = userRecordsStore.url + Ext.urlEncode({track_id:record.track_id}); 
