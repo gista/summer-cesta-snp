@@ -118,6 +118,10 @@ def gpx(request):
 
 	return response
 
+def testmedia(request, id=1):
+	photo_data = Photo.objects.get(id=id).photo
+	return HttpResponse(photo_data, mimetype='image/jpg')
+
 @csrf_protect
 def poi(request):
 	"""

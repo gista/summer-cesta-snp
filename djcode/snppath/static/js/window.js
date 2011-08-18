@@ -32,6 +32,7 @@ Ext.onReady(function() {
 		if (data.photos_jos.length > 0){
 			var photos_jos = data.photos_jos;
 			for(i=0; i<photos_jos.length; i++){
+				var photoUrl = '/media/' + photos_jos[i] + '/';
 				Ext.getCmp("photo_jos").add({
 					xtype: 'box',
 					width: 80,
@@ -41,8 +42,7 @@ Ext.onReady(function() {
 						},
 					autoEl:{
 						tag: 'img',
-						// right now just simple testing images	
-						src: 'http://www.polianka.nfo.sk/wp-content/photos/moco-ganek.jpg',			
+						src: photoUrl,			
 						}
 					});
 				}
@@ -54,6 +54,7 @@ Ext.onReady(function() {
 		if (data.photos_map.length > 0){
 			var photos_map = data.photos_map;
 			for(i=0; i<photos_map.length; i++){
+				var photoUrl = '/media/' + photos_map[i] + '/';
 				Ext.getCmp("photo_map").add({
 					xtype: 'box',
 					width: 80,
@@ -63,7 +64,7 @@ Ext.onReady(function() {
 						},
 					autoEl:{
 						tag: 'img',	
-						src: 'http://www.polianka.nfo.sk/wp-content/photos/moco-ganek.jpg',			
+						src: photoUrl,			
 						}
 					});
 				}
