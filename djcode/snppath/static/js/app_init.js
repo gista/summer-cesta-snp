@@ -152,11 +152,11 @@ function addMapControls(){
 
 	lengthMeasureToggleButton = new OpenLayers.Control.Button({
 		title: 'Meranie vzdialenosti',
-		displayClass: 'olControlAreaMeasureButton', 
+		displayClass: 'olControlLengthMeasureButton', 
 		eventListeners: {
 			'activate': function(){
-				//areaMeasureToggleButton.deactivate();
-				//clickToggleButton.deactivate();
+				areaMeasureToggleButton.deactivate();
+				clickToggleButton.deactivate();
 
 				lengthMeasureController.activate();
 				},

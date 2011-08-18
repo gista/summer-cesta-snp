@@ -10,13 +10,13 @@
 
 .olControlRightToolbar{
 	float: right;
-	height: 300px;
+	height: 200px;
 	top: 10px;
 	right: 10px;
 	width: 30px;
 }
 
-.olControlRightToolbar .olControlMeasureButtonItemInactive {
+.olControlRightToolbar .olControlLengthMeasureButtonItemInactive {
 	cursor: pointer;
 	width: 30px;	
 	height: 30px;
@@ -25,7 +25,7 @@
 	background-repeat: no-repeat;	
 }
 
-.olControlRightToolbar .olControlMeasureButtonItemActive {
+.olControlRightToolbar .olControlLengthMeasureButtonItemActive {
 	cursor: pointer;
 	width: 30px;	
 	height: 30px;
