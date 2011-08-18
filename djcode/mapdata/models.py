@@ -42,7 +42,7 @@ class Jos_photo_id(models.Model):
 class Photo(models.Model):
 	title = models.CharField(_(u'title'), max_length=50)
 	desctiption = models.CharField(_(u'description'), max_length=100, blank=True)
-	photo = models.ImageField(_(u'photo'), upload_to='/tmp/photos/%Y/%m/%d', blank=True)
+	photo = models.ImageField(_(u'photo'), upload_to='photos/%Y/%m/%d', blank=True)
 
 	def __unicode__(self):
 		return self.title
