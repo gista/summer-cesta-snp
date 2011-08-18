@@ -2,6 +2,7 @@
 
 var map;
 var geoExtMapPanel;
+var overLayers = [];
 // Stores
 var activeUsersStore;
 var inactiveUsersStore
@@ -363,7 +364,7 @@ function addOverLayers(){
 			});
 		}
 
-	var overLayers = [];
+	
 
 	// append map over layers as specified
 	for(var i=0;i<OVER_LAYERS.length;i++){

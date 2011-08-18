@@ -20,6 +20,9 @@ Ext.onReady(function() {
 			url: 'mapdata/poi/',
 			waitMsg: gettext("Loading..."),
 			success: function(form,action) {
+				// the id of layer, which I will refresh settled in server response 
+				var layerId = action.result.layer;
+				overLayers[overLayers.length-layerId].refresh();
 				Ext.Msg.show({
    					title: gettext("Point of Interest"),
    					msg: gettext("New poi has been successfully added."),

@@ -124,10 +124,11 @@ def testmedia(request, id=1):
 
 @csrf_protect
 def poi(request):
-	"""
-	Methods:	
-	GET	- Return the Poi form
-	POST	- Send user data to verification & answer
+	"""	
+	On GET request is returned the Poi form
+	On POST	response are sended user data to verification & server response depends on correct user inputs
+		on success - sended back map layer ID, which should be refreshed
+		if failure - sended back error field messages 
 	"""
 	if request.method == 'POST':
 		form = PoiForm(request.POST, request.FILES)
@@ -151,8 +152,8 @@ def poi(request):
 				ph.save()
 				poi.photo.add(ph)
  				poi.save()
-
-			return HttpResponse('{"success":true}', mimetype='text/html') # ExtJS upload form requires html response!
+			
+			return HttpResponse('{"success":true, "layer":%d}' % (poi.type), mimetype='text/html') # ExtJS upload form requires html response!
 		else:
 			error_json = simplejson.dumps({"success":False, "errors":dict(form.errors)})
 			print error_json
