@@ -1,3 +1,4 @@
+{% load i18n %}
 {% csrf_token %}
 <div class="x-form-item " tabindex="-1">
 	<label style="width: auto;" class="x-form-item-label">{{ form.name.label }} 
@@ -6,15 +7,7 @@
 	
 	<div class="x-form-element" style="padding-left: 0pt;">	
 	<input id="id_{{ form.name.html_name }}" type="text" maxlength="50" name="{{ form.name.html_name }}" 
-		onblur="if (this.value.length>4){
-			Ext.get('id_{{ form.name.html_name }}').removeClass('error');
-			Ext.get('id_{{ form.name.html_name }}').addClass('correct');
-			Ext.fly('error_{{ form.name.html_name }}').update('');
-			}else{
-			Ext.get('id_{{ form.name.html_name }}').removeClass('correct');
-			Ext.get('id_{{ form.name.html_name }}').addClass('error');
-			Ext.fly('error_{{ form.name.html_name }}').update('Minimum 5characters');			
-			}">
+		onblur="validateName(this.value, '{{ form.name.html_name }}');">
 	
 	</div>
 <div class="x-form-clear-left"></div>
@@ -26,15 +19,7 @@
 	</label>
 	<div class="x-form-element" style="padding-left: 0pt;">	
 	<select id="id_{{ form.type.html_name }}" name="{{ form.type.html_name }}" 
-		onchange="if (this.options[this.selectedIndex].value>0){
-			Ext.get('id_{{ form.type.html_name }}').removeClass('error');
-			Ext.get('id_{{ form.type.html_name }}').addClass('correct');
-			Ext.fly('error_{{ form.type.html_name }}').update('');			
-			}else{
-			Ext.get('id_{{ form.type.html_name }}').removeClass('correct');
-			Ext.get('id_{{ form.type.html_name }}').addClass('error');
-			Ext.fly('error_{{ form.type.html_name }}').update('Type must be selected.');		
-			}">
+		onchange="validateType(this.options[this.selectedIndex].value, '{{ form.type.html_name }}');">
 		{% for choice in form.type.field.choices %}
 		<option value="{{ choice.0 }}">{{ choice.1 }}</option>
 		{% endfor %}
@@ -43,7 +28,7 @@
 <div class="x-form-clear-left"></div>
 </div>
 
-<label style="font-size: 15px;"><b>Súradnice</b><hr></label>
+<label style="font-size: 15px;"><b>{% trans "Coordinates" %}</b><hr></label>
 
 <div class="x-form-item " tabindex="-1">
 	<label style="width: auto;" class="x-form-item-label">{{ form.lat.label }}<br/>
@@ -51,15 +36,7 @@
 	</label>
 	<div class="x-form-element" style="padding-left: 0pt;">		
 	<input id="id_{{ form.lat.html_name }}" type="text" maxlength="50" name="{{ form.lat.html_name }}" 
-		onblur="if ((this.value.length>0) && (Number(this.value))){
-			Ext.get('id_{{ form.lat.html_name }}').removeClass('error');
-			Ext.get('id_{{ form.lat.html_name }}').addClass('correct');
-			Ext.fly('error_{{ form.lat.html_name }}').update('');
-			}else{
-			Ext.get('id_{{ form.lat.html_name }}').removeClass('correct');
-			Ext.get('id_{{ form.lat.html_name }}').addClass('error');
-			Ext.fly('error_{{ form.lat.html_name }}').update('Must be a float number');			
-			}">
+		onblur="validateLat(this.value, '{{ form.lat.html_name }}');">
 	</div>
 <div class="x-form-clear-left"></div>
 </div>
@@ -70,15 +47,7 @@
 	</label>
 	<div class="x-form-element" style="padding-left: 0pt;">		
 	<input id="id_{{ form.lon.html_name }}" type="text" maxlength="50" name="{{ form.lon.html_name }}" 
-		onblur="if ((this.value.length>0) && (Number(this.value))){
-			Ext.get('id_{{ form.lon.html_name }}').removeClass('error');
-			Ext.get('id_{{ form.lon.html_name }}').addClass('correct');
-			Ext.fly('error_{{ form.lon.html_name }}').update('');
-			}else{
-			Ext.get('id_{{ form.lon.html_name }}').removeClass('correct');
-			Ext.get('id_{{ form.lon.html_name }}').addClass('error');
-			Ext.fly('error_{{ form.lon.html_name }}').update('Must be a float number');			
-			}">
+		onblur="validateLat(this.value, '{{ form.lon.html_name }}');">
 	</div>
 <div class="x-form-clear-left"></div>
 </div>
@@ -91,7 +60,7 @@
 <div class="x-form-clear-left"></div>
 </div>
 
-<label style="font-size: 15px;"><b>Fotografie</b><hr></label>
+<label style="font-size: 15px;"><b>{% trans "Photos" %}</b><hr></label>
 
 <div id="multiuploader">
 	<input type="hidden" value="1" id="fileCounter" />	

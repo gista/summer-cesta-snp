@@ -1,5 +1,8 @@
 //// BOOKMARK layers	
 
+var poiFormCorrectClass = 'correct'
+var poiFormErrorClass = 'error'
+
 Ext.onReady(function() {
 
 	// CSRF solution
@@ -45,6 +48,8 @@ Ext.onReady(function() {
 	});
 
 	function addFormInput(number){
+	// function for dynamic creation of file inputs for user
+
 		// first we get the number of file inputs
 		var fileNo = parseInt(Ext.get('fileCounter').dom.value);
 		if (number>=fileNo){
@@ -72,3 +77,58 @@ Ext.onReady(function() {
 			}
 		}
 
+	function validateName(verifyName, htmlName){
+	// function for validation of 'Name' field in Poi form
+		if (verifyName.length>=5){
+			Ext.get('id_' + htmlName).removeClass(poiFormErrorClass);
+			Ext.get('id_' + htmlName).addClass(poiFormCorrectClass);
+			Ext.fly('error_' + htmlName).update('');
+			}
+		else {
+			Ext.get('id_' + htmlName).removeClass(poiFormCorrectClass);
+			Ext.get('id_' + htmlName).addClass(poiFormErrorClass);
+			Ext.fly('error_'  + htmlName).update(gettext("Minimum 5characters."));		
+			}	
+		}
+
+	function validateType(type, htmlName){
+	// function for validation of 'Type' field in Poi form
+		if (type>0){
+			Ext.get('id_' + htmlName).removeClass(poiFormErrorClass);
+			Ext.get('id_' + htmlName).addClass(poiFormCorrectClass);
+			Ext.fly('error_' + htmlName).update('');
+			}
+		else {
+			Ext.get('id_' + htmlName).removeClass(poiFormCorrectClass);
+			Ext.get('id_' + htmlName).addClass(poiFormErrorClass);
+			Ext.fly('error_'  + htmlName).update(gettext("Type must be selected."));		
+			}		
+		}
+
+	function validateLat(lat, htmlName){
+	// function for validation of 'Latitude' field in Poi form
+		if ((lat.length>0) && (Number(lat))){
+			Ext.get('id_' + htmlName).removeClass(poiFormErrorClass);
+			Ext.get('id_' + htmlName).addClass(poiFormCorrectClass);
+			Ext.fly('error_' + htmlName).update('');
+			}
+		else {
+			Ext.get('id_' + htmlName).removeClass(poiFormCorrectClass);
+			Ext.get('id_' + htmlName).addClass(poiFormErrorClass);
+			Ext.fly('error_'  + htmlName).update(gettext("Must be a float number"));		
+			}		
+		}
+
+	function validateLon(lon, htmlName){
+	// function for validation of 'Longitude' field in Poi form
+		if ((lon.length>0) && (Number(lon))){
+			Ext.get('id_' + htmlName).removeClass(poiFormErrorClass);
+			Ext.get('id_' + htmlName).addClass(poiFormCorrectClass);
+			Ext.fly('error_' + htmlName).update('');
+			}
+		else {
+			Ext.get('id_' + htmlName).removeClass(poiFormCorrectClass);
+			Ext.get('id_' + htmlName).addClass(poiFormErrorClass);
+			Ext.fly('error_'  + htmlName).update(gettext("Must be a float number"));		
+			}		
+		}
