@@ -21,7 +21,7 @@ class Track(models.Model):
 	is_active = 	models.BooleanField(_(u'active'), blank=True, help_text=_(u'Designates whether user is still active on track.'))
 
 	def __unicode__(self):
-		return "%s" % self.name
+		return "%s - %s" % (self.user.username, self.name)
 
 class Message(models.Model):
 	""" Class representing a message sent by a user."""
