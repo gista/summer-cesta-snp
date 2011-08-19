@@ -31,12 +31,17 @@ def config(request):
 	for luser in lusers:
 		tracks = list()
 		for track in Track.objects.filter(user=luser):
-			track_last_time = Message.objects.filter(track=track).latest().time.isoformat()
-			tracks.append({'id':track.pk, 'name':track.name,
+			# check if we have some message for this track
+			if Message.objects.filter(track=track):
+				track_last_time = Message.objects.filter(track=track).latest().time.isoformat()
+				tracks.append({'id':track.pk, 'name':track.name,
 				       'description':track.description,
 				       'is_active':track.is_active,
 				       'last_location_time':track_last_time})
-		resp['live_users'].append({'id':luser.id, 'username':luser.username,
+
+		# return only users with at least one track with at least one message
+		if len(tracks) > 0:
+			resp['live_users'].append({'id':luser.id, 'username':luser.username,
 					   'first_name':luser.first_name,
 					   'last_name':luser.last_name,
 					   'email':luser.email, 'phone':luser.phone,
