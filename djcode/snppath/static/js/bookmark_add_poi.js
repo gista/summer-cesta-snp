@@ -108,9 +108,18 @@ Ext.onReady(function() {
 	function validateLat(lat, htmlName){
 	// function for validation of 'Latitude' field in Poi form
 		if ((lat.length>0) && (Number(lat))){
-			Ext.get('id_' + htmlName).removeClass(poiFormErrorClass);
-			Ext.get('id_' + htmlName).addClass(poiFormCorrectClass);
-			Ext.fly('error_' + htmlName).update('');
+			if ((Number(lat)>=47.7311897277832) && (Number(lat)<=49.6138000488281)){
+			// latitude BBOX of Slovakia from 47.7311897277832 to 49.6138000488281
+				Ext.get('id_' + htmlName).removeClass(poiFormErrorClass);
+				Ext.get('id_' + htmlName).addClass(poiFormCorrectClass);
+				Ext.fly('error_' + htmlName).update('');
+				}
+			else {
+				Ext.get('id_' + htmlName).removeClass(poiFormCorrectClass);
+				Ext.get('id_' + htmlName).addClass(poiFormErrorClass);
+				Ext.fly('error_'  + htmlName).update(gettext("Latitude must be in bounds of Slovakia"));				
+				}
+			
 			}
 		else {
 			Ext.get('id_' + htmlName).removeClass(poiFormCorrectClass);
@@ -122,9 +131,17 @@ Ext.onReady(function() {
 	function validateLon(lon, htmlName){
 	// function for validation of 'Longitude' field in Poi form
 		if ((lon.length>0) && (Number(lon))){
-			Ext.get('id_' + htmlName).removeClass(poiFormErrorClass);
-			Ext.get('id_' + htmlName).addClass(poiFormCorrectClass);
-			Ext.fly('error_' + htmlName).update('');
+			if ((Number(lon)>=16.8332004547119) && (Number(lon)<=22.5656967163086)){
+			// Longitude BBOX of Slovakia from 16.8332004547119 to 22.5656967163086
+				Ext.get('id_' + htmlName).removeClass(poiFormErrorClass);
+				Ext.get('id_' + htmlName).addClass(poiFormCorrectClass);
+				Ext.fly('error_' + htmlName).update('');
+				}
+			else {
+				Ext.get('id_' + htmlName).removeClass(poiFormCorrectClass);
+				Ext.get('id_' + htmlName).addClass(poiFormErrorClass);
+				Ext.fly('error_'  + htmlName).update(gettext("Longitude must be in bounds of Slovakia"));						
+				}
 			}
 		else {
 			Ext.get('id_' + htmlName).removeClass(poiFormCorrectClass);
