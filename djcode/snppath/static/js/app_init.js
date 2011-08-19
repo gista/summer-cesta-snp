@@ -268,7 +268,13 @@ function addMapControls(){
 		displayClass: 'olControlRightToolbar',		
 		});
 
+	var panPanel = new OpenLayers.Control.PanPanel();
+	map.addControl(
+		panPanel
+		);
+
 	controlPanel.addControls([
+		panPanel,
 		lengthMeasureToggleButton,
 		areaMeasureToggleButton,
 		areaMeasureToggleButton,
