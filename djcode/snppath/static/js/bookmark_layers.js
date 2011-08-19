@@ -14,11 +14,18 @@ Ext.onReady(function() {
  			})
 		});
 
-	// function for setup the icon image as in layers specified
+	// function for setup the icon image as in layers default stylemap specified	
 	iconAdder = function(t,p,n,r){	
-		var icon = n.layer.getOptions().styleMap.styles.default.defaultStyle.externalGraphic;
-		if (icon)
+		var icon = "";
+		try {
+			var styleMap = n.layer.getOptions().styleMap;
+			icon = styleMap.styles.default.defaultStyle.externalGraphic;
 			n.setIcon(icon);	
+			}
+		catch(err) {
+			// if I will not define styleMap, the layer will not be added into treenotes	
+			return false;		
+			}
 		}
 
 	// create tree panel with over layers

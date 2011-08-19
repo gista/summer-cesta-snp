@@ -104,23 +104,6 @@ Ext.onReady(function() {
 
 		});
 
-	userRecordsStore.on('load', function(store){
-		// after loading data set current center into the first user record
-		var record = store.getAt(0).data;
-		var point = new OpenLayers.LonLat(record.lon, record.lat); 
-		map.setCenter(point.transform(new OpenLayers.Projection("EPSG:4326"), map.getProjectionObject()),10);
-
-		// select the first record in grid panel
-		var liveTrackingRecordPanel = Ext.getCmp("liveTrackingRecords");
-
-		// after loading data show the Record grid panel
-		liveTrackingRecordPanel.getSelectionModel().selectFirstRow();
-		liveTrackingRecordPanel.show();	
-		
-		// set the correct height for the vertical scrollers in track messages
-		liveTrackingRecordPanel.setHeight(Ext.getCmp('liveTrackingPanel').getHeight());	
-		});
-
 	configStore.load();
 	});
 
