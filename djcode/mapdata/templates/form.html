@@ -7,7 +7,7 @@
 	
 	<div class="x-form-element" style="padding-left: 0pt;">	
 	<input id="id_{{ form.name.html_name }}" type="text" maxlength="50" name="{{ form.name.html_name }}" 
-		onblur="validateName(this.value, '{{ form.name.html_name }}');">
+		onblur="validateName('{{ form.name.html_name }}');">
 	
 	</div>
 <div class="x-form-clear-left"></div>
@@ -19,7 +19,7 @@
 	</label>
 	<div class="x-form-element" style="padding-left: 0pt;">	
 	<select id="id_{{ form.type.html_name }}" name="{{ form.type.html_name }}" 
-		onchange="validateType(this.options[this.selectedIndex].value, '{{ form.type.html_name }}');">
+		onchange="validateType('{{ form.type.html_name }}');">
 		{% for choice in form.type.field.choices %}
 		<option value="{{ choice.0 }}">{{ choice.1 }}</option>
 		{% endfor %}
@@ -36,7 +36,7 @@
 	</label>
 	<div class="x-form-element" style="padding-left: 0pt;">		
 	<input id="id_{{ form.lat.html_name }}" type="text" maxlength="50" name="{{ form.lat.html_name }}" 
-		onblur="validateLat(this.value, '{{ form.lat.html_name }}');">
+		onblur="validateLat('{{ form.lat.html_name }}');">
 	</div>
 <div class="x-form-clear-left"></div>
 </div>
@@ -47,7 +47,7 @@
 	</label>
 	<div class="x-form-element" style="padding-left: 0pt;">		
 	<input id="id_{{ form.lon.html_name }}" type="text" maxlength="50" name="{{ form.lon.html_name }}" 
-		onblur="validateLon(this.value, '{{ form.lon.html_name }}');">
+		onblur="validateLon('{{ form.lon.html_name }}');">
 	</div>
 <div class="x-form-clear-left"></div>
 </div>

@@ -8,8 +8,9 @@ from django.template import RequestContext
 from django.views.decorators.csrf import csrf_protect
 from mapdata.models import Path, Poi, Area, Photo
 from joomla.models import Jos_content
-
+from django.db import IntegrityError
 from mapdata.forms import PoiForm
+from django.utils.translation import ugettext as _
 
 from datetime import date, datetime
 
@@ -133,18 +134,22 @@ def poi(request):
 	if request.method == 'POST':
 		form = PoiForm(request.POST, request.FILES)
 		if form.is_valid():
-			print "valid"
 			poi = form.save(commit=False)
 			point = Point(form.cleaned_data['lon'], form.cleaned_data['lat'])
 			poi.the_geom = point
-			poi.area = Area.objects.all()[0]
 			
 			for area in Area.objects.all():
 				if area.the_geom.intersects(point):
 					poi.area = area
 					print area
 					break
-			poi.save()
+			try:
+				poi.save()
+			except IntegrityError:
+				custom_errors = {'lon':_(u'Area out of saveable bounds.'),'lat':_(u'Area out of saveable bounds.')}
+				error_json = simplejson.dumps({"success":False, "errors":dict(custom_errors)})
+				print error_json
+				return HttpResponse(error_json, mimetype='text/html')
 
 			for file in request.FILES.getlist('photo'):
 				ph = Photo(title=file.name, photo=file)
@@ -156,7 +161,6 @@ def poi(request):
 			return HttpResponse('{"success":true, "layer":%d}' % (poi.type), mimetype='text/html') # ExtJS upload form requires html response!
 		else:
 			error_json = simplejson.dumps({"success":False, "errors":dict(form.errors)})
-			print error_json
 			return HttpResponse(error_json, mimetype='text/html')
 	else:
 		form = PoiForm()
