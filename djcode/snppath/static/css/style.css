@@ -8,92 +8,30 @@
 	
 /* Map Controllers */
 
-.olControlRightToolbar{
+.olControlEditingToolbar{
 	float: right;
-	height: 200px;
-	top: 70px;
-	right: 18px;
-	width: 30px;
+	height: auto;
+	width: 24px;
+	top: 5px;
+	right: 5px;
 }
 
-.olControlRightToolbar .olControlLengthMeasureButtonItemInactive {
-	cursor: pointer;
-	width: 30px;	
-	height: 30px;
-	margin: 5px;
-	background-image: url("/static/icons/line_off.png");
-	background-repeat: no-repeat;	
-}
-
-.olControlRightToolbar .olControlLengthMeasureButtonItemActive {
-	cursor: pointer;
-	width: 30px;	
-	height: 30px;
-	margin: 5px;
-	background-image: url("/static/icons/line_on.png");
-	background-repeat: no-repeat;	
-}
-
-.olControlRightToolbar .olControlAreaMeasureButtonItemInactive {
-	cursor: pointer;
-	width: 30px;	
-	height: 30px;
-	margin: 5px;
-	background-image: url("/static/icons/polygon_off.png");
-	background-repeat: no-repeat;	
-}
-
-.olControlRightToolbar .olControlAreaMeasureButtonItemActive {
-	cursor: pointer;
-	width: 30px;	
-	height: 30px;
-	margin: 5px;
-	background-image: url("/static/icons/polygon_on.png");
-	background-repeat: no-repeat;	
-}
-
-.olControlRightToolbar .olControlClickButtonItemActive{
-	cursor: pointer;
-	width: 30px;	
-	height: 30px;
-	margin: 5px;
-	background-image: url("/static/icons/point_on.png");
-	background-repeat: no-repeat;
-}
-
-.olControlRightToolbar .olControlClickButtonItemInactive{
-	cursor: pointer;
-	width: 30px;	
-	height: 30px;
-	margin: 5px;
-	background-image: url("/static/icons/point_off.png");
-	background-repeat: no-repeat;	
-}
-
-.olControlRightToolbar .olControlGPXButtonItemInactive {
-	cursor: pointer;
-	width: 30px;	
-	height: 30px;
-	margin: 5px;
+.olControlEditingToolbar .olControlGPXButtonItemInactive {
 	background-image: url("/static/icons/gpx.gif");
 	background-repeat: no-repeat;	
+	float: right;
+	height: 24px;
+	margin: 5px;
+	width: 24px;
 }
 
-.olControlRightToolbar .olControlHelpButtonItemInactive {
-	cursor: pointer;
-	width: 30px;	
-	height: 30px;
-	margin: 5px;
+.olControlEditingToolbar .olControlHelpButtonItemInactive {
 	background-image: url("/static/icons/help.gif");
 	background-repeat: no-repeat;	
-}
-
-.olControlPanPanel {
-	left: auto;
-	right: 0px;
-	top: 10px;
-	width: 50px;
-	height: 50px;
+	float: right;
+	height: 24px;
+	margin: 5px;
+	width: 24px;
 }
 
 /* POI form CSS */

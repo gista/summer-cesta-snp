@@ -117,8 +117,30 @@ function addMapControls(){
 
 	// Toggle buttons for map functionality	
 	
-	var lengthMeasureToggleButton, areaMeasureToggleButton, clickToggleButton;
+	var lengthMeasureToggleButton, areaMeasureToggleButton, clickToggleButton, navigationToggleButton;
 
+	// Controller for navigation
+	var navigationController = new OpenLayers.Control.Navigation();
+
+	map.addControl(navigationController);
+
+	navigationToggleButton = new OpenLayers.Control.Button({
+		title: gettext('Navigation'),
+		displayClass: 'olControlNavigation', 
+		eventListeners: {
+			'activate': function(){
+				lengthMeasureToggleButton.deactivate();
+				areaMeasureToggleButton.deactivate();
+				clickToggleButton.deactivate();
+
+				this.activate();
+				},
+			'deactivate': function(){
+				this.deactivate();
+				}	
+			},
+		type: OpenLayers.Control.TYPE_TOGGLE		
+		})
 	
 	// Controller to measure the length of points
 
@@ -136,16 +158,17 @@ function addMapControls(){
 
 	lengthMeasureToggleButton = new OpenLayers.Control.Button({
 		title: gettext('Length measure'),
-		displayClass: 'olControlLengthMeasureButton', 
+		displayClass: 'olControlDrawFeaturePath', 
 		eventListeners: {
 			'activate': function(){
+				navigationToggleButton.deactivate();
 				areaMeasureToggleButton.deactivate();
 				clickToggleButton.deactivate();
 
-				lengthMeasureController.activate();
+				this.activate();
 				},
 			'deactivate': function(){
-				lengthMeasureController.deactivate();
+				this.deactivate();
 				}	
 			},
 		type: OpenLayers.Control.TYPE_TOGGLE
@@ -171,16 +194,17 @@ function addMapControls(){
 
 	areaMeasureToggleButton = new OpenLayers.Control.Button({
 		title: gettext('Area measure'),
-		displayClass: "olControlAreaMeasureButton", 
+		displayClass: "olControlDrawFeaturePolygon", 
 		eventListeners: {
 			'activate': function(){
+				navigationToggleButton.deactivate();
 				lengthMeasureToggleButton.deactivate();
 				clickToggleButton.deactivate();
 
-				areaMeasureController.activate();
+				this.activate();
 				},
 			'deactivate': function(){
-				areaMeasureController.deactivate();
+				this.deactivate();
 				}	
 			},
 		type: OpenLayers.Control.TYPE_TOGGLE
@@ -202,16 +226,17 @@ function addMapControls(){
 
 	clickToggleButton = new OpenLayers.Control.Button({
 		title: gettext('Point info (coordinates & permalink)'),
-		displayClass: "olControlClickButton", 
+		displayClass: "olControlDrawFeaturePoint", 
 		eventListeners: {
 			'activate': function(){
+				navigationToggleButton.deactivate();
 				lengthMeasureToggleButton.deactivate();
 				areaMeasureToggleButton.deactivate();
 
-				clickController.activate();
+				this.activate();
 				},
 			'deactivate': function(){
-				clickController.deactivate();
+				this.deactivate();
 				}	
 			},
 		type: OpenLayers.Control.TYPE_TOGGLE
@@ -248,16 +273,11 @@ function addMapControls(){
 		});	
 
 	var controlPanel = new OpenLayers.Control.Panel({
-		displayClass: 'olControlRightToolbar',		
+		displayClass: 'olControlEditingToolbar',		
 		});
 
-	var panPanel = new OpenLayers.Control.PanPanel();
-	map.addControl(
-		panPanel
-		);
-
 	controlPanel.addControls([
-		panPanel,
+		navigationToggleButton,
 		lengthMeasureToggleButton,
 		areaMeasureToggleButton,
 		areaMeasureToggleButton,
