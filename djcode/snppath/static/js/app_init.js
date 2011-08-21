@@ -133,10 +133,10 @@ function addMapControls(){
 				areaMeasureToggleButton.deactivate();
 				clickToggleButton.deactivate();
 
-				this.activate();
+				navigationController.activate();
 				},
 			'deactivate': function(){
-				this.deactivate();
+				navigationController.deactivate();
 				}	
 			},
 		type: OpenLayers.Control.TYPE_TOGGLE		
@@ -165,10 +165,10 @@ function addMapControls(){
 				areaMeasureToggleButton.deactivate();
 				clickToggleButton.deactivate();
 
-				this.activate();
+				lengthMeasureController.activate();
 				},
 			'deactivate': function(){
-				this.deactivate();
+				lengthMeasureController.deactivate();
 				}	
 			},
 		type: OpenLayers.Control.TYPE_TOGGLE
@@ -201,10 +201,10 @@ function addMapControls(){
 				lengthMeasureToggleButton.deactivate();
 				clickToggleButton.deactivate();
 
-				this.activate();
+				areaMeasureController.activate();
 				},
 			'deactivate': function(){
-				this.deactivate();
+				areaMeasureController.deactivate();
 				}	
 			},
 		type: OpenLayers.Control.TYPE_TOGGLE
@@ -233,10 +233,10 @@ function addMapControls(){
 				lengthMeasureToggleButton.deactivate();
 				areaMeasureToggleButton.deactivate();
 
-				this.activate();
+				clickController.activate();
 				},
 			'deactivate': function(){
-				this.deactivate();
+				clickController.deactivate();
 				}	
 			},
 		type: OpenLayers.Control.TYPE_TOGGLE
