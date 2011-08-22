@@ -72,13 +72,17 @@ class Poi(models.Model):
 			return False
 		else:
 			return True
-
+	
+	#has_photo.boolean = True
+	
 	@property
 	def has_article(self):
 		if self.jos_article_id is not None:
 			return True
 		else:
 			return False
+	
+	#has_article.boolean = True
 
 	class Meta:
 		get_latest_by = 'created_at'
