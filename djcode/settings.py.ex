@@ -137,6 +137,7 @@ INSTALLED_APPS = (
 	'djcode.joomla',
 	'djcode.live_tracking',
 	'djcode.snppath',
+	'sorl.thumbnail',
 )
 
 # A sample logging configuration. The only tangible logging
