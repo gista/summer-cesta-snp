@@ -35,6 +35,9 @@ class Message(models.Model):
 	def user(self):
 		return self.track.user
 
+	def coordinates(self):
+		return '%s, %s' % (self.the_geom.x, self.the_geom.y)
+
 	def __unicode__(self):
 		return self.text
 
