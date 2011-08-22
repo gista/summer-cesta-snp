@@ -11,6 +11,7 @@ from joomla.models import Jos_content
 from django.db import IntegrityError
 from mapdata.forms import PoiForm
 from django.utils.translation import ugettext as _
+from sorl.thumbnail import get_thumbnail
 
 from datetime import date, datetime
 
@@ -120,8 +121,14 @@ def gpx(request):
 	return response
 
 def testmedia(request, id=1):
-	photo_data = Photo.objects.get(id=id).photo
-	return HttpResponse(photo_data, mimetype='image/jpg')
+	"""Returns thumb image."""
+	try:
+		resolution = request.GET['r']
+	except KeyError:
+		resolution = '100x100'
+	photo = Photo.objects.get(id=id).photo
+	im = get_thumbnail(photo, resolution, crop='center', quality=95)
+	return HttpResponse(im.read(), mimetype='image/JPEG')
 
 @csrf_protect
 def poi(request):
