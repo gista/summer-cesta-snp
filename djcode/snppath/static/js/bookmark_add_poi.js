@@ -1,6 +1,5 @@
 //// BOOKMARK layers	
 
-
 var POIFORM_CLASS_CORRECT = 'correct'
 var POIFORM_CLASS_ERROR = 'error'
 
@@ -12,13 +11,13 @@ Ext.onReady(function() {
 	// CSRF solution
 
 	Ext.Ajax.on('beforerequest', function (conn, options) {
-   		if (!(/^http:.*/.test(options.url) || /^https:.*/.test(options.url))) {
-     			if (typeof(options.headers) == "undefined") {
-       				options.headers = {'X-CSRFToken': Ext.util.Cookies.get('csrftoken')};
-     			} else {
-       				options.headers.extend({'X-CSRFToken': Ext.util.Cookies.get('csrftoken')});
-     				}                        
-   			}
+		if (!(/^http:.*/.test(options.url) || /^https:.*/.test(options.url))) {
+			if (typeof(options.headers) == "undefined") {
+				options.headers = {'X-CSRFToken': Ext.util.Cookies.get('csrftoken')};
+			} else {
+				options.headers.extend({'X-CSRFToken': Ext.util.Cookies.get('csrftoken')});
+				}
+			}
 		}, this);
 
 	Ext.getCmp('formSubmit').on('click', function() {
@@ -39,12 +38,12 @@ Ext.onReady(function() {
 					var layerId = action.result.layer;
 					overLayers[overLayers.length-layerId].refresh();
 					Ext.Msg.show({
-	   					title: gettext("Point of Interest"),
-	   					msg: gettext("New poi has been successfully added."),
-	   					buttons: Ext.Msg.OK,
-	   					icon: Ext.MessageBox.INFO
+						title: gettext("Point of Interest"),
+						msg: gettext("New poi has been successfully added."),
+						buttons: Ext.Msg.OK,
+						icon: Ext.MessageBox.INFO
 						});
-					},            
+					},
 				failure: function(form,action) { 
 					var msg = ""
 					var errors = action.result.errors;
@@ -53,11 +52,10 @@ Ext.onReady(function() {
 						Ext.get('id_'+key).removeClass(POIFORM_CLASS_CORRECT);
 						Ext.get('id_'+key).addClass(POIFORM_CLASS_ERROR);
 						}
-					}            
-		        	})
+					}
+				})
 			}
-            	});	
-
+		});	
 	});
 
 	function addFormInput(number){
@@ -72,7 +70,7 @@ Ext.onReady(function() {
 			// we create div where should be new file input placed
 			var whereTo = 'myDiv'+fileNo;
 			Ext.DomHelper.append('multiuploader', '<div class="upload" id="'+ whereTo +'">\n</div>');
-		
+
 			// add photo label
 			Ext.DomHelper.append(whereTo, '<label for="realupload'+ fileNo +'">'+ gettext("Photo") + ' #'+ (parseInt(fileNo)+1) +'</label>');
 
@@ -149,7 +147,6 @@ Ext.onReady(function() {
 				Ext.get(htmlId).addClass(POIFORM_CLASS_ERROR);
 				Ext.fly(errorId).update(gettext("Latitude must be in bounds of Slovakia"));				
 				}
-			
 			}
 		else {
 			Ext.get(htmlId).removeClass(POIFORM_CLASS_CORRECT);

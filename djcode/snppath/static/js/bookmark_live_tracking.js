@@ -5,6 +5,12 @@ var markerLayer;
 
 Ext.onReady(function() {
 
+	// actual live trackin URL holder for refresh button
+	var liveTrackingUrl;
+	var liveTrackingActivePanel = Ext.getCmp('liveTrackingActive');
+	var liveTrackingInactivePanel = Ext.getCmp('liveTrackingInactive');
+	var liveTrackingRecordPanel = Ext.getCmp("liveTrackingRecords");
+
 	userRecordsStore.on('load', function(store){
 		// select the first record in grid panel
 		var liveTrackingRecordPanel = Ext.getCmp("liveTrackingRecords");
@@ -12,20 +18,13 @@ Ext.onReady(function() {
 		// after loading data show the Record grid panel
 		liveTrackingRecordPanel.getSelectionModel().selectFirstRow();
 		liveTrackingRecordPanel.show();	
-		
+
 		// set the correct height for the vertical scrollers in track messages
 		liveTrackingRecordPanel.setHeight(Ext.getCmp('liveTrackingPanel').getHeight());	
-		
+
 		// fire rowclick event to setup correct map position
 		liveTrackingRecordPanel.fireEvent("rowclick", liveTrackingRecordPanel, 0, null);
 		}, this, true);
-
-	// actual live trackin URL holder for refresh button
-	var liveTrackingUrl;
-
-	var liveTrackingActivePanel = Ext.getCmp('liveTrackingActive');
-	var liveTrackingInactivePanel = Ext.getCmp('liveTrackingInactive');
-	var liveTrackingRecordPanel = Ext.getCmp("liveTrackingRecords");
 
 	liveTrackingActivePanel.on('rowclick', function(grid, rowIndex, e) {
 		var record = grid.getStore().getAt(rowIndex).data;		
@@ -46,7 +45,7 @@ Ext.onReady(function() {
 		// hide grid with active & inactive users
 		liveTrackingActivePanel.hide();
 		liveTrackingInactivePanel.hide();
-  		});	
+		});	
 
 	liveTrackingInactivePanel.on('rowclick', function(grid, rowIndex, e) {
 		var record = grid.getStore().getAt(rowIndex).data;
@@ -77,7 +76,7 @@ Ext.onReady(function() {
 		var record = grid.getStore().getAt(rowIndex).data;
 		var point = new OpenLayers.LonLat(record.lon, record.lat).transform(map.displayProjection, map.projection); 
 		map.panTo(point);
-		
+
 		if (typeof(markerLayer)=="undefined"){
 			// if we want to see first time marker layer(first time we clicked into LIVE user messages)
 			markerLayer = new OpenLayers.Layer.Markers(gettext("Live messages"));
@@ -111,6 +110,4 @@ Ext.onReady(function() {
 			liveTrackingInactivePanel.show();
 			});		
 		});
-
-
-  	});
+	});

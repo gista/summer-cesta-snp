@@ -1,15 +1,14 @@
 // app_init.js
-
 var map;
 var geoExtMapPanel;
 var overLayers = [];
+
 // Stores
 var activeUsersStore;
-var inactiveUsersStore
+var inactiveUsersStore;
 var userRecordsStore;
 
 Ext.onReady(function() {
-
 	// set map options and instantiative map
 	var options = {
 		projection: new OpenLayers.Projection("EPSG:900913"),
@@ -25,7 +24,7 @@ Ext.onReady(function() {
 		type: google.maps.MapTypeId.HYBRID, 
 		numZoomLevels: 20,
 		});
-	
+
 	var freemap_urls = ["http://t1.freemap.sk/T", "http://t2.freemap.sk/T",
 	    "http://t3.freemap.sk/T", "http://t4.freemap.sk/T"]
 	var fmap = new OpenLayers.Layer.TMS(gettext("Tourist map"), freemap_urls,{
@@ -63,7 +62,7 @@ Ext.onReady(function() {
 	// on load listeners for init stores
 	configStore.on('load', function(store){
 		var jData = store.reader.jsonData
-		
+
 		// set map default config
 		var record = jData.location;
 		var point = new OpenLayers.LonLat(record.lon, record.lat); 
@@ -85,12 +84,11 @@ Ext.onReady(function() {
 			for(var j=0;j<tracks.length;j++){
 				if (tracks[j].is_active){
 					activeTracks.push({username:data[i].username, track_id:tracks[j].id,
-						description:tracks[j].description, last_location_time: tracks[j].last_location_time});
+					    description:tracks[j].description, last_location_time: tracks[j].last_location_time});
 					}
 				else {
 					inactiveTracks.push({username:data[i].username, track_id:tracks[j].id, 
-						description:tracks[j].description, last_location_time: tracks[j].last_location_time});
-
+					    description:tracks[j].description, last_location_time: tracks[j].last_location_time});
 					}
 				}
 			}
@@ -101,14 +99,13 @@ Ext.onReady(function() {
 		// fill the stores with created active & inactive records
 		activeLiveTrackingStore.loadData(activeTracks);
 		inactiveLiveTrackingStore.loadData(inactiveTracks);
-
 		});
 
 	configStore.load();
 	});
 
 function addMapControls(){
-	
+
 	map.addControls([
 		new OpenLayers.Control.Permalink(),
 		new OpenLayers.Control.ScaleLine(),
@@ -116,7 +113,7 @@ function addMapControls(){
 		]);
 
 	// Toggle buttons for map functionality	
-	
+
 	var lengthMeasureToggleButton, areaMeasureToggleButton, clickToggleButton, navigationToggleButton;
 
 	// Controller for navigation
@@ -148,10 +145,10 @@ function addMapControls(){
 		persist: true,
 		immediate: true,
 		geodesic: true,
-    		eventListeners: {
-  			"measure": handleMeasurements,
-    			//"measurepartial": handleMeasurements	
-    			}
+		eventListeners: {
+			"measure": handleMeasurements,
+			//"measurepartial": handleMeasurements	
+			}
 		});
 
 	map.addControl(lengthMeasureController);
@@ -174,18 +171,16 @@ function addMapControls(){
 		type: OpenLayers.Control.TYPE_TOGGLE
 		});
 
-	/*
-	Controller to measure the area size	
-	*/
+	// Controller to measure the area size	
 
 	var areaMeasureController = new OpenLayers.Control.Measure(OpenLayers.Handler.Polygon, {
 		persist: true,
 		immediate: true,
 		geodesic: true,
-    		eventListeners: {
+		eventListeners: {
 			"measure": handleMeasurements,
- 			//"measurepartial": handleMeasurements
-    			}
+			//"measurepartial": handleMeasurements
+			}
 		});
 
 	map.addControl(areaMeasureController);
@@ -221,7 +216,6 @@ function addMapControls(){
 
 	map.addControl(clickController);
 
-	
 	// Toggle button to activate/deactivate the click controller	
 
 	clickToggleButton = new OpenLayers.Control.Button({
@@ -242,15 +236,15 @@ function addMapControls(){
 		type: OpenLayers.Control.TYPE_TOGGLE
 		});
 
-	// Controller button to export POI into GPX	
+	// Controller button to export POI into GPX
 
 	var gpxButton = new OpenLayers.Control.Button({
 		title: gettext('Export all data into .gpx'),
-    		displayClass: "olControlGPXButton", 
+		displayClass: "olControlGPXButton", 
 		trigger: function(){
 			document.location.href = "mapdata/gpx/"
 			} 
-		});	
+		});
 
 	// help window with autoLoaded html data from URL 'help'
 
@@ -266,7 +260,7 @@ function addMapControls(){
 
 	var helpButton = new OpenLayers.Control.Button({
 		title: gettext('Show help'),
-    		displayClass: "olControlHelpButton", 
+		displayClass: "olControlHelpButton", 
 		trigger: function(){
 			helpWindow.show();	
 			} 
@@ -302,8 +296,7 @@ function addOverLayers(){
 		[7, gettext('other'), false, '/static/icons/unknown.svg', '/static/icons/unknown_b.svg'],
 		];
 
-
-	// create basic filter for applied for a map
+	// create basic filter to applied for a map
 	filterPhoto = new OpenLayers.Filter.Logical({
 		type: OpenLayers.Filter.Logical.OR,
 		filters: [
@@ -360,22 +353,21 @@ function addOverLayers(){
 	var styleMap = [];
 	for(var i=0;i<OVER_LAYERS.length;i++){
 		var defaultStyle = new OpenLayers.Style({
-	  		'pointRadius': 10,
-	  		'externalGraphic': OVER_LAYERS[i][3]
+			'pointRadius': 10,
+			'externalGraphic': OVER_LAYERS[i][3]
 			});
 		var selectStyle = new OpenLayers.Style({
-	  		'pointRadius': 10,
-	  		'externalGraphic': OVER_LAYERS[i][4]
+			'pointRadius': 10,
+			'externalGraphic': OVER_LAYERS[i][4]
 			});
 		styleMap[i] = new OpenLayers.StyleMap({
 			'default': defaultStyle,
-                       	'select': selectStyle
+			'select': selectStyle
 			});
 		}
 
-	
-
 	// append map over layers as specified
+	
 	for(var i=0;i<OVER_LAYERS.length;i++){
 		var j = OVER_LAYERS.length-1-i;
 		overLayers[i] = new OpenLayers.Layer.Vector(OVER_LAYERS[j][1], {
@@ -402,35 +394,27 @@ function addOverLayers(){
 	// Add a select feature control
 	var select_feature_control = new OpenLayers.Control.SelectFeature(overLayers,{
 			clickout: true, toggle: false,
-       			multiple: false, hover: false,
+			multiple: false, hover: false,
 			}
 		);
 	map.addControl(select_feature_control);
 	select_feature_control.activate();
 
 	// Add on select feature listener
-	console.log(overLayers[0]);
 	
 	for(var i=0;i<7;i++){
 		overLayers[i].events.on({
-	     		"featureselected": function(e) {			
+			"featureselected": function(e) {			
 				createPoint(e.feature);
-        	        	},
-       			"featureunselected": function(e) {
-              			//popup = null;
-        	        	}
-        	    	});
+				}
+			});
 		}
-	
 	}
 
 function addSnpPathLayer(){
-	// create bbox from map for url request & convert to correct projection
-	var mapBounds = map.calculateBounds();
-	mapBounds.transform(map.projection,map.displayProjection);
 
 	var defaultStyle = new OpenLayers.Style({
-	  		strokeColor: "red", 
+			strokeColor: "red", 
 			strokeWidth: 4,
 			strokeOpacity: 0.5,
 			cursor: "pointer"

@@ -9,12 +9,11 @@ OpenLayers.Control.Click = OpenLayers.Class(OpenLayers.Control,{
 		'stopDouble': false
 		},
 	initialize: function(options) {
- 		this.handlerOptions = OpenLayers.Util.extend({}, this.defaultHandlerOptions);
+		this.handlerOptions = OpenLayers.Util.extend({}, this.defaultHandlerOptions);
 		OpenLayers.Control.prototype.initialize.apply(this, arguments);
- 
-   	this.handler = new OpenLayers.Handler.Click(this, {
+
+		this.handler = new OpenLayers.Handler.Click(this, {
 			'click': this.trigger
 			}, this.handlerOptions);
-  			}, 
-		});
-
+		},
+	});

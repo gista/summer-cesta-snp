@@ -9,5 +9,4 @@ function get_freemap_url (bounds) {
 	var url = this.url;
 	if (url instanceof Array) { url = this.selectUrl(path, url); }
 	return url + path;
-}  
-
+}

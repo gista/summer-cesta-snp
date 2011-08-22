@@ -1,3 +1,4 @@
+// window.js
 var popup;
 
 /// POINT handling
@@ -9,10 +10,10 @@ Ext.onReady(function() {
 		var data = store.reader.jsonData;
 		// setup correct point moutain read from store
 		Ext.getCmp('moutain').html = '<b>' + gettext("Moutain") + ':</b>&nbsp;' +data.area;
-		
+
 		// setup correct point note read from store
 		Ext.getCmp('notes').html = data.note;
-		
+
 		// add articles into popup, if there area some
 		if (store.data.length > 0){	
 			var articlePointPanel = Ext.getCmp('articles');
@@ -84,12 +85,12 @@ function createPoint(feature) {
 	point.transform(map.projection, map.displayProjection);
 
 	// create basic popup
-	console.log(feature);
+	//console.log(feature);
 	popup = new GeoExt.Popup({
 		unpinnable: false,
 		location: feature,
 		autoWidth: true,
-        	autoHeight: true,
+		autoHeight: true,
 		title: gettext("Point"),
 		items:[{
 			title: gettext("Point info"),
@@ -128,8 +129,7 @@ function createPoint(feature) {
 				frame: true,
 				collapsible: true,
 				collapsed: true,
-				},	
-		
+				},
 			},{
 			title: gettext("Point photos"),
 			id: 'photos',
@@ -166,12 +166,12 @@ function showPopup(loc){
 
 	// if there was already some point popup shown, destroy the old one
 	if (popupPoint)
-		popupPoint.destroy();		
+		popupPoint.destroy();
 
 	// create popup for user click point
 	popupPoint = new GeoExt.Popup({
-   		title: gettext("Map point"),
-     		autoWidth: true,
+		title: gettext("Map point"),
+		autoWidth: true,
 		unpinnable: false,
 		map: map,
 		location: map.getCenter(),
@@ -179,11 +179,10 @@ function showPopup(loc){
 			xtype: "box",
 			style:{
 				"font-size": "13px",
-				"padding": "10px"		
+				"padding": "10px"
 				},
 			autoEl: {
-	    			html: "<b>" + gettext("Coordinates") + ":</b><br/> [" + loc.lon + 
-						 "," + loc.lat + "]",
+				html: "<b>" + gettext("Coordinates") + ":</b><br/> [" + loc.lon +  "," + loc.lat + "]",
 				},
 			},{
 			xtype: "box",
@@ -192,10 +191,10 @@ function showPopup(loc){
 				"padding": "10px"		
 				},
 			autoEl: {
-	    			html: "<b>" + gettext("Permalink") + ":</b><br/> " + permalink,
+				html: "<b>" + gettext("Permalink") + ":</b><br/> " + permalink,
 				},
-	    		}]
-   		});
+			}]
+		});
 
 	popupPoint.show();
 	}	
@@ -220,4 +219,4 @@ function handleMeasurements(event) {
 		buttons: Ext.Msg.OK,
 		icon: Ext.MessageBox.INFO
 		});
-  	}
+	}

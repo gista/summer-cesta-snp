@@ -1,7 +1,7 @@
 //// BOOKMARK layers	
 
 Ext.onReady(function() {
-	
+
 	// create tree panel with base layers
 	var mapBaseLayersTree = new Ext.tree.TreePanel({
 		autoHeight: true,
@@ -11,7 +11,7 @@ Ext.onReady(function() {
 			layerStore: geoExtMapPanel.layers,
 			expanded: true,
 			cls: 'x-tree-title-invisible',
- 			})
+			})
 		});
 
 	// function for setup the icon image as in layers default stylemap specified	
@@ -41,7 +41,7 @@ Ext.onReady(function() {
 				beforeinsert: iconAdder,
 				append: iconAdder,		
 				}
- 			}),
+			}),
 		});
 
 	// Checkbox events for check/uncheck in Filter panel
@@ -49,8 +49,7 @@ Ext.onReady(function() {
 		if (checked)
 			strategyPhoto.setFilter(filterHasPhoto);		
 		else 
-			strategyPhoto.setFilter(filterPhoto);						
-			
+			strategyPhoto.setFilter(filterPhoto);							
 		});
 
 	Ext.getCmp("has_article").on('check', function(el,checked){
