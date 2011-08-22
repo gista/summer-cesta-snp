@@ -52,7 +52,7 @@ class Jos_joom_gallery(models.Model):
 		verbose_name_plural = u'galleries'
 	
 	def __unicode__(self):
-		return "%s" % self.imgtitle
+		return "(%s) %s" % (self.id, self.imgtitle)
 
 	def save(self, *args, **kwargs):
 		pass
@@ -97,7 +97,7 @@ class Jos_content(models.Model):
 		verbose_name = u'content'
 
 	def __unicode__(self):
-		return "%s" % self.title
+		return "(%s) %s" % (self.id, self.title)
 
 	def save(self, *args, **kwargs):
 		pass

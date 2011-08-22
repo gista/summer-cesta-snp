@@ -1,6 +1,7 @@
 from django.contrib.gis.db import models
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
+from djcode.joomla.models import Jos_joom_gallery, Jos_content
 
 class Area(models.Model):
 	"""Model representing area, which contains path and Points of interest."""
@@ -30,14 +31,14 @@ class Jos_article_id(models.Model):
 	id = models.IntegerField(_(u'id'), primary_key = True)
 
 	def __unicode__(self):
-		return str(self.id)
+		return u'%s' % Jos_content.objects.get(id=self.id)
 
 class Jos_photo_id(models.Model):
 	"""Model representing ID of photo in DB of Joomla"""
 	id = models.IntegerField(_(u'id'), primary_key = True)
 
 	def __unicode__(self):
-		return str(self.id)
+		return u'%s' % Jos_joom_gallery.objects.get(id=self.id)
 
 class Photo(models.Model):
 	title = models.CharField(_(u'title'), max_length=50)
