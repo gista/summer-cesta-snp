@@ -55,7 +55,29 @@ Ext.onReady(function() {
 					}
 				})
 			}
-		});	
+		});
+
+	// we want to load some config staff, after the form is rendered
+	Ext.getCmp('poiform').on('afterrender', function(form){
+		// after the form is fully updated, we want to add new options from our config
+		form.getUpdater().on('update', function(el,resp){
+			var option = '<option value="{id}">{text}</option>';
+			var tpl = Ext.DomHelper.createTemplate(option);
+			tpl.compile();
+			tpl.append('id_' + POIFORM_INPUTS[1], {
+				id: '0',
+				text: gettext("Select a type of POI")
+				});
+
+			var types = configStore.reader.jsonData.poi_types;
+			for(var i=0;i<types.length;i++){
+				tpl.append('id_' + POIFORM_INPUTS[1], {
+					id: (i+1),
+					text: types[i]
+					});				
+				}			
+			})	
+		})
 	});
 
 	function addFormInput(number){

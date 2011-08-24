@@ -3,6 +3,8 @@ from mapdata.models import Poi
 from django.utils.translation import ugettext_lazy as _
 
 class PoiForm(forms.ModelForm):
+	type = forms.IntegerField(required=True, 
+			widget=forms.Select())
 	lat = forms.FloatField(required=True,
 			label=_(u'Latitude: (e.g. 48.45789)'))
     	lon = forms.FloatField(required=True,
