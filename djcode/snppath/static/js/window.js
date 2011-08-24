@@ -9,72 +9,56 @@ Ext.onReady(function() {
 		console.log(store.reader.jsonData);
 		var data = store.reader.jsonData;
 		// setup correct point moutain read from store
-		Ext.getCmp('moutain').html = '<b>' + gettext("Moutain") + ':</b>&nbsp;' +data.area;
+		Ext.getCmp('moutain').html = '<b>' + gettext("Moutain") + ':</b>&nbsp;' + data.area;
 
 		// setup correct point note read from store
-		Ext.getCmp('notes').html = data.note;
+		Ext.getCmp('notes').html = '<b>' + gettext("Note") + ':</b>&nbsp;' + data.note + "<hr/>";
+
+		popup.show();
 
 		// add articles into popup, if there area some
-		if (store.data.length > 0){	
-			var articlePointPanel = Ext.getCmp('articles');
+		if (store.totalLength > 0){	
+			var article = '<div class="article"><h2>{title}</h2>{introtext}<br/><br/><a href="{url}" target="_blank">Link to article</a></div><br/>';
+			var tpl = Ext.DomHelper.createTemplate(article);
+			tpl.compile();
+
 			var articles = data.articles;
 			for(i=0; i<articles.length; i++){
-				articlePointPanel.add({
+				tpl.append('articles', {
 					title: articles[i].article_title,
-					html: articles[i].article_introtext + '<br/><br/> \
-						<a href="' + articles[i].article_url + '" target="_blank">' + gettext("Link to article") + '</a> ',
-				});
-			}
-			// show article bookmark in popup
-			articlePointPanel.show();			
+					introtext: articles[i].article_introtext,
+					url: articles[i].article_url
+					});
+				}			
 			}
 
+		
+		var image = '<div><img src="{url}" style="padding: 10px; width: 60px; height: 60px;"></div>';
+		var tpl = Ext.DomHelper.createTemplate(image);
+		tpl.compile();
+		
 		// add jos photos into popup, if there area some
 		if (data.photos_jos.length > 0){
 			var photos_jos = data.photos_jos;
 			for(i=0; i<photos_jos.length; i++){
 				var photoUrl = '/media/' + photos_jos[i] + '/';
-				Ext.getCmp("photo_jos").add({
-					xtype: 'box',
-					width: 80,
-					height: 80,
-					style:{
-						"padding":"10px",
-						},
-					autoEl:{
-						tag: 'img',
-						src: photoUrl,			
-						}
-					});
+				tpl.append('photo_jos',{
+					url:photoUrl
+					})
 				}
-			// if some added, show the photos panel in point popup
-			Ext.getCmp('photos').show();
 			}
 
 		// add map photos into popup, if there area some
 		if (data.photos_map.length > 0){
 			var photos_map = data.photos_map;
 			for(i=0; i<photos_map.length; i++){
-				var photoUrl = '/media/' + photos_map[i] + '/';
-				Ext.getCmp("photo_map").add({
-					xtype: 'box',
-					width: 80,
-					height: 80,
-					style:{
-						"padding":"10px",
-						},
-					autoEl:{
-						tag: 'img',	
-						src: photoUrl,			
-						}
-					});
+				var photoUrl = '/media/' + photos_jos[i] + '/';
+				tpl.append('photo_map',{
+					url:photoUrl
+					})
 				}
-			// if some added, show the photos panel in point popup
-			Ext.getCmp('photos').show();			
 			}
-
-		// after all settings show the popup
-		popup.show();
+		
 		});
 
 	})
@@ -84,65 +68,38 @@ function createPoint(feature) {
 	var point = new OpenLayers.Geometry.Point(feature.geometry.x, feature.geometry.y);
 	point.transform(map.projection, map.displayProjection);
 
-	// create basic popup
-	//console.log(feature);
-	popup = new GeoExt.Popup({
-		unpinnable: false,
-		location: feature,
-		autoWidth: true,
-		autoHeight: true,
-		title: gettext("Point"),
+	// create basic window with height, width & position from map 
+	popup = new Ext.Window({
+		modal: true,
+		x: geoExtMapPanel.getPosition()[0],
+		y: geoExtMapPanel.getPosition()[1],
+    		height: geoExtMapPanel.getHeight(),
+    		width: geoExtMapPanel.getWidth(),
+		plain: true,
+		header: false,
+		autoScroll: true,  
+		border: false,
+		bodyBorder: false,
+		bodyStyle: 'padding:15px; ',
+		cls: 'poi',
+		defaults: {
+			xtype: 'box',
+			autoHeight: true,
+			},	
 		items:[{
-			title: gettext("Point info"),
-			frame: true,
-			defaults: {
-				frame: true,
-				},
-			items:[{
-				xtype: 'box',
-				height: 30,
-				id: 'moutain',
-				},{
-				xtype: 'box',
-				height: 30,
-				autoEl:{		
-					html: '<b>' + gettext("Coordinates") + ':</b> [ ' + point.x + ',' + point.y + ' ]',
-					},
-				},{	
-				xtype: 'box',
-				height: 20,
-				autoEl:{		
-					html: '<b>' + gettext("Note") + ':</b>',
-					},			
-				},{	
-				xtype: 'box',
-				autoHeight: true,
-				id: 'notes',		
-				}]
+			id: 'moutain',
 			},{
-			title: gettext("Point articles"),
+			autoEl:{		
+				html: '<b>' + gettext("Coordinates") + ':</b> [ ' + point.x + ',' + point.y + ' ]',
+				},
+			},{	
+			id: 'notes',	
+			},{
 			id: 'articles',
-			frame: true,
-			hidden: true,
-			defaults: {
-				bodyStyle: 'padding:15px',
-				frame: true,
-				collapsible: true,
-				collapsed: true,
-				},
 			},{
-			title: gettext("Point photos"),
-			id: 'photos',
-			frame: true,
-			hidden: true,
-			defaults: {
-				frame: true,
-				},
-			items:[{
-				id: 'photo_jos',
-				},{
-				id: 'photo_map'
-				}]
+			id: 'photo_jos',
+			},{
+			id: 'photo_map'
 			}]
 		});
 
