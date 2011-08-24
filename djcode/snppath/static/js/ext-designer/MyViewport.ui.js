@@ -285,16 +285,20 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 				id: 'poiform',
 				fileUpload: true,
                                 region: 'center',
+				buttonAlign: 'center',
 				frame: true,
 				width: 250,
 				autoLoad:{
 					url: 'mapdata/poi/',			
-					},						
+					},
+										
 				buttons:[
 				      {
-            				text: gettext("Add"),
+            				text: '<big>' + gettext("Add") + '</big>',
             				type: 'submit',
 					id: 'formSubmit',
+					cls: 'buttonStyle',
+					width: 200
 				      }
 					],
 			    },{
