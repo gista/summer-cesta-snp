@@ -70,7 +70,7 @@ function createPoint(feature) {
 
 	// create basic window with height, width & position from map 
 	popup = new Ext.Window({
-		modal: true,
+		modal: false,
 		x: geoExtMapPanel.getPosition()[0],
 		y: geoExtMapPanel.getPosition()[1],
     		height: geoExtMapPanel.getHeight(),
@@ -80,6 +80,7 @@ function createPoint(feature) {
 		autoScroll: true,  
 		border: false,
 		bodyBorder: false,
+		style: 'padding: 10px;',
 		bodyStyle: 'padding:15px; ',
 		cls: 'poi',
 		defaults: {
