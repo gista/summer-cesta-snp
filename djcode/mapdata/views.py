@@ -15,7 +15,7 @@ from sorl.thumbnail import get_thumbnail
 
 from datetime import date, datetime
 
-GPX_FILE_NAME = 'snp.gpx'
+GPX_FILE_NAME = 'cestasnp-%s.gpx' % date.today()
 
 GPX_METADATA = {
 	'name':GPX_FILE_NAME,
