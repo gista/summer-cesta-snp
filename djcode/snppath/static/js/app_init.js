@@ -353,12 +353,13 @@ function addOverLayers(){
 	var styleMap = [];
 	for(var i=0;i<OVER_LAYERS.length;i++){
 		var defaultStyle = new OpenLayers.Style({
-			'pointRadius': 10,
-			'externalGraphic': OVER_LAYERS[i][3]
+			pointRadius: 10,
+			externalGraphic: OVER_LAYERS[i][3],
+			cursor: 'pointer'
 			});
 		var selectStyle = new OpenLayers.Style({
-			'pointRadius': 10,
-			'externalGraphic': OVER_LAYERS[i][4]
+			pointRadius: 10,
+			externalGraphic: OVER_LAYERS[i][4]
 			});
 		styleMap[i] = new OpenLayers.StyleMap({
 			'default': defaultStyle,
