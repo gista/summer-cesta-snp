@@ -67,8 +67,9 @@ def snppath(request):
 		bbox = map(lambda x: float(x), request.GET['bbox'].split(','))
 		bbox_poly = Polygon.from_bbox(bbox)
 		bbox_poly.srid = settings.SNP_SRID
-		bbox_poly.transform(settings.DB_SRID)
-	except KeyError:
+		to_srid = Path.objects.all()[0].the_geom.srid
+		bbox_poly.transform(to_srid)
+	except (KeyError, IndexError):
 		bbox_poly = None
 	resp = render_to_geojson(Path.objects.all(), settings.SNP_SRID, geom_simplify, bbox_poly,
 				 properties=())
