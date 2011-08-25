@@ -408,9 +408,43 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
             {
                 xtype: 'container',
                 region: 'south',
-                width: 100,
-                height: 50,
-                id: 'appFooter'
+                height: 45,
+                id: 'appFooter',
+		layout: {
+    			type: 'hbox',
+    			pack: 'start',
+    			align: 'stretch'
+			},
+		items:[
+		   {
+			xtype: 'container',
+			width: 250,
+			id: 'appFooterWest',
+		   },
+		   {
+			xtype: 'container',
+			flex: 1,
+			id: 'appFooterCenter',
+		   },
+		   {
+			xtype: 'container',
+			width: 220,
+			style: 'padding: 5px;',
+			defaults:{
+				style: 'font-size: 12px'	
+			},
+			items:[
+			   {
+				xtype: 'box',
+				id: 'username',
+			   },
+			   {
+				xtype: 'box',
+				id: 'version',
+			   }			
+			]
+		   }
+		]
             }
         ];
         MyViewportUi.superclass.initComponent.call(this);
