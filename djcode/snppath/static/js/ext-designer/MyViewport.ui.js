@@ -428,7 +428,7 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 		   },
 		   {
 			xtype: 'container',
-			width: 220,
+			width: 230,
 			style: 'padding: 5px;',
 			defaults:{
 				style: 'font-size: 12px'	
