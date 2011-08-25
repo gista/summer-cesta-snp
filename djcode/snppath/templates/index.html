@@ -34,10 +34,12 @@
 	{# debug #}
 	<script type="text/javascript">
 		console.log('D: USERNAME: {{ user }}, IS STAFF: {{ user.is_staff }}, IS SUPERUSER: {{ user.is_superuser }}')
-	
+
 	Ext.onReady(function() {
 		Ext.fly('username').update('<b>Username:</b>&nbsp;{{ user }}');
 		Ext.fly('version').update('<b>Version:</b>&nbsp;v0.1-alpha1-99-xxxxxxxx');
+
+		Ext.getCmp('helpWindow').autoLoad.url += "?" + Ext.urlEncode({language:'{{ LANGUAGE_CODE }}'})
 		});
 	</script>	
 {% endblock %}

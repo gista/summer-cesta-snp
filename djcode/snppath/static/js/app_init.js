@@ -252,6 +252,7 @@ function addMapControls(){
 		autoWidth: true,
 		autoHeight: true,
 		title: gettext('Help'),
+		id: 'helpWindow',
 		closeAction: 'hide', 
 		autoLoad:{
 			url: 'help/',			
