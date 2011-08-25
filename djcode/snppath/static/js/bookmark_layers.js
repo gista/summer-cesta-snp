@@ -20,26 +20,28 @@ Ext.onReady(function() {
 		try {
 			var styleMap = n.layer.getOptions().styleMap;
 			icon = styleMap.styles.default.defaultStyle.externalGraphic;
-			n.setIcon(icon);	
+			n.setIcon(icon);
+			n.setId(n.layer.name + "_" +n.layer.getVisibility());	
 			}
 		catch(err) {
 			// if I will not define styleMap, the layer will not be added into treenotes	
 			return false;		
 			}
-		}
+		}		
 
 	// create tree panel with over layers
 	var mapOverLayersTree = new Ext.tree.TreePanel({
 		autoHeight: true,
 		padding: 10,
 		renderTo: 'appOverLayersHolder',
+		id: 'overLayerTree',
 		root: new GeoExt.tree.OverlayLayerContainer({
 			layerStore: geoExtMapPanel.layers,
 			expanded: true,
 			cls: 'x-tree-title-invisible',
 			listeners:{
 				beforeinsert: iconAdder,
-				append: iconAdder,		
+				append: iconAdder,
 				}
 			}),
 		});
