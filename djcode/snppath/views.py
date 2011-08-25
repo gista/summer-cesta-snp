@@ -1,10 +1,11 @@
 from django.conf import settings
 from django.shortcuts import render_to_response
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.contrib.auth import authenticate, login
 from django.template import RequestContext
 from django.utils import simplejson
 from live_tracking.models import User, Track, Message
+from snppath.models import Help
 
 
 def home(request):
@@ -17,8 +18,17 @@ def home(request):
 	return render_to_response("index.html", {}, context_instance=RequestContext(request))
 
 def testhelp(request):
-	resp = 'Loaded My help content.'
-	return HttpResponse(resp, mimetype="text/plain")
+	"""
+	View returning help page in given language
+	Request parameters:
+	* language - language of the help
+	"""
+	lang = request.GET['language']
+	try:
+		hlp = Help.objects.get(language=lang)
+	except Help.DoesNotExist:
+		raise Http404
+	return HttpResponse(hlp.text)
 
 def config(request):
 	"""
