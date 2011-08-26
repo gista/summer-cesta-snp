@@ -111,7 +111,6 @@ MIDDLEWARE_CLASSES = (
 	'django.middleware.common.CommonMiddleware',
 	'django.contrib.sessions.middleware.SessionMiddleware',
 	'django.middleware.csrf.CsrfViewMiddleware',
-	'django.middleware.csrf.CsrfResponseMiddleware',
 	'django.contrib.auth.middleware.AuthenticationMiddleware',
 	'django.contrib.messages.middleware.MessageMiddleware',
 )
@@ -123,6 +122,9 @@ TEMPLATE_DIRS = (
 	# Always use forward slashes, even on Windows.
 	# Don't forget to use absolute paths, not relative paths.
 )
+
+#Secret key of live_tracking message API
+SMSSYNC_SECRET = '534lkjso3w4lajs0u034s5l234j050y'
 
 INSTALLED_APPS = (
 	'django.contrib.auth',
