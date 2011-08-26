@@ -5,7 +5,6 @@ from django.views.decorators.csrf import csrf_exempt
 from live_tracking.forms import MessageForm
 from datetime import datetime
 from django.http import Http404
-from django.utils.translation import ugettext_lazy as _
 
 def messages(request):
 	"""
