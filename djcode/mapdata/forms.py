@@ -1,6 +1,7 @@
 from django import forms
 from mapdata.models import Poi
 from django.utils.translation import ugettext_lazy as _
+from validators import validate_lat, validate_lon
 
 class PoiForm(forms.ModelForm):
 	type = forms.IntegerField(required=True, 
@@ -19,14 +20,12 @@ class PoiForm(forms.ModelForm):
 
 	def clean_lat(self):
         	lat = self.cleaned_data.get('lat', '')
-        	if (lat<-90 or lat>90):
-            		raise forms.ValidationError(_(u'Exceeded latitude!'))
+		validate_lat(lat)
         	return lat
 
 	def clean_lon(self):
         	lon = self.cleaned_data.get('lon', '')
-        	if (lon<-180 or lon>180):
-            		raise forms.ValidationError(_(u'Exceeded longitude!'))
+		validate_lon(lon)
         	return lon
 
 	class Meta:
