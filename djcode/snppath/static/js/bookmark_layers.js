@@ -21,7 +21,14 @@ Ext.onReady(function() {
 			var styleMap = n.layer.getOptions().styleMap;
 			icon = styleMap.styles.default.defaultStyle.externalGraphic;
 			n.setIcon(icon);
-			n.setId(n.layer.name + "_" +n.layer.getVisibility());	
+			
+			if (n.layer.name == gettext("SNP Path")){
+			// set different IDs for SNP Paths depending on strategy
+				if (n.layer.strategies[0].CLASS_NAME == "OpenLayers.Strategy.Fixed")
+					n.setId(n.layer.name + "_fixed");
+				else
+					n.setId(n.layer.name + "_bbox");					
+				}
 			}
 		catch(err) {
 			// if I will not define styleMap, the layer will not be added into treenotes	

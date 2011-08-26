@@ -2,6 +2,7 @@
 var map;
 var geoExtMapPanel;
 var overLayers = [];
+var permalinkProvider;
 
 // Stores
 var activeUsersStore;
@@ -44,6 +45,12 @@ Ext.onReady(function() {
 	// the place where the map should added 
 	var mapPanel = Ext.getCmp('appMap');
 
+	// create permalink provider
+	permalinkProvider = new GeoExt.state.PermalinkProvider({encodeType: false});
+	
+	// set it in the state manager
+	Ext.state.Manager.setProvider(permalinkProvider);
+
 	// create new map into the place holder
 	geoExtMapPanel = new GeoExt.MapPanel({
 		renderTo: mapPanel.body,
@@ -51,7 +58,21 @@ Ext.onReady(function() {
 		width: mapPanel.getInnerWidth(),
 		height: mapPanel.getInnerHeight(),
 		zoom: 5,
+    		stateId: "map",
+    		prettyStateKeys: true // for pretty permalinks
 		});
+
+	// display permalink each time state is changed
+	permalinkProvider.on('statechange', function(provider, name, value) {
+		var point = new OpenLayers.LonLat(provider.get('map').x, provider.get('map').y); 
+		point = point.transform(map.projection, map.displayProjection);
+		var link = "?";
+		link += Ext.urlEncode({map_lon:point.lon});
+		link += "&" + Ext.urlEncode({map_lat:point.lat});
+		link += "&" + Ext.urlEncode({map_zoom:provider.get('map').zoom});
+
+        	Ext.select(".olControlPermalink").update("<a href=" + link + ">" + gettext("Permalink") + "</a>");
+    		});
 
 	// user browser size adapter (IE)
 	mapPanel.on('resize', function(panel, w, h) {
@@ -63,17 +84,33 @@ Ext.onReady(function() {
 	configStore.on('load', function(store){
 		var jData = store.reader.jsonData
 
-		// set map default config
-		var record = jData.location;
-		var point = new OpenLayers.LonLat(record.lon, record.lat); 
-		map.setCenter(point.transform(new OpenLayers.Projection("EPSG:4326"), map.getProjectionObject()),record.zoomlevel);
-
+		// read permalinkProvider URL data  
+		var permalink = permalinkProvider.readURL();
+		if (
+			permalink.hasOwnProperty('map') && 
+			permalink.map.hasOwnProperty('lat') && 			
+			permalink.map.hasOwnProperty('lon') &&
+			permalink.map.hasOwnProperty('zoom') &&
+			parseFloat(permalink.map.lat) > -90 &&
+			parseFloat(permalink.map.lat) < 90 &&
+			parseFloat(permalink.map.lon) > -180 &&
+			parseFloat(permalink.map.lon) < 180 &&
+			parseInt(permalink.map.zoom) <= map.numZoomLevels		
+		) {	
+			// set map permalink config
+			var record = permalinkProvider.readURL().map;
+			var point = new OpenLayers.LonLat(record.lon, record.lat); 
+			map.setCenter(point.transform(new OpenLayers.Projection("EPSG:4326"), map.getProjectionObject()),record.zoom);		
+			}
+		else {
+			// set map default config
+			var record = jData.location;
+			var point = new OpenLayers.LonLat(record.lon, record.lat); 
+			map.setCenter(point.transform(new OpenLayers.Projection("EPSG:4326"), map.getProjectionObject()),record.zoomlevel);
+			}
+		
 		// after setup the center & zoomlevel we add SnpPathLayer
 		addSnpPathLayer();
-
-		// fill the poi types combobox with data read from JsonDATA 
-		//var comboBox = Ext.getCmp('pointCats');
-		//comboBox.store = jData.poi_types;
 		
 		// prepare data for loading into stores with specific content
 		var activeTracks = [];
@@ -107,7 +144,10 @@ Ext.onReady(function() {
 function addMapControls(){
 
 	map.addControls([
-		new OpenLayers.Control.Permalink(),
+		//new OpenLayers.Control.Permalink(),
+		new OpenLayers.Control.Panel({
+			displayClass: 'olControlPermalink',		
+			}),
 		new OpenLayers.Control.ScaleLine(),
 		new OpenLayers.Control.MousePosition(),
 		]);
@@ -414,7 +454,57 @@ function addOverLayers(){
 	}
 
 function addSnpPathLayer(){
+	var snpPathLayerFixed;
+	var snpPathLayerBBox;
 
+	if (map.numZoomLevels - map.getZoom() < 2){
+		// if case, that the map was set by permalink, we add as SNP layer BBOX strategy
+		snpPathLayerBBox = addSnpPathBBoxLayer()
+		map.addLayer(snpPathLayerBBox);
+		snpPathLayerBBox.setVisibility(true);	
+		// ensure that the BBox will be loaded
+		}
+	else {
+		// default settings or zoom not so high
+		snpPathLayerFixed = addSnpPathFixedLayer();
+		map.addLayer(snpPathLayerFixed);	
+		}
+
+	map.events.on({"zoomend": function(){
+		var tree = Ext.getCmp('overLayerTree');
+		if (map.numZoomLevels - map.getZoom() < 2){
+			// activate BBox Snp path
+			if ((typeof(snpPathLayerFixed) != "undefined") && (snpPathLayerFixed.getVisibility())){
+				if (typeof(snpPathLayerBBox) == "undefined"){
+					// append if not exists
+					snpPathLayerBBox = addSnpPathBBoxLayer()
+					map.addLayer(snpPathLayerBBox);	
+					}				
+		
+				Ext.getCmp('overLayerTree').getNodeById(gettext("SNP Path") + '_fixed').getUI().hide();
+				Ext.getCmp('overLayerTree').getNodeById(gettext("SNP Path") + '_bbox').getUI().show();
+				snpPathLayerFixed.setVisibility(false);
+				snpPathLayerBBox.setVisibility(true);
+				}			
+			}	
+		else if ((typeof(snpPathLayerBBox) != "undefined") && (snpPathLayerBBox.getVisibility()) ) {
+			// activate Fixed Snp path
+			if (typeof(snpPathLayerFixed) == "undefined"){
+				// append if not exists
+				snpPathLayerFixed = addSnpPathFixedLayer();
+				map.addLayer(snpPathLayerFixed);	
+				}
+
+			Ext.getCmp('overLayerTree').getNodeById(gettext("SNP Path") + '_fixed').getUI().show();
+			Ext.getCmp('overLayerTree').getNodeById(gettext("SNP Path") + '_bbox').getUI().hide();
+			snpPathLayerFixed.setVisibility(true);
+			snpPathLayerBBox.setVisibility(false);	
+			}
+		}});
+	}
+
+function addSnpPathFixedLayer(){
+	// create & return SNPpath layer with Fixed strategy
 	var defaultStyle = new OpenLayers.Style({
 			strokeColor: "red", 
 			strokeWidth: 4,
@@ -422,9 +512,9 @@ function addSnpPathLayer(){
 			cursor: "pointer"
 			});
 
-	// SNPpath layer with Fixed strategy
-	var snpPathLayerFixed = new OpenLayers.Layer.Vector(gettext("SNP Path"), {
-		visibility:true,
+
+	var snpPathFixed = new OpenLayers.Layer.Vector(gettext("SNP Path"), {
+		visibility: true,
 		styleMap: new OpenLayers.StyleMap({
 			'default': defaultStyle,
 			}),
@@ -437,46 +527,31 @@ function addSnpPathLayer(){
 				})
 			})
 		});
-	
-	map.addLayer(snpPathLayerFixed);
+	return snpPathFixed;
+	}
 
-	var snpPathLayerBBox;
+function addSnpPathBBoxLayer(){
+	// create & return SNPpath layer with BBOX strategy
+	var defaultStyle = new OpenLayers.Style({
+			strokeColor: "red", 
+			strokeWidth: 4,
+			strokeOpacity: 0.5,
+			cursor: "pointer"
+			});
 
-	map.events.on({"zoomend": function(){
-		var tree = Ext.getCmp('overLayerTree');
-		if (map.numZoomLevels - map.getZoom() < 2){
-			if (snpPathLayerFixed.getVisibility()){
-				if (typeof(snpPathLayerBBox) == "undefined"){
-					// SNPpath layer with BBox strategy add when we need it
-					snpPathLayerBBox = new OpenLayers.Layer.Vector(gettext("SNP Path"),{
-						visibility:false,
-						styleMap: new OpenLayers.StyleMap({
-							'default': defaultStyle,
-							}),
-						strategies: [new OpenLayers.Strategy.BBOX({})],
-						protocol: new OpenLayers.Protocol.HTTP({
-							url: "mapdata/geojson/snppath/",
-							format: new OpenLayers.Format.GeoJSON({
-								ignoreExtraDims: true,
-								projection: new OpenLayers.Projection("EPSG:900913")
-								})
-							})
-						});
-	
-					map.addLayer(snpPathLayerBBox);
-					}
-				
-				Ext.getCmp('overLayerTree').getNodeById(gettext("SNP Path") + '_true').getUI().hide();
-				Ext.getCmp('overLayerTree').getNodeById(gettext("SNP Path") + '_false').getUI().show();
-				snpPathLayerFixed.setVisibility(false);
-				snpPathLayerBBox.setVisibility(true);
-				}			
-			}	
-		else if ((typeof(snpPathLayerBBox) != "undefined") && (snpPathLayerBBox.getVisibility()) ) {
-			Ext.getCmp('overLayerTree').getNodeById(gettext("SNP Path") + '_true').getUI().show();
-			Ext.getCmp('overLayerTree').getNodeById(gettext("SNP Path") + '_false').getUI().hide();
-			snpPathLayerFixed.setVisibility(true);
-			snpPathLayerBBox.setVisibility(false);		
-			}
-		}});
+	var snpPathBBox = new OpenLayers.Layer.Vector(gettext("SNP Path"),{
+		visibility: false,
+		styleMap: new OpenLayers.StyleMap({
+			'default': defaultStyle,
+			}),
+		strategies: [new OpenLayers.Strategy.BBOX({})],
+		protocol: new OpenLayers.Protocol.HTTP({
+			url: "mapdata/geojson/snppath/",
+			format: new OpenLayers.Format.GeoJSON({
+				ignoreExtraDims: true,
+				projection: new OpenLayers.Projection("EPSG:900913")
+				})
+			})
+		});
+	return snpPathBBox;	
 	}

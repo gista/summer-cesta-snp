@@ -117,10 +117,10 @@ function showPopup(loc){
 	loc = loc.transform(map.projection, map.displayProjection);
 
 	// create permalink
-	var permalink = document.location.href + 
-			"?zoom=" + map.zoom + 
-			"&lat=" + loc.lat + //.toFixed(5) + 
-			"&lon=" + loc.lon; //.toFixed(5);
+	var permalink = location.protocol + "//" + location.host + "/?";
+	permalink += Ext.urlEncode({map_lon:loc.lon});  
+	permalink += "&" + Ext.urlEncode({map_lat:loc.lat}); 
+	permalink += "&" + Ext.urlEncode({map_zoom:map.zoom});
 
 	// if there was already some point popup shown, destroy the old one
 	if (popupPoint)
