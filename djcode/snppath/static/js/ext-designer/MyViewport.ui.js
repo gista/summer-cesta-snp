@@ -387,6 +387,7 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 				items: [
 				    {
 				        xtype: 'box',
+					height: 90,
 				        autoEl: {
 				            'tag': 'img',
 				            'src': 'http://cestasnp.sk/templates/greenlife/images/logo.png',
