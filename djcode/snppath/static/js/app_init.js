@@ -252,6 +252,7 @@ function addMapControls(){
 		autoWidth: true,
 		autoHeight: true,
 		title: gettext('Help'),
+		id: 'helpWindow',
 		closeAction: 'hide', 
 		autoLoad:{
 			url: 'help/',			
@@ -421,8 +422,9 @@ function addSnpPathLayer(){
 			cursor: "pointer"
 			});
 
-	// SNPpath layer
-	var snpPathLayer = new OpenLayers.Layer.Vector(gettext("SNP Path"), {
+	// SNPpath layer with Fixed strategy
+	var snpPathLayerFixed = new OpenLayers.Layer.Vector(gettext("SNP Path"), {
+		visibility:true,
 		styleMap: new OpenLayers.StyleMap({
 			'default': defaultStyle,
 			}),
@@ -436,5 +438,45 @@ function addSnpPathLayer(){
 			})
 		});
 	
-	map.addLayer(snpPathLayer);
+	map.addLayer(snpPathLayerFixed);
+
+	var snpPathLayerBBox;
+
+	map.events.on({"zoomend": function(){
+		var tree = Ext.getCmp('overLayerTree');
+		if (map.numZoomLevels - map.getZoom() < 2){
+			if (snpPathLayerFixed.getVisibility()){
+				if (typeof(snpPathLayerBBox) == "undefined"){
+					// SNPpath layer with BBox strategy add when we need it
+					snpPathLayerBBox = new OpenLayers.Layer.Vector(gettext("SNP Path"),{
+						visibility:false,
+						styleMap: new OpenLayers.StyleMap({
+							'default': defaultStyle,
+							}),
+						strategies: [new OpenLayers.Strategy.BBOX({})],
+						protocol: new OpenLayers.Protocol.HTTP({
+							url: "mapdata/geojson/snppath/",
+							format: new OpenLayers.Format.GeoJSON({
+								ignoreExtraDims: true,
+								projection: new OpenLayers.Projection("EPSG:900913")
+								})
+							})
+						});
+	
+					map.addLayer(snpPathLayerBBox);
+					}
+				
+				Ext.getCmp('overLayerTree').getNodeById(gettext("SNP Path") + '_true').getUI().hide();
+				Ext.getCmp('overLayerTree').getNodeById(gettext("SNP Path") + '_false').getUI().show();
+				snpPathLayerFixed.setVisibility(false);
+				snpPathLayerBBox.setVisibility(true);
+				}			
+			}	
+		else if ((typeof(snpPathLayerBBox) != "undefined") && (snpPathLayerBBox.getVisibility()) ) {
+			Ext.getCmp('overLayerTree').getNodeById(gettext("SNP Path") + '_true').getUI().show();
+			Ext.getCmp('overLayerTree').getNodeById(gettext("SNP Path") + '_false').getUI().hide();
+			snpPathLayerFixed.setVisibility(true);
+			snpPathLayerBBox.setVisibility(false);		
+			}
+		}});
 	}
