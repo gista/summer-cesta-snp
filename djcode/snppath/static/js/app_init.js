@@ -150,6 +150,9 @@ function addMapControls(){
 			}),
 		new OpenLayers.Control.ScaleLine(),
 		new OpenLayers.Control.MousePosition(),
+		new OpenLayers.Control.Panel({
+			displayClass: 'olControlCestaSNPLogo',		
+			}),
 		]);
 
 	// Toggle buttons for map functionality	

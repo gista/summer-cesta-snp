@@ -348,62 +348,7 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
                         region: 'center',
                         id: 'appMap'
                     },
-                    {
-                        xtype: 'container',
-                        region: 'north',
-                        height: 125,
-                        id: 'appHeader',
-			layout: 'hbox',
-			items:[
-			    {
-				xtype: 'container',
-				autoHeight: true,
-				style: 'padding:20px',
-				flex: 3,
-				items: [
-				    {
-				        xtype: 'box',
-					/*autoEl: {
-				            'tag': 'img',
-				            'src': 'http://cestasnp.sk/templates/greenlife/images/logo.png',
-					},*/
-				        columnWidth: 0.4
-				    },
-				    {
-				        xtype: 'box',
-					/*autoEl: {
-				            'tag': 'img',
-				            'src': 'http://cestasnp.sk/templates/greenlife/images/logo.png',
-					},*/
-				        columnWidth: 0.4
-				    }
-				]
-			    },
-			    {
-				xtype: 'container',
-				autoHeight: true,
-				style: 'padding:20px',
-				flex: 1,
-				items: [
-				    {
-				        xtype: 'box',
-					height: 90,
-				        autoEl: {
-				            'tag': 'img',
-				            'src': 'http://cestasnp.sk/templates/greenlife/images/logo.png',
-					},
-				    	listeners:{
-						render:function(c) {
-      							c.getEl().on('click', function(e) {
-								document.location.href = "http://cestasnp.sk/";
-							}, c);
-						}
-				        }
-				    }
-				]
-                    	    }
-                	]
-		    }
+                    
 		]
             },
             {

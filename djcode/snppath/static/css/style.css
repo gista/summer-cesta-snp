@@ -23,7 +23,7 @@
 	float: right;
 	height: auto;
 	width: 24px;
-	top: 5px;
+	top: 115px;
 	right: 5px;
 }
 
@@ -43,6 +43,16 @@
 	height: 24px;
 	margin: 5px;
 	width: 24px;
+}
+
+.olControlCestaSNPLogo{
+	background-image: url("/static/icons/cestaSNP.png");
+	background-repeat: no-repeat;
+	float: right;
+	height: 100px;
+	width: 250px;
+	top: 5px;
+	right: 5px;
 }
 
 /* POI form CSS */
