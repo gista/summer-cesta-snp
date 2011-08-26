@@ -41,6 +41,10 @@
 		Ext.fly('version').update('<b>Version:</b>&nbsp;v0.1-alpha1-99-xxxxxxxx');
 
 		Ext.getCmp('helpWindow').autoLoad.url += "?" + Ext.urlEncode({language:'{{ LANGUAGE_CODE }}'})
+
+		if ('{{ user.is_authenticated }}'==='False'){
+			Ext.getCmp('appTabs').getTabEl(2).hidden = true;
+			}
 		});
 	</script>	
 {% endblock %}

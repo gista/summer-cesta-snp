@@ -12,6 +12,7 @@ from django.db import IntegrityError
 from mapdata.forms import PoiForm
 from django.utils.translation import ugettext as _
 from sorl.thumbnail import get_thumbnail
+from djcode.decorators import login_required_or_401
 
 from datetime import date, datetime
 
@@ -134,6 +135,7 @@ def testmedia(request, id=1):
 	return HttpResponse(im.read(), mimetype='image/JPEG')
 
 @csrf_protect
+@login_required_or_401
 def poi(request):
 	"""	
 	On GET request is returned the Poi form
