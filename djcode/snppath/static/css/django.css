@@ -1,0 +1,40 @@
+/* POI form CSS */
+
+form input, form textarea, form select {
+	width: 216px;
+	background: white;
+	border: 1px solid #B5B8C8;
+	padding: 2px;
+}
+
+.upload {
+	position:relative;
+	width:220px;
+}
+.realupload {
+	position:absolute;
+	top:0px;
+	left:0px;
+
+	/* start of transparency styles */
+	opacity:0;
+	-moz-opacity:0;
+	filter:alpha(opacity:0);
+	/* end of transparency styles */
+	
+	z-index:2; /* bring the real upload interactivity up front */
+	width:220px;
+	height: 35px;
+}
+.fakeupload {
+	background:url('/static/icons/file.png') no-repeat 100% 50%;
+}
+.fakeupload input {
+	width:175px;
+}
+.error{
+	border:2px solid red;
+}
+.correct{
+	border:2px solid lime;
+}

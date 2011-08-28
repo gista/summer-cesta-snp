@@ -72,32 +72,8 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
                             {
                                 xtype: 'container',
                                 region: 'south',
-                                width: 100,
                                 height: 120,
-                                items: [
-                                    {
-                                        xtype: 'box',
-                                        height: 110,
-                                        width: 110,
-                                        autoEl: {
-                                            'tag': 'img',
-                                            'src': 'http://www.jmorganmarketing.com/wp-content/uploads/2010/11/image4.jpg',
-                                            'align': 'left',
-                                            
-                                        }
-                                    },
-                                    {
-                                        xtype: 'box',
-                                        height: 110,
-                                        width: 110,
-                                        autoEl: {
-                                            'tag': 'img',
-                                            'src': 'http://www.jmorganmarketing.com/wp-content/uploads/2010/11/image4.jpg',
-                                            'align': 'right',
-                                            
-                                        }
-                                    }
-                                ]
+				id: 'sideAdvertisementLayers',
                             }
                         ]
                     },
@@ -244,33 +220,9 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
                             },
                             {
                                 xtype: 'container',
-                                width: 100,
-                                height: 120,
                                 region: 'south',
-                                items: [
-                                    {
-                                        xtype: 'box',
-                                        height: 110,
-                                        width: 110,
-                                        autoEl: {
-                                            'tag': 'img',
-                                            'src': 'http://www.jmorganmarketing.com/wp-content/uploads/2010/11/image4.jpg',
-                                            'align': 'left',
-                                            
-                                        }
-                                    },
-                                    {
-                                        xtype: 'box',
-                                        height: 110,
-                                        width: 110,
-                                        autoEl: {
-                                            'tag': 'img',
-                                            'src': 'http://www.jmorganmarketing.com/wp-content/uploads/2010/11/image4.jpg',
-                                            'align': 'right',
-                                            
-                                        }
-                                    }
-                                ]
+                                height: 120,
+                                id: 'sideAdvertisementLiveTracking'
                             }
                         ]
                     },
@@ -301,37 +253,14 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 					width: 200
 				      }
 					],
-			    },{
+			    },
+			    {
                                 xtype: 'container',
                                 region: 'south',
-                                width: 100,
                                 height: 120,
-                                items: [
-                                    {
-                                        xtype: 'box',
-                                        height: 110,
-                                        width: 110,
-                                        autoEl: {
-                                            'tag': 'img',
-                                            'src': 'http://www.jmorganmarketing.com/wp-content/uploads/2010/11/image4.jpg',
-                                            'align': 'left',
-                                            
-                                        }
-                                    },
-                                    {
-                                        xtype: 'box',
-                                        height: 110,
-                                        width: 110,
-                                        autoEl: {
-                                            'tag': 'img',
-                                            'src': 'http://www.jmorganmarketing.com/wp-content/uploads/2010/11/image4.jpg',
-                                            'align': 'right',
-                                            
-                                        }
-                                    }
-                                ]
+                                id: 'sideAdvertisementAddPoi'
                             }			
-				]
+			]
 			
 		    },
                 ]

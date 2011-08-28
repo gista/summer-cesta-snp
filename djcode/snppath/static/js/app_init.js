@@ -136,6 +136,22 @@ Ext.onReady(function() {
 		// fill the stores with created active & inactive records
 		activeLiveTrackingStore.loadData(activeTracks);
 		inactiveLiveTrackingStore.loadData(inactiveTracks);
+
+		// set the side advertisement
+		var imageBox = new Ext.BoxComponent({
+			height: 110,
+			width: 236,
+			autoEl: {
+    				'tag': 'img',
+    				'src': 'http://www.jmorganmarketing.com/wp-content/uploads/2010/11/image4.jpg',
+				}
+			});
+		Ext.getCmp('sideAdvertisementLayers').add(imageBox);
+		Ext.getCmp('sideAdvertisementLayers').doLayout();
+		Ext.getCmp('sideAdvertisementLiveTracking').add(imageBox.cloneConfig());
+		Ext.getCmp('sideAdvertisementLiveTracking').doLayout();
+		Ext.getCmp('sideAdvertisementAddPoi').add(imageBox.cloneConfig());
+		Ext.getCmp('sideAdvertisementAddPoi').doLayout();
 		});
 
 	configStore.load();
@@ -336,8 +352,8 @@ function addOverLayers(){
 		[3, gettext('water'), true, '/static/icons/water.svg', '/static/icons/water_b.svg'],
 		[4, gettext('restaurant, pub'), true, '/static/icons/market.svg', '/static/icons/market_b.svg'],
 		[5, gettext('grocery'), true, '/static/icons/food.svg', '/static/icons/food_b.svg'],
-		[6, gettext('interesting place'), false, '/static/icons/poi.svg', '/static/icons/poi_b.svg'],
-		[7, gettext('other'), false, '/static/icons/unknown.svg', '/static/icons/unknown_b.svg'],
+		[6, gettext('interesting place'), true, '/static/icons/poi.svg', '/static/icons/poi_b.svg'],
+		[7, gettext('other'), true, '/static/icons/unknown.svg', '/static/icons/unknown_b.svg'],
 		];
 
 	// create basic filter to applied for a map

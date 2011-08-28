@@ -61,6 +61,55 @@ Ext.onReady(function() {
 		
 		});
 
+	// basic advertisement background panel with .5 opacity
+	headerAdvertisement = new Ext.Window({
+		x: geoExtMapPanel.getPosition()[0] + 100,
+		y: geoExtMapPanel.getPosition()[1] + 5,
+		height: 100,
+		width: 700,
+		bodyCfg: {
+			cls: 'x-window-advertisement',
+			},
+		//bodyBorder: false,
+		resizable: false,
+		hidden: false,
+		header: false,
+            	border: false,
+            	closable: false,
+            	draggable: false,
+		frame: false,
+		shadow: true,
+		border: true,
+		});
+
+	headerAdvertisement = new Ext.Window({
+		x: geoExtMapPanel.getPosition()[0] + 100,
+		y: geoExtMapPanel.getPosition()[1] + 5,
+		height: 100,
+		width: 700,
+		//bodyBorder: false,
+		resizable: false,
+		hidden: false,
+		header: false,
+            	border: false,
+            	closable: false,
+            	draggable: false,
+		frame: false,
+		shadow: false,
+		border: true,
+		items:[{
+			xtype: 'box',
+			height: 90,
+                        width: 500,
+			//cls: 'x-window-body',
+			style: 'padding: 10px;',
+			autoEl: {
+				'tag': 'img',
+				'src': 'http://www.19kk.svf.stuba.sk/obr/logo_gista_RB_300dpi_R.png',
+				}		
+			}]
+		});
+
 	})
 
 function createPoint(feature) {

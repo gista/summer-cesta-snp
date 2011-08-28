@@ -1,0 +1,37 @@
+/* Map Controllers */
+
+.olControlEditingToolbar{
+	float: right;
+	height: auto;
+	width: 24px;
+	top: 110px;
+	right: 5px;
+}
+
+.olControlEditingToolbar .olControlGPXButtonItemInactive {
+	background-image: url("/static/icons/gpx.gif");
+	background-repeat: no-repeat;	
+	float: right;
+	height: 24px;
+	margin: 5px;
+	width: 24px;
+}
+
+.olControlEditingToolbar .olControlHelpButtonItemInactive {
+	background-image: url("/static/icons/help.gif");
+	background-repeat: no-repeat;	
+	float: right;
+	height: 24px;
+	margin: 5px;
+	width: 24px;
+}
+
+.olControlCestaSNPLogo{
+	background-image: url("/static/icons/cestaSNP.png");
+	background-repeat: no-repeat;
+	float: right;
+	height: 90px;
+	width: 180px;
+	top: 5px;
+	right: 5px;
+}
