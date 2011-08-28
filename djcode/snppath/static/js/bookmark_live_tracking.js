@@ -89,9 +89,9 @@ Ext.onReady(function() {
 			markerLayer.removeMarker(markerLayer.markers[0]);
 			}
 
-		var size = new OpenLayers.Size(21,25);
+		var size = new OpenLayers.Size(32,37);
 		var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
-		var icon = new OpenLayers.Icon('http://www.openlayers.org/dev/img/marker.png', size, offset);
+		var icon = new OpenLayers.Icon('/static/icons/LIVE_z.png', size, offset);
 		markerLayer.addMarker(new OpenLayers.Marker(point, icon));
 		});
 

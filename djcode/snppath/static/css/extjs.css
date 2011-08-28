@@ -24,3 +24,10 @@
 	margin-bottom: 1em;
 	padding: 5px 7px;
 }
+
+#appTabs li {
+	width: 75px;
+}
+#appTabs .x-tab-strip-text {
+	text-align: center;
+}

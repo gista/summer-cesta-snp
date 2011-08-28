@@ -52,7 +52,7 @@ Ext.onReady(function() {
 		if (data.photos_map.length > 0){
 			var photos_map = data.photos_map;
 			for(i=0; i<photos_map.length; i++){
-				var photoUrl = '/media/' + photos_jos[i] + '/';
+				var photoUrl = '/media/' + photos_map[i] + '/';
 				tpl.append('photo_map',{
 					url:photoUrl
 					})
@@ -106,6 +106,40 @@ Ext.onReady(function() {
 			autoEl: {
 				'tag': 'img',
 				'src': 'http://www.19kk.svf.stuba.sk/obr/logo_gista_RB_300dpi_R.png',
+				}		
+			}]
+		});
+
+	// basic advertisement background panel with .5 opacity
+	cestaSNPAdvertisement = new Ext.Window({
+		x: geoExtMapPanel.getWidth() + 50,
+		y: geoExtMapPanel.getPosition()[1] + 15,
+		height: 100,
+		width: 190,
+		cls: 'x-cestaSNP-window',
+		resizable: false,
+		hidden: false,
+		header: false,
+            	border: false,
+            	closable: false,
+            	draggable: false,
+		frame: false,
+		shadow: false,
+		border: true,
+		items:[{
+			xtype: 'box',
+			height: 90,
+                        width: 180,
+			autoEl: {
+				'tag': 'img',
+				'src': '/static/icons/cestaSNP.png',
+				},
+			listeners:{
+				render:function(c) {
+					c.getEl().on('click', function(e) {
+						window.open("http://cestasnp.sk/");
+						}, c);
+					}
 				}		
 			}]
 		});

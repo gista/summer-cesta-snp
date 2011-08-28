@@ -166,9 +166,6 @@ function addMapControls(){
 			}),
 		new OpenLayers.Control.ScaleLine(),
 		new OpenLayers.Control.MousePosition(),
-		new OpenLayers.Control.Panel({
-			displayClass: 'olControlCestaSNPLogo',		
-			}),
 		]);
 
 	// Toggle buttons for map functionality	
@@ -347,13 +344,13 @@ function addMapControls(){
 function addOverLayers(){
 
 	var OVER_LAYERS = [
-		[1, gettext('hut, shelter'), true, '/static/icons/shelter.svg', '/static/icons/shelter_b.svg'],
-		[2, gettext('cottage'), true, '/static/icons/chalet.svg', '/static/icons/chalet_b.svg'],
-		[3, gettext('water'), true, '/static/icons/water.svg', '/static/icons/water_b.svg'],
-		[4, gettext('restaurant, pub'), true, '/static/icons/market.svg', '/static/icons/market_b.svg'],
-		[5, gettext('grocery'), true, '/static/icons/food.svg', '/static/icons/food_b.svg'],
-		[6, gettext('interesting place'), true, '/static/icons/poi.svg', '/static/icons/poi_b.svg'],
-		[7, gettext('other'), true, '/static/icons/unknown.svg', '/static/icons/unknown_b.svg'],
+		[1, gettext('hut, shelter'), true, '/static/icons/utulna.png', '/static/icons/utulna.png'],
+		[2, gettext('cottage'), true, '/static/icons/chata.png', '/static/icons/chata.png'],
+		[3, gettext('water'), true, '/static/icons/voda.png', '/static/icons/voda.png'],
+		[4, gettext('restaurant, pub'), true, '/static/icons/stravovanie.png', '/static/icons/stravovanie.png'],
+		[5, gettext('grocery'), true, '/static/icons/supermarket.png', '/static/icons/supermarket.png'],
+		[6, gettext('interesting place'), true, '/static/icons/zaujimavosti.png', '/static/icons/zaujimavosti.png'],
+		[7, gettext('other'), true, '/static/icons/ostatne.png', '/static/icons/ostatne.png'],
 		];
 
 	// create basic filter to applied for a map
@@ -415,11 +412,18 @@ function addOverLayers(){
 		var defaultStyle = new OpenLayers.Style({
 			pointRadius: 10,
 			externalGraphic: OVER_LAYERS[i][3],
+			graphicYOffset: -35,
+			graphicWidth: 32,
+			graphicHeight: 37,
 			cursor: 'pointer'
 			});
 		var selectStyle = new OpenLayers.Style({
 			pointRadius: 10,
-			externalGraphic: OVER_LAYERS[i][4]
+			externalGraphic: OVER_LAYERS[i][4],
+			graphicYOffset: -35,
+			graphicWidth: 32,
+			graphicHeight: 37,
+			cursor: 'pointer'
 			});
 		styleMap[i] = new OpenLayers.StyleMap({
 			'default': defaultStyle,
