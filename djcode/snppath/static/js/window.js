@@ -8,6 +8,10 @@ Ext.onReady(function() {
 	articlePointStore.on('load', function(store){
 		console.log(store.reader.jsonData);
 		var data = store.reader.jsonData;
+
+		// setup correct point name read from store
+		Ext.getCmp('name').html = '<b>' + gettext("Name") + ':</b>&nbsp;' + data.name;		
+
 		// setup correct point moutain read from store
 		Ext.getCmp('moutain').html = '<b>' + gettext("Moutain") + ':</b>&nbsp;' + data.area;
 
@@ -170,6 +174,8 @@ function createPoint(feature) {
 			autoHeight: true,
 			},	
 		items:[{
+			id: 'name',
+			},{
 			id: 'moutain',
 			},{
 			autoEl:{		
