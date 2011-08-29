@@ -7,31 +7,42 @@ TOP_AD_IMG_HEIGHT = 80
 SIDE_AD_IMG_WIDTH = 236
 SIDE_AD_IMG_HEIGHT = 110
 
+MAX_AD_TITLE_LEN = 50
+MAX_AD_URL_LEN = 100
+
 class Help(models.Model):
 	text = models.TextField(_(u'help text'), help_text=_(u'Help text in HTML format.'))
 	language = models.CharField(_(u'language code'), max_length = 10, unique = True, help_text=_(u'Language code of the text language.'))
 
 class Top_advertisment(models.Model):
-	title = models.CharField(_(u'title of advertisment'), max_length=50,
-				 help_text=_(u'Text of the title of the advertisement with maximum length 50 characters.'))
+	title = models.CharField(_(u'title of advertisement'), max_length=MAX_AD_TITLE_LEN,
+				 help_text=_(u'Text of the title of the advertisement with maximum length {0} characters.'.format(MAX_AD_TITLE_LEN)))
 	transparency = models.FloatField(_(u'window transparency'), help_text=_(u'Window transparency (float from 0 to 1).'))
-	image = models.ImageField(_(u'image'), upload_to='ads/top', height_field=TOP_AD_IMG_HEIGHT,
-				  width_field=TOP_AD_IMG_WIDTH,
+	image = models.ImageField(_(u'image'), upload_to='ads/top',
 				  help_text=_(u'Image of {0}x{1} px size'.format(TOP_AD_IMG_WIDTH, TOP_AD_IMG_HEIGHT)))
-	url = models.CharField(_(u'url'), max_length=100,
-				help_text=_(u'Url referenced by advertisement. It must have at most 100 characters.'))
+	url = models.CharField(_(u'URL'), max_length=MAX_AD_URL_LEN,
+				help_text=_(u'URL referenced by advertisement. It must have at most {0} characters and it must have also protocol specified (http://, https:// ...).'.format(MAX_AD_URL_LEN)))
+	active = models.BooleanField(_(u'advertisement activation'),
+				     help_text=_(u'If it is set to True, advertisement will be showed on the site. Only one advertisement should be active.'))
 
-	def save(self, *args, **kwargs):
-		if self.transparency is None:
-			super(Top_advertisment, self).save(*args, **kwargs)
-		elif 0 <= self.transparency <= 1:
-			super(Top_advertisment, self).save(*args, **kwargs)
-		else:
-			raise ValueError
+	def __unicode__(self):
+		return self.title
+
+	class Meta:
+		verbose_name = _(u'Top advertisement')
 
 class Side_advertisment(models.Model):
-	title = models.CharField(_(u'title of advertisment'), max_length=50,
-				 help_text=_(u'Text of the title of the advertisement with maximum length 50 characters.'))
-	image = models.ImageField(_(u'image'), upload_to='ads/side', height_field=SIDE_AD_IMG_HEIGHT,
-				  width_field=SIDE_AD_IMG_WIDTH,
+	title = models.CharField(_(u'title of advertisement'), max_length=MAX_AD_TITLE_LEN,
+				 help_text=_(u'Text of the title of the advertisement with maximum length {0} characters.'.format(MAX_AD_TITLE_LEN)))
+	image = models.ImageField(_(u'image'), upload_to='ads/side',
 				  help_text=_(u'Image of {0}x{1} px size.'.format(SIDE_AD_IMG_WIDTH, SIDE_AD_IMG_HEIGHT)))
+	url = models.CharField(_(u'URL'), max_length=MAX_AD_URL_LEN,
+		help_text=_(u'URL referenced by advertisement. It must have at most {0} characters and it must have also protocol specified (http://, https:// ...).'.format(MAX_AD_URL_LEN)))
+	active = models.BooleanField(_(u'advertisement activation'),
+				     help_text=_(u'If it is set to True, advertisement will be showed on the site. Only one advertisement should be active.'))
+
+	def __unicode__(self):
+		return self.title
+
+	class Meta:
+		verbose_name = _(u'Side advertisement')
