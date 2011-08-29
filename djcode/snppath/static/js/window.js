@@ -203,6 +203,7 @@ function showPopup(loc){
 	permalink += Ext.urlEncode({map_lon:loc.lon});  
 	permalink += "&" + Ext.urlEncode({map_lat:loc.lat}); 
 	permalink += "&" + Ext.urlEncode({map_zoom:map.zoom});
+	permalink += "&" + Ext.urlEncode({map_permalink:'T'});
 
 	// if there was already some point popup shown, destroy the old one
 	if (popupPoint)

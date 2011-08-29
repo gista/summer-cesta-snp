@@ -102,14 +102,16 @@ Ext.onReady(function() {
 			var point = new OpenLayers.LonLat(record.lon, record.lat); 
 			map.setCenter(point.transform(new OpenLayers.Projection("EPSG:4326"), map.getProjectionObject()),record.zoom);	
 
-			// add icon for permalink point
-			var permaLinkLayer = new OpenLayers.Layer.Markers();
-			map.addLayer(permaLinkLayer);
+			if (permalink.map.hasOwnProperty('permalink')){
+				// add icon for permalink point
+				var permaLinkLayer = new OpenLayers.Layer.Markers();
+				map.addLayer(permaLinkLayer);
 
-			var size = new OpenLayers.Size(32,37);
-			var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
-			var icon = new OpenLayers.Icon('/static/icons/permalink.png', size, offset);
-			permaLinkLayer.addMarker(new OpenLayers.Marker(point, icon));	
+				var size = new OpenLayers.Size(32,37);
+				var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
+				var icon = new OpenLayers.Icon('/static/icons/permalink.png', size, offset);
+				permaLinkLayer.addMarker(new OpenLayers.Marker(point, icon));
+				}	
 			}
 		else {
 			// set map default config
