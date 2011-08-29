@@ -81,6 +81,7 @@ Ext.onReady(function() {
 			// if we want to see first time marker layer(first time we clicked into LIVE user messages)
 			markerLayer = new OpenLayers.Layer.Markers(gettext("Live messages"));
 			map.addLayer(markerLayer);
+			markerLayer.setZIndex(map.Z_INDEX_BASE['Popup'] - 5);
 			}
 		else {
 			// we remove 1st records, there is just 1 (destroy marker instances & remove marker from layer)
