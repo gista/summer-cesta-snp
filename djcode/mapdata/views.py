@@ -101,6 +101,7 @@ def poidetail(request):
 	resp = dict()
 	jos_article_ids = poi.jos_article_id.all()
 	resp['area'] = poi.area.name
+	resp['name'] = poi.name
 	resp['note'] = poi.note
 	resp['articles'] = list()
 	for article_id in jos_article_ids:
