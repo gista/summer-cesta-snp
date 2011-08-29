@@ -99,9 +99,8 @@ Ext.onReady(function() {
 		border: true,
 		items:[{
 			xtype: 'box',
-			height: 90,
-                        width: 500,
-			//cls: 'x-window-body',
+			height: 100,
+			width: 700,
 			style: 'padding: 10px;',
 			autoEl: {
 				'tag': 'img',
@@ -174,7 +173,7 @@ function createPoint(feature) {
 			id: 'moutain',
 			},{
 			autoEl:{		
-				html: '<b>' + gettext("Coordinates") + ':</b> [ ' + point.x + ',' + point.y + ' ]',
+				html: '<b>' + gettext("Coordinates") + ':</b> [ ' + point.x.toFixed(5) + ',' + point.y.toFixed(5) + ' ]',
 				},
 			},{	
 			id: 'notes',	
@@ -223,7 +222,7 @@ function showPopup(loc){
 				"padding": "10px"
 				},
 			autoEl: {
-				html: "<b>" + gettext("Coordinates") + ":</b><br/> [" + loc.lon +  "," + loc.lat + "]",
+				html: "<b>" + gettext("Coordinates") + ":</b><br/> [" + loc.lon.toFixed(5) +  "," + loc.lat.toFixed(5) + "]",
 				},
 			},{
 			xtype: "box",
