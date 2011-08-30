@@ -10,6 +10,8 @@ var inactiveUsersStore;
 var userRecordsStore;
 
 Ext.onReady(function() {
+	Ext.QuickTips.init();
+
 	// set map options and instantiative map
 	var options = {
 		projection: new OpenLayers.Projection("EPSG:900913"),
@@ -149,20 +151,104 @@ Ext.onReady(function() {
 		inactiveLiveTrackingStore.loadData(inactiveTracks);
 
 		// set the side advertisement
-		var imageBox = new Ext.BoxComponent({
-			height: 110,
-			width: 236,
+		var side = {"title":"Reklama CestaSNP.sk","image":"http://cestasnp.sk/templates/greenlife/images/logo.png","url":"http://cestasnp.sk/"}	
+		var hrefBox = new Ext.BoxComponent({
 			autoEl: {
-    				'tag': 'img',
-    				'src': 'http://www.jmorganmarketing.com/wp-content/uploads/2010/11/image4.jpg',
+    				'tag': 'a',
+    				'href': side.url,
+				'target': '_blank',
+				'html': '<img src="'+ side.image +'" style="width:236px; height:110px" title="'+ side.title +'">',
 				}
 			});
-		Ext.getCmp('sideAdvertisementLayers').add(imageBox);
+
+		Ext.getCmp('sideAdvertisementLayers').add(hrefBox);
 		Ext.getCmp('sideAdvertisementLayers').doLayout();
-		Ext.getCmp('sideAdvertisementLiveTracking').add(imageBox.cloneConfig());
+		Ext.getCmp('sideAdvertisementLiveTracking').add(hrefBox.cloneConfig());
 		Ext.getCmp('sideAdvertisementLiveTracking').doLayout();
-		Ext.getCmp('sideAdvertisementAddPoi').add(imageBox.cloneConfig());
+		Ext.getCmp('sideAdvertisementAddPoi').add(hrefBox.cloneConfig());
 		Ext.getCmp('sideAdvertisementAddPoi').doLayout();
+
+		// advertisement background window for cestaSNP.sk
+		cestaSNPAdvertisement = new Ext.Window({
+			x: geoExtMapPanel.getWidth() + 50,
+			y: geoExtMapPanel.getPosition()[1] + 15,
+			height: 100,
+			width: 190,
+			resizable: false,
+			hidden: false,
+			header: false,
+		    	border: false,
+		    	closable: false,
+		    	draggable: false,
+			frame: false,
+			shadow: false,
+			border: true,
+			items:[{
+				xtype: 'box',
+				height: 90,
+		                width: 180,
+				autoEl: {
+    					'tag': 'a',
+    					'href': 'http://cestasnp.sk/',
+					'target': '_blank',
+					'html': '<img src="/static/icons/cestaSNP.png" style="width:180px; height:90px;" title="CestaSNP.sk">',
+					}		
+				}]
+			});
+
+		// set the top advertisement window
+		var top = {"title":"Reklama Gista.sk","image":"http://www.19kk.svf.stuba.sk/obr/logo_gista_RB_300dpi_R.png","url":"http://gista.sk/","transparency":0.5}
+
+		if (top.hasOwnProperty('title') && top.hasOwnProperty('image') && top.hasOwnProperty('url') && top.hasOwnProperty('transparency')){
+			// advertisement background window with custom opacity
+			headerAdvertisement = new Ext.Window({
+				x: geoExtMapPanel.getPosition()[0] + 100,
+				y: geoExtMapPanel.getPosition()[1] + 5,
+				height: 100,
+				width: 700,
+				bodyCfg: {
+					cls: 'x-window-advertisement',
+					style: "opacity: " + top.transparency,
+					},
+				resizable: false,
+				hidden: false,
+				header: false,
+			    	border: false,
+			    	closable: false,
+			    	draggable: false,
+				frame: false,
+				shadow: true,
+				border: true,
+				});
+
+			// advertisement foreground window with custom advertisement
+			headerAdvertisement = new Ext.Window({
+				x: geoExtMapPanel.getPosition()[0] + 100,
+				y: geoExtMapPanel.getPosition()[1] + 5,
+				height: 100,
+				width: 700,
+				resizable: false,
+				hidden: false,
+				header: false,
+			    	border: false,
+			    	closable: false,
+			    	draggable: false,
+				frame: false,
+				shadow: false,
+				border: true,
+				items:[{
+					xtype: 'box',
+					height: 100,
+					width: 700,
+					autoEl: {
+	    					'tag': 'a',
+	    					'href': top.url,
+						'target': '_blank',
+						'html': '<img src="'+ top.image +'" style="width:680px; height:80px; padding: 10px;" title="'+ top.title +'">',
+						}	
+					}]
+				});
+			}
 		});
 
 	configStore.load();
