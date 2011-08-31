@@ -31,7 +31,6 @@ Ext.onReady(function() {
 	var freemap_urls = ["http://t1.freemap.sk/T", "http://t2.freemap.sk/T",
 	    "http://t3.freemap.sk/T", "http://t4.freemap.sk/T"]
 	var fmap = new OpenLayers.Layer.TMS(gettext("Tourist map"), freemap_urls,{
-		type: "jpeg",
 		getURL: get_freemap_url,
 		attribution: "<a href='http://www.freemap.sk' target='_blank'>Freemap Slovakia</a>, <a href='http://www.openstreetmap.org' target='_blan-->k'>OpenStreetMap</a>",
 		});
