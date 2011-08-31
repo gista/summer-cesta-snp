@@ -125,15 +125,37 @@ def gpx(request):
 
 	return response
 
-def testmedia(request, id=1):
-	"""Returns thumb image."""
+def mapper(request):
+	"""Returns mapped images."""
+	resp = dict()
+	resp['photo_map'] = list()
+	
 	try:
-		resolution = request.GET['r']
-	except KeyError:
-		resolution = '100x100'
-	photo = Photo.objects.get(id=id).photo
-	im = get_thumbnail(photo, resolution, crop='center', quality=95)
-	return HttpResponse(im.read(), mimetype='image/JPEG')
+		photos_map_ids = map(lambda x: int(x), request.GET['photo_map'].split(','))
+	except ValueError:
+		photos_map_ids = []
+
+	for id in photos_map_ids:
+		try:
+			photo = Photo.objects.get(id=id).photo
+			thumb = get_thumbnail(photo, '100x100', crop='center', quality=95)
+			resp['photo_map'].append({'thumb':thumb.url, 'photo':photo.url})
+		except Photo.DoesNotExist:
+			print 'Photo %d does not exist.' % (id) 
+
+	resp['photo_jos'] = list()
+	try:
+		photos_jos_ids = map(lambda x: int(x), request.GET['photo_jos'].split(','))
+	except ValueError:
+		photos_jos_ids = []
+	for id in photos_jos_ids:
+		try:
+			photo = Photo.objects.get(id=id).photo
+			thumb = get_thumbnail(photo, '100x100', crop='center', quality=95)
+			resp['photo_jos'].append({'thumb':thumb.url, 'photo':photo.url})
+		except Photo.DoesNotExist:
+			print 'Photo %d does not exist.' % (id)
+	return HttpResponse(simplejson.dumps(resp), mimetype='application/json')
 
 @csrf_protect
 @login_required_or_401

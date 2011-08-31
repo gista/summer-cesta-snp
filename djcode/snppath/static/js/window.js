@@ -6,8 +6,53 @@ Ext.onReady(function() {
 
 	// handle loaded data
 	articlePointStore.on('load', function(store){
-		console.log(store.reader.jsonData);
+		//console.log(store.reader.jsonData);
 		var data = store.reader.jsonData;
+
+		Ext.Ajax.request({
+			url: 'mapdata/mapper/',
+			method: 'GET',
+			success: function(response, opts) {
+				var obj = Ext.decode(response.responseText);
+				console.dir(obj);
+				data.photos_jos = obj.photo_jos;
+				data.photos_map = obj.photo_map;
+
+				var image = '<img src="{thumb}" style="padding: 10px;" onclick=f("{photo}");>';
+				var tpl = Ext.DomHelper.createTemplate(image);
+				tpl.compile();
+		
+				// add jos photos into popup, if there area some
+				if (data.photos_jos.length > 0){
+					var photos_jos = data.photos_jos;
+					for(i=0; i<photos_jos.length; i++){
+						tpl.append('photo_jos',{
+							photo: photos_jos[i].photo,
+							thumb: photos_jos[i].thumb
+							})
+						}
+					}
+
+				// add map photos into popup, if there area some
+				if (data.photos_map.length > 0){
+					var photos_map = data.photos_map;
+					for(i=0; i<photos_map.length; i++){
+						tpl.append('photo_map',{
+							photo: photos_map[i].photo,
+							thumb: photos_map[i].thumb
+							})
+						}
+					}
+				
+				},
+			failure: function(response, opts) {
+				console.log('server-side failure with status code ' + response.status);
+				},
+			params: { 
+				photo_map: data.photos_map.toString(),
+				photo_jos: data.photos_jos.toString()
+				}
+			});
 
 		// setup correct point name read from store
 		Ext.getCmp('name').html = '<b>' + gettext("Name") + ':</b>&nbsp;' + data.name;		
@@ -22,49 +67,21 @@ Ext.onReady(function() {
 
 		// add articles into popup, if there area some
 		if (store.totalLength > 0){	
-			var article = '<div class="article"><h2>{title}</h2>{introtext}<br/><br/><a href="{url}" target="_blank">Link to article</a></div><br/>';
+			var article = '<div class="article" style="height:100px;"><h2>{title}</h2>{introtext}<br/><br/><a href="{url}" target="_blank">Link to article</a></div><br/>';
 			var tpl = Ext.DomHelper.createTemplate(article);
 			tpl.compile();
 
 			var articles = data.articles;
 			for(i=0; i<articles.length; i++){
+				var article_introtext = articles[i].article_introtext;
 				tpl.append('articles', {
 					title: articles[i].article_title,
-					introtext: articles[i].article_introtext,
+					introtext: article_introtext.replace('<img src="images','<img src="http://cestasnp.sk/images'),
 					url: articles[i].article_url
 					});
 				}			
 			}
-
-		
-		var image = '<div><img src="{url}" style="padding: 10px; width: 60px; height: 60px;"></div>';
-		var tpl = Ext.DomHelper.createTemplate(image);
-		tpl.compile();
-		
-		// add jos photos into popup, if there area some
-		if (data.photos_jos.length > 0){
-			var photos_jos = data.photos_jos;
-			for(i=0; i<photos_jos.length; i++){
-				var photoUrl = '/media/' + photos_jos[i] + '/';
-				tpl.append('photo_jos',{
-					url:photoUrl
-					})
-				}
-			}
-
-		// add map photos into popup, if there area some
-		if (data.photos_map.length > 0){
-			var photos_map = data.photos_map;
-			for(i=0; i<photos_map.length; i++){
-				var photoUrl = '/media/' + photos_map[i] + '/';
-				tpl.append('photo_map',{
-					url:photoUrl
-					})
-				}
-			}
-		
 		});
-
 	})
 
 function createPoint(feature) {
@@ -184,4 +201,22 @@ function handleMeasurements(event) {
 		buttons: Ext.Msg.OK,
 		icon: Ext.MessageBox.INFO
 		});
+	}
+
+function f(photo){
+	new Ext.Window({
+		modal: true,
+		x: Math.round((window.innerWidth)/4),
+		y: Math.round((window.innerHeight)/6),
+		autoHeight: true,
+		autoWidth: true,
+		hidden: false,
+		items:[{
+			xtype: 'box',
+			autoEl: {
+    				'tag': 'img',
+    				'src': photo,
+				}		
+			}]			
+		})
 	}
