@@ -151,22 +151,25 @@ Ext.onReady(function() {
 		inactiveLiveTrackingStore.loadData(inactiveTracks);
 
 		// set the side advertisement
-		var side = {"title":"Reklama CestaSNP.sk","image":"http://cestasnp.sk/templates/greenlife/images/logo.png","url":"http://cestasnp.sk/"}	
-		var hrefBox = new Ext.BoxComponent({
-			autoEl: {
-    				'tag': 'a',
-    				'href': side.url,
-				'target': '_blank',
-				'html': '<img src="'+ side.image +'" style="width:236px; height:110px" title="'+ side.title +'">',
-				}
-			});
+		var side = jData.advertisment.side;
+		
+		if (side.hasOwnProperty('title') && side.hasOwnProperty('image') && side.hasOwnProperty('url')){
+			var hrefBox = new Ext.BoxComponent({
+				autoEl: {
+	    				'tag': 'a',
+	    				'href': side.url,
+					'target': '_blank',
+					'html': '<img src="'+ side.image +'" style="width:236px; height:110px" title="'+ side.title +'">',
+					}
+				});
 
-		Ext.getCmp('sideAdvertisementLayers').add(hrefBox);
-		Ext.getCmp('sideAdvertisementLayers').doLayout();
-		Ext.getCmp('sideAdvertisementLiveTracking').add(hrefBox.cloneConfig());
-		Ext.getCmp('sideAdvertisementLiveTracking').doLayout();
-		Ext.getCmp('sideAdvertisementAddPoi').add(hrefBox.cloneConfig());
-		Ext.getCmp('sideAdvertisementAddPoi').doLayout();
+			Ext.getCmp('sideAdvertisementLayers').add(hrefBox);
+			Ext.getCmp('sideAdvertisementLayers').doLayout();
+			Ext.getCmp('sideAdvertisementLiveTracking').add(hrefBox.cloneConfig());
+			Ext.getCmp('sideAdvertisementLiveTracking').doLayout();
+			Ext.getCmp('sideAdvertisementAddPoi').add(hrefBox.cloneConfig());
+			Ext.getCmp('sideAdvertisementAddPoi').doLayout();
+			}
 
 		// advertisement background window for cestaSNP.sk
 		cestaSNPAdvertisement = new Ext.Window({
@@ -197,7 +200,7 @@ Ext.onReady(function() {
 			});
 
 		// set the top advertisement window
-		var top = {"title":"Reklama Gista.sk","image":"http://www.19kk.svf.stuba.sk/obr/logo_gista_RB_300dpi_R.png","url":"http://gista.sk/","transparency":0.5}
+		var top = jData.advertisment.top;
 
 		if (top.hasOwnProperty('title') && top.hasOwnProperty('image') && top.hasOwnProperty('url') && top.hasOwnProperty('transparency')){
 			// advertisement background window with custom opacity
