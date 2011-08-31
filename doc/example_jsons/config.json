@@ -11,6 +11,19 @@
         "stravovanie, krčmy",
         "potraviny"
     ],
+    "advertisment": {
+        "top": {
+            "url": "http://www.cestasnp.sk",
+            "image": "/images/ads/top/68080_1.jpg",
+            "transparency": 0.5,
+            "title": "ad1"
+        },
+        "side": {
+            "url": "http://www.google.com",
+            "image": "/images/ads/side/236110_1.jpg",
+            "title": "ad1"
+        }
+    },
     "live_users": [
         {
             "id": 1,
