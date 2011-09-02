@@ -488,14 +488,6 @@ function addOverLayers(){
 			value: true
 			});
 
-	strategyPhoto = new OpenLayers.Strategy.Filter({
-		filter: filterPhoto
-		});
-
-	strategyArticle = new OpenLayers.Strategy.Filter({
-		filter: filterHasArticle
-		});
-
 	var styleMap = [];
 	var layersLength = LayerSettings().getLength();
 	for(var i=0; i<layersLength; i++){
@@ -531,9 +523,13 @@ function addOverLayers(){
 			visibility: current.visibility,
 			styleMap: styleMap[j],
 			strategies: [
+				new OpenLayers.Strategy.Filter({
+					filter: filterPhoto
+					}),
+				new OpenLayers.Strategy.Filter({
+					filter: filterArticle
+					}),
 				new OpenLayers.Strategy.Fixed(),
-				strategyPhoto,
-				strategyArticle
 				],
 			protocol: new OpenLayers.Protocol.HTTP({
 				url: "/mapdata/geojson/pois/?" + Ext.urlEncode({type:current.urlId}),

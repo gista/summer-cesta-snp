@@ -50,17 +50,31 @@ Ext.onReady(function() {
 
 	// Checkbox events for check/uncheck in Filter panel
 	Ext.getCmp("has_photo").on('check', function(el,checked){
-		if (checked)
-			strategyPhoto.setFilter(filterHasPhoto);		
-		else 
-			strategyPhoto.setFilter(filterPhoto);							
+		activatePhotoStrategy(checked);	
 		});
 
 	Ext.getCmp("has_article").on('check', function(el,checked){
-		if (checked)
-			strategyArticle.setFilter(filterHasArticle);	
-		else
-			strategyArticle.setFilter(filterArticle);
+		activateArticleStrategy(checked);
 		});
 
 	});
+
+function activatePhotoStrategy(pActivate){
+	var layersLength = LayerSettings().getLength();
+	for(var i=0; i<layersLength; i++)
+		if (overLayers[i].strategies[0].CLASS_NAME == "OpenLayers.Strategy.Filter")
+			if (pActivate) 
+				overLayers[i].strategies[0].setFilter(filterHasPhoto);
+			else 
+				overLayers[i].strategies[0].setFilter(filterPhoto);
+	}
+
+function activateArticleStrategy(pActivate){
+	var layersLength = LayerSettings().getLength();
+	for(var i=0; i<layersLength; i++)
+		if (overLayers[i].strategies[1].CLASS_NAME == "OpenLayers.Strategy.Filter")
+			if (pActivate) 
+				overLayers[i].strategies[1].setFilter(filterHasPhoto);
+			else 
+				overLayers[i].strategies[1].setFilter(filterPhoto);
+	}
