@@ -69,7 +69,7 @@ class Poi(models.Model):
 
 	@property
 	def has_photo(self):
-		if self.photo is None and self.jos_photo_id is None:
+		if len(self.photo.all()) == 0 and len(self.jos_photo_id.all()) == 0:
 			return False
 		else:
 			return True
@@ -78,10 +78,10 @@ class Poi(models.Model):
 	
 	@property
 	def has_article(self):
-		if self.jos_article_id is not None:
-			return True
-		else:
+		if len(self.jos_article_id.all()) == 0:
 			return False
+		else:
+			return True
 	
 	#has_article.boolean = True
 
