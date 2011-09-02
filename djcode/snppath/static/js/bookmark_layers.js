@@ -15,27 +15,22 @@ Ext.onReady(function() {
 		});
 
 	// function for setup the icon image as in layers default stylemap specified	
-	iconAdder = function(t,p,n,r){	
-		var icon = "";
-		try {
-			var styleMap = n.layer.getOptions().styleMap;
-			icon = styleMap.styles.default.defaultStyle.externalGraphic;
-			n.setIcon(icon);
-			
-			if (n.layer.name == gettext("SNP Path")){
-			// set different IDs for SNP Paths depending on strategy
-				if (n.layer.strategies[0].CLASS_NAME == "OpenLayers.Strategy.Fixed")
+	iconAdder = function(t,p,n,r){
+		var options = n.layer.getOptions();
+		var link = n.layer.protocol.url;
+		var layerIdent = Ext.urlDecode(link.substr(link.indexOf("?")+1));
+		
+		if (layerIdent.hasOwnProperty('type')){
+			n.setIcon(LayerSettings().getByUrlId(layerIdent.type).background);
+			}
+		
+		if (n.layer.name == gettext("SNP Path")){
+				if (n.layer.strategies[0].CLASS_NAME == "OpenLayers.Strategy.Fixed")	
 					n.setId(n.layer.name + "_fixed");
 				else
-					n.setId(n.layer.name + "_bbox");					
+					n.setId(n.layer.name + "_bbox");	
 				}
-			}
-		catch(err) {
-			// if I will not define styleMap, the layer will not be added into treenotes	
-			return false;		
-			}
 		}		
-
 	// create tree panel with over layers
 	var mapOverLayersTree = new Ext.tree.TreePanel({
 		autoHeight: true,

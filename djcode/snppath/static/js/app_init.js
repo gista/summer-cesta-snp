@@ -442,16 +442,6 @@ function addMapControls(){
 
 function addOverLayers(){
 
-	var OVER_LAYERS = [
-		[1, gettext('hut, shelter'), true, '/static/icons/utulna.png', '/static/icons/utulna.png'],
-		[2, gettext('cottage'), true, '/static/icons/chata.png', '/static/icons/chata.png'],
-		[3, gettext('water'), true, '/static/icons/voda.png', '/static/icons/voda.png'],
-		[4, gettext('restaurant, pub'), true, '/static/icons/stravovanie.png', '/static/icons/stravovanie.png'],
-		[5, gettext('grocery'), true, '/static/icons/supermarket.png', '/static/icons/supermarket.png'],
-		[6, gettext('interesting place'), true, '/static/icons/zaujimavosti.png', '/static/icons/zaujimavosti.png'],
-		[7, gettext('other'), true, '/static/icons/ostatne.png', '/static/icons/ostatne.png'],
-		];
-
 	// create basic filter to applied for a map
 	filterPhoto = new OpenLayers.Filter.Logical({
 		type: OpenLayers.Filter.Logical.OR,
@@ -507,10 +497,12 @@ function addOverLayers(){
 		});
 
 	var styleMap = [];
-	for(var i=0;i<OVER_LAYERS.length;i++){
+	var layersLength = LayerSettings().getLength();
+	for(var i=0; i<layersLength; i++){
+		var current = LayerSettings().get(i);
 		var defaultStyle = new OpenLayers.Style({
 			pointRadius: 10,
-			externalGraphic: OVER_LAYERS[i][3],
+			externalGraphic: current.background,
 			graphicYOffset: -35,
 			graphicWidth: 32,
 			graphicHeight: 37,
@@ -518,7 +510,7 @@ function addOverLayers(){
 			});
 		var selectStyle = new OpenLayers.Style({
 			pointRadius: 10,
-			externalGraphic: OVER_LAYERS[i][4],
+			externalGraphic: current.background_selected,
 			graphicYOffset: -35,
 			graphicWidth: 32,
 			graphicHeight: 37,
@@ -532,10 +524,11 @@ function addOverLayers(){
 
 	// append map over layers as specified
 	
-	for(var i=0;i<OVER_LAYERS.length;i++){
-		var j = OVER_LAYERS.length-1-i;
-		overLayers[i] = new OpenLayers.Layer.Vector(OVER_LAYERS[j][1], {
-			visibility:OVER_LAYERS[j][2],
+	for(var i=0; i<layersLength; i++){
+		var j = layersLength-1-i;
+		var current = LayerSettings().get(j);
+		overLayers[i] = new OpenLayers.Layer.Vector(current.name, {
+			visibility: current.visibility,
 			styleMap: styleMap[j],
 			strategies: [
 				new OpenLayers.Strategy.Fixed(),
@@ -543,7 +536,7 @@ function addOverLayers(){
 				strategyArticle
 				],
 			protocol: new OpenLayers.Protocol.HTTP({
-				url: "/mapdata/geojson/pois/?" + Ext.urlEncode({type:OVER_LAYERS[j][0]}),
+				url: "/mapdata/geojson/pois/?" + Ext.urlEncode({type:current.urlId}),
 				format: new OpenLayers.Format.GeoJSON({
 					ignoreExtraDims: true,
 					projection: new OpenLayers.Projection("EPSG:900913")
