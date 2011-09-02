@@ -58,7 +58,8 @@ Ext.onReady(function() {
 		map: map,
 		width: mapPanel.getInnerWidth(),
 		height: mapPanel.getInnerHeight(),
-		zoom: 5,
+		zoom: 8,
+		center: [2143828.1628459, 6243978.1568337],
     		stateId: "map",
     		prettyStateKeys: true // for pretty permalinks
 		});
