@@ -116,7 +116,7 @@ def poidetail(request):
 
 def gpx(request):
 	"""Returns GPX file."""
-	gpx = render_to_gpx('cestasnp.sk', Poi.objects.all(), Path.objects.all(), GPX_METADATA,
+	gpx = render_to_gpx('cestasnp.sk', Poi.objects.all(), None, GPX_METADATA,
 			    GPX_POI_MAPPING, GPX_PATH_MAPPING)
 
 	response = HttpResponse(gpx, content_type='text/xml')
