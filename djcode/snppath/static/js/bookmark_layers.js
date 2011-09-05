@@ -16,20 +16,21 @@ Ext.onReady(function() {
 
 	// function for setup the icon image as in layers default stylemap specified	
 	iconAdder = function(t,p,n,r){
-		var options = n.layer.getOptions();
-		var link = n.layer.protocol.url;
-		var layerIdent = Ext.urlDecode(link.substr(link.indexOf("?")+1));
+		if (n.layer.hasOwnProperty('protocol')) {
+			var link = n.layer.protocol.url;
+			var layerIdent = Ext.urlDecode(link.substr(link.indexOf("?")+1));
 		
-		if (layerIdent.hasOwnProperty('type')){
-			n.setIcon(LayerSettings().getByUrlId(layerIdent.type).background);
-			}
-		
-		if (n.layer.name == gettext("SNP Path")){
-				if (n.layer.strategies[0].CLASS_NAME == "OpenLayers.Strategy.Fixed")	
-					n.setId(n.layer.name + "_fixed");
-				else
-					n.setId(n.layer.name + "_bbox");	
+			if (layerIdent.hasOwnProperty('type')){
+				n.setIcon(LayerSettings().getByUrlId(layerIdent.type).background);
 				}
+		
+			if (n.layer.name == gettext("SNP Path")){
+					if (n.layer.strategies[0].CLASS_NAME == "OpenLayers.Strategy.Fixed")	
+						n.setId(n.layer.name + "_fixed");
+					else
+						n.setId(n.layer.name + "_bbox");	
+					}
+			}
 		}		
 	// create tree panel with over layers
 	var mapOverLayersTree = new Ext.tree.TreePanel({
