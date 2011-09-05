@@ -20,6 +20,7 @@ Ext.onReady(function() {
 		liveTrackingRecordPanel.show();	
 
 		// set the correct height for the vertical scrollers in track messages
+		liveTrackingRecordPanel.setHeight(250);
 		liveTrackingRecordPanel.setHeight(Ext.getCmp('liveTrackingPanel').getHeight());	
 
 		// fire rowclick event to setup correct map position
