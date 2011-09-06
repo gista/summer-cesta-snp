@@ -240,10 +240,108 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 				buttonAlign: 'center',
 				frame: true,
 				width: 250,
-				autoLoad:{
-					url: 'mapdata/poi/',			
-					},
-										
+				autoScroll: true,
+				labelAlign: 'top',
+                                labelWidth: 0,
+				defaults: {
+				    anchor: '92%',
+				    msgTarget: 'side'
+        			},
+				items: [
+				  {
+					xtype: 'textfield',
+                                        fieldLabel: gettext('Name'),
+                                        name: 'name',
+					id: 'poi-name',
+					allowBlank: false,
+					blankText: gettext('The name of POI is required.'),
+					minLength: 5,
+					minLengthText: gettext('The name of POI must be at least 5 characters long.')
+				  },
+				  {
+                                        xtype: 'combo',	
+					hiddenName: 'type',
+                                        fieldLabel: gettext('Type'),
+					store: 'comboStore',
+					displayField: 'value',
+            				valueField: 'name',
+					mode: 'local',
+            				triggerAction: 'all',
+					id: 'poi-type',
+					allowBlank: false,
+					blankText: gettext('The type of POI is required.'),
+                                  },
+				  {
+                                        xtype: 'label',
+                                        html: gettext('Coordinates') + '</b><hr/>',
+                                        style: {
+                                            'font-size': '15px',
+					    'font-weight': 'bold'
+                                        }
+                                  },
+				  {
+					xtype: 'textfield',
+                                        fieldLabel: gettext('Latitude (e.g. 48.45789)'),
+                                        name: 'lat',
+					id: 'poi-lat',
+					allowBlank: false,
+					regex: /^[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?$/,
+					maskRe: /[-\d\(.)]/i,
+					regexText: gettext("Latitude must be a float number"),
+					vtype: 'lat'
+				  },
+				  {
+					xtype: 'textfield',
+                                        fieldLabel: gettext('Longitude (e.g. 18.437129)'),
+                                        name: 'lon',
+					id: 'poi-lon',
+					allowBlank: false,
+					regex: /^[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?$/,
+					maskRe: /[-\d\(.)]/i,
+					regexText: gettext("Longitude must be a float number"),
+					vtype: 'lon',
+				  },
+				  {
+                                        xtype: 'textarea',
+                                        fieldLabel: gettext('Note'),
+                                        name: 'note',
+					id: 'poi-notes',
+					allowBlank: true,
+                                  },
+				  {
+                                        xtype: 'label',
+                                        html: gettext('Photos') + '</b><hr/>',
+                                        style: {
+                                            'font-size': '15px',
+					    'font-weight': 'bold'
+                                        }
+                                  },
+				  {
+					xtype: 'hidden',
+					name: 'csrfmiddlewaretoken',
+					id: 'poi-csrf'
+				  },
+				  {
+					xtype: 'hidden',
+					id: 'poi-photo-counter',
+					value: 1
+				  },
+				  {
+					xtype: 'fileuploadfield',
+					emptyText: gettext('Select an image'),
+					fieldLabel: gettext('Photo') + ' #1',
+					name: 'photo',
+					id: 'poi-photo-1',
+					allowBlank: true,
+					buttonText: '',
+					buttonCfg: {
+						'iconCls': 'upload-icon'
+						},
+					listeners:{
+						'fileselected': addNew				
+						}
+				   }
+				],					
 				buttons:[
 				      {
             				text: '<big>' + gettext("Add") + '</big>',
