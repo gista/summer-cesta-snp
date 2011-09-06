@@ -30,3 +30,32 @@
 #appTabs .x-tab-strip-text {
 	text-align: center;
 }
+
+.upload-icon {
+	background: url('/static/icons/image_add.png') no-repeat 0 0;
+}
+.x-form-file-wrap .x-form-text {
+	color: #777777;
+	z-index: 3;
+}
+.x-form-file-wrap .x-form-file-btn {
+	float: right;
+	overflow: hidden;
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	z-index: 1;
+
+}
+.x-form-file-wrap .x-form-file {
+	font-size: 100px;
+	height: 30px;
+	opacity: 0;
+	position: absolute;
+	right: -5px;
+	top: -4px;
+	z-index: 2;
+}
+.x-panel-body{
+	overflow-x:hidden !important;
+}
