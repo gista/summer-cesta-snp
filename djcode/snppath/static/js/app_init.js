@@ -8,6 +8,7 @@ var permalinkProvider;
 var activeUsersStore;
 var inactiveUsersStore;
 var userRecordsStore;
+var comboStore;
 
 Ext.onReady(function() {
 	Ext.QuickTips.init();
@@ -85,6 +86,12 @@ Ext.onReady(function() {
 	// on load listeners for init stores
 	configStore.on('load', function(store){
 		var jData = store.reader.jsonData
+		var poi_types = jData.poi_types;
+		var pois = [];
+		for(var i=0; i<poi_types.length; i++){
+			pois.push({'name':(i+1), 'value':poi_types[i]}); 			
+			}
+		comboStore.loadData(pois);
 
 		// read permalinkProvider URL data  
 		var permalink = permalinkProvider.readURL();

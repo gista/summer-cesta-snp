@@ -179,8 +179,30 @@ articlePointStore = Ext.extend(Ext.data.JsonStore, {
     }
 });
 
+comboStore = Ext.extend(Ext.data.JsonStore, {
+    constructor: function(cfg) {
+        cfg = cfg || {};
+        articlePointStore.superclass.constructor.call(this, Ext.apply({
+            storeId: 'comboStore',
+            fields: [
+                {
+                    name: 'name',
+                    mapping: 'name',
+                    type: 'int'
+                },
+                {
+                    name: 'value',
+                    mapping: 'value',
+                    type: 'string'
+                },
+            ]
+        }, cfg));
+    }
+});
+
 // instantiative Stores for next use
 var configStore = new configStore();
+var comboStore = new comboStore();
 
 var activeLiveTrackingStore = new activeLiveTrackingStore();
 var inactiveLiveTrackingStore = new inactiveLiveTrackingStore();
