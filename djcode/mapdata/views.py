@@ -13,6 +13,7 @@ from mapdata.forms import PoiForm
 from django.utils.translation import ugettext as _
 from sorl.thumbnail import get_thumbnail
 from djcode.decorators import login_required_or_401
+from django.views.decorators.http import require_POST
 
 from datetime import date, datetime
 
@@ -157,48 +158,42 @@ def mapper(request):
 			print 'Photo %d does not exist.' % (id)
 	return HttpResponse(simplejson.dumps(resp), mimetype='application/json')
 
+@require_POST
 @csrf_protect
 @login_required_or_401
 def poi(request):
 	"""	
-	On GET request is returned the Poi form
 	On POST	response are sended user data to verification & server response depends on correct user inputs
 		on success - sended back map layer ID, which should be refreshed
 		if failure - sended back error field messages 
 	"""
-	if request.method == 'POST':
-		form = PoiForm(request.POST, request.FILES)
-		if form.is_valid():
-			poi = form.save(commit=False)
-			point = Point(form.cleaned_data['lon'], form.cleaned_data['lat'])
-			poi.the_geom = point
+	form = PoiForm(request.POST, request.FILES)
+	if form.is_valid():
+		poi = form.save(commit=False)
+		point = Point(form.cleaned_data['lon'], form.cleaned_data['lat'])
+		poi.the_geom = point
 			
-			for area in Area.objects.all():
-				if area.the_geom.intersects(point):
-					poi.area = area
-					print area
-					break
-			try:
-				poi.save()
-			except IntegrityError:
-				custom_errors = {'lon':_(u'Area out of saveable bounds.'),'lat':_(u'Area out of saveable bounds.')}
-				error_json = simplejson.dumps({"success":False, "errors":dict(custom_errors)})
-				print error_json
-				return HttpResponse(error_json, mimetype='text/html')
-
-			for file in request.FILES.getlist('photo'):
-				ph = Photo(title=file.name, photo=file)
-				ph.photo.save(file.name, file)
-				ph.save()
-				poi.photo.add(ph)
- 				poi.save()
-			
-			return HttpResponse('{"success":true, "layer":%d}' % (poi.type), mimetype='text/html') # ExtJS upload form requires html response!
-		else:
-			error_json = simplejson.dumps({"success":False, "errors":dict(form.errors)})
+		for area in Area.objects.all():
+			if area.the_geom.intersects(point):
+				poi.area = area
+				print area
+				break
+		try:
+			poi.save()
+		except IntegrityError:
+			custom_errors = {'lon':_(u'Area out of saveable bounds.'),'lat':_(u'Area out of saveable bounds.')}
+			error_json = simplejson.dumps({"success":False, "errors":dict(custom_errors)})
+			print error_json
 			return HttpResponse(error_json, mimetype='text/html')
+
+		for file in request.FILES.getlist('photo'):
+			ph = Photo(title=file.name, photo=file)
+			ph.photo.save(file.name, file)
+			ph.save()
+			poi.photo.add(ph)
+			poi.save()
+			
+		return HttpResponse('{"success":true, "layer":%d}' % (poi.type), mimetype='text/html') # ExtJS upload form requires html response!
 	else:
-		form = PoiForm()
-	return render_to_response("form.html", 
-				{'form':form},
-				context_instance=RequestContext(request))
+		error_json = simplejson.dumps({"success":False, "errors":dict(form.errors)})
+		return HttpResponse(error_json, mimetype='text/html')
