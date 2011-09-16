@@ -1,7 +1,7 @@
 import os
 import sys
 
-sys.path.append('/opt/python-locals/django/django-1.3.0')
+sys.path.append('/opt/python-locals/django/django-1.3')
 sys.path.append('/var/www/map_cestasnp_sk/djcode')
 sys.path.append('/var/www/map_cestasnp_sk')
 
