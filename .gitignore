@@ -1,3 +1,5 @@
 *.pyc
 *.wsgi
 djcode/settings.py
+static/*
+/media/*
