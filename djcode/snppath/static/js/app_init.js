@@ -61,8 +61,8 @@ Ext.onReady(function() {
 		height: mapPanel.getInnerHeight(),
 		zoom: 8,
 		center: [2143828.1628459, 6243978.1568337],
-    		stateId: "map",
-    		prettyStateKeys: true // for pretty permalinks
+		stateId: "map",
+		prettyStateKeys: true // for pretty permalinks
 		});
 
 	// display permalink each time state is changed
@@ -74,8 +74,8 @@ Ext.onReady(function() {
 		link += "&" + Ext.urlEncode({map_lat:point.lat});
 		link += "&" + Ext.urlEncode({map_zoom:provider.get('map').zoom});
 
-        	Ext.select(".olControlPermalink").update("<a href=" + link + ">" + gettext("Permalink") + "</a>");
-    		});
+		Ext.select(".olControlPermalink").update("<a href=" + link + ">" + gettext("Permalink") + "</a>");
+		});
 
 	// user browser size adapter (IE)
 	mapPanel.on('resize', function(panel, w, h) {
@@ -163,8 +163,8 @@ Ext.onReady(function() {
 		if (side.hasOwnProperty('title') && side.hasOwnProperty('image') && side.hasOwnProperty('url')){
 			var hrefBox = new Ext.BoxComponent({
 				autoEl: {
-	    				'tag': 'a',
-	    				'href': side.url,
+					'tag': 'a',
+					'href': side.url,
 					'target': '_blank',
 					'html': '<img src="'+ side.image +'" style="width:236px; height:110px" title="'+ side.title +'">',
 					}
@@ -187,19 +187,19 @@ Ext.onReady(function() {
 			resizable: false,
 			hidden: false,
 			header: false,
-		    	border: false,
-		    	closable: false,
-		    	draggable: false,
+			border: false,
+			closable: false,
+			draggable: false,
 			frame: false,
 			shadow: false,
 			border: true,
 			items:[{
 				xtype: 'box',
 				height: 90,
-		                width: 180,
+				width: 180,
 				autoEl: {
-    					'tag': 'a',
-    					'href': 'http://cestasnp.sk/',
+					'tag': 'a',
+					'href': 'http://cestasnp.sk/',
 					'target': '_blank',
 					'html': '<img src="/static/icons/cestaSNP.png" style="width:180px; height:90px;" title="CestaSNP.sk">',
 					}		
@@ -223,9 +223,9 @@ Ext.onReady(function() {
 				resizable: false,
 				hidden: false,
 				header: false,
-			    	border: false,
-			    	closable: false,
-			    	draggable: false,
+				border: false,
+				closable: false,
+				draggable: false,
 				frame: false,
 				shadow: true,
 				border: true,
@@ -240,9 +240,9 @@ Ext.onReady(function() {
 				resizable: false,
 				hidden: false,
 				header: false,
-			    	border: false,
-			    	closable: false,
-			    	draggable: false,
+				border: false,
+				closable: false,
+				draggable: false,
 				frame: false,
 				shadow: false,
 				border: true,
@@ -251,8 +251,8 @@ Ext.onReady(function() {
 					height: 100,
 					width: 700,
 					autoEl: {
-	    					'tag': 'a',
-	    					'href': top.url,
+						'tag': 'a',
+						'href': top.url,
 						'target': '_blank',
 						'html': '<img src="'+ top.image +'" style="width:680px; height:80px; padding: 10px;" title="'+ top.title +'">',
 						}	

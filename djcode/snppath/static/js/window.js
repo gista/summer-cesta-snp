@@ -94,8 +94,8 @@ function createPoint(feature) {
 		modal: false,
 		x: geoExtMapPanel.getPosition()[0],
 		y: geoExtMapPanel.getPosition()[1],
-    		height: geoExtMapPanel.getHeight(),
-    		width: geoExtMapPanel.getWidth(),
+		height: geoExtMapPanel.getHeight(),
+		width: geoExtMapPanel.getWidth(),
 		plain: true,
 		header: false,
 		autoScroll: true,  
@@ -214,8 +214,8 @@ function f(photo){
 		items:[{
 			xtype: 'box',
 			autoEl: {
-    				'tag': 'img',
-    				'src': photo,
+				'tag': 'img',
+				'src': photo,
 				}		
 			}]			
 		})
