@@ -108,11 +108,13 @@ TEMPLATE_LOADERS = (
 )
 
 MIDDLEWARE_CLASSES = (
+	'django.middleware.cache.UpdateCacheMiddleware',
 	'django.middleware.common.CommonMiddleware',
 	'django.contrib.sessions.middleware.SessionMiddleware',
 	'django.middleware.csrf.CsrfViewMiddleware',
 	'django.contrib.auth.middleware.AuthenticationMiddleware',
 	'django.contrib.messages.middleware.MessageMiddleware',
+	'django.middleware.cache.FetchFromCacheMiddleware',
 )
 
 ROOT_URLCONF = 'djcode.urls'
@@ -122,9 +124,6 @@ TEMPLATE_DIRS = (
 	# Always use forward slashes, even on Windows.
 	# Don't forget to use absolute paths, not relative paths.
 )
-
-#Secret key of live_tracking message API
-SMSSYNC_SECRET = '534lkjso3w4lajs0u034s5l234j050y'
 
 INSTALLED_APPS = (
 	'django.contrib.auth',
@@ -165,7 +164,17 @@ LOGGING = {
 	}
 }
 
+# Cache
+CACHES = {
+	'default': {
+		'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+		'LOCATION': '/tmp/django_cache',
+    }
+}
+
+# Session
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
 
 # SNPPath settings
 SNP_SRID = 900913
@@ -188,3 +197,7 @@ SNP_PATH_TYPES = (
 SNP_DEFAULT_LON	= 19.258336054784
 SNP_DEFAULT_LAT	= 48.8176576494
 SNP_DEFAULT_ZOOMLEVEL = 8
+
+# SMSSync
+# Secret key of live_tracking message API
+SMSSYNC_SECRET = 'aaa'
