@@ -39,7 +39,7 @@
 
 	Ext.onReady(function() {
 		Ext.fly('username').update('<b>Username:</b>&nbsp;{{ user }}');
-		Ext.fly('version').update('<b>Version:</b>&nbsp;v0.1-alpha1-99-xxxxxxxx');
+		Ext.fly('version').update('<b>Version:</b>&nbsp;{{ VERSION }}');
 
 		Ext.getCmp('helpWindow').autoLoad.url += "?" + Ext.urlEncode({language:'{{ LANGUAGE_CODE }}'})
 
