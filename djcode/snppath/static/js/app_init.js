@@ -113,7 +113,7 @@ Ext.onReady(function() {
 
 			if (permalink.map.hasOwnProperty('permalink')){
 				// add icon for permalink point
-				var permaLinkLayer = new OpenLayers.Layer.Markers();
+				var permaLinkLayer = new OpenLayers.Layer.Markers(gettext("my point"));
 				map.addLayer(permaLinkLayer);
 
 				var size = new OpenLayers.Size(32,37);
