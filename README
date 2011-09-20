@@ -1,1 +1,5 @@
 Web mapping application for 'Cesta SNP' project. Gista Open Summer 2011.
+
+Requires:
+ * sorl-thumbnail - https://github.com/sorl/sorl-thumbnail
+ * django-geoshortcuts - https://github.com/gista/django-geoshortcuts
