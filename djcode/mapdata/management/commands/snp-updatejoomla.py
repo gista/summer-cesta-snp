@@ -35,7 +35,13 @@ class Command(NoArgsCommand):
 		self.stdout.write('D: Adding photos: {0}\n'.format(list(new_ids)))
 		for new_id in new_ids:
 			Jos_photo_id(id = new_id).save()
-
+		
+		# update titles for all records
+		self.stdout.write('D: Updating titles ...\n')
+		joomladict = dict(((m['id'], m['imgtitle']) for m in Jos_joom_gallery.objects.values('id', 'imgtitle')))
+		for photo in Jos_photo_id.objects.all():
+			if photo.title != joomladict[photo.id]:
+				Jos_photo_id(id=photo.id, title=joomladict[photo.id]).save()
 
 	def __update_articles(self):
 		joomla_ids = Jos_content.objects.values('id').values()
@@ -54,6 +60,13 @@ class Command(NoArgsCommand):
 		self.stdout.write('D: Adding articles: {0}\n'.format(list(new_ids)))
 		for new_id in new_ids:
 			Jos_article_id(id = new_id).save()
+		
+		# update titles for all records
+		self.stdout.write('D: Updating titles ...\n')
+		joomladict = dict(((m['id'], m['title']) for m in Jos_content.objects.values('id', 'title')))
+		for article in Jos_article_id.objects.all():
+			if article.title != joomladict[article.id]:
+				Jos_article_id(id=article.id, title=joomladict[article.id]).save()
 
 	def handle_noargs(self, **options):
 		self.__update_photos()

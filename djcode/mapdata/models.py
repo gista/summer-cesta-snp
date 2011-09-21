@@ -29,16 +29,18 @@ class Path(models.Model):
 class Jos_article_id(models.Model):
 	"""Model representing ID of article in DB of Joomla"""
 	id = models.IntegerField(_(u'id'), primary_key = True)
+	title = models.CharField(max_length=255)
 
 	def __unicode__(self):
-		return u'%s' % Jos_content.objects.get(id=self.id)
+		return u'(%s) %s' % (self.id, self.title)
 
 class Jos_photo_id(models.Model):
 	"""Model representing ID of photo in DB of Joomla"""
 	id = models.IntegerField(_(u'id'), primary_key = True)
+	title = models.CharField(max_length=255)
 
 	def __unicode__(self):
-		return u'%s' % Jos_joom_gallery.objects.get(id=self.id)
+		return u'(%s) %s' % (self.id, self.title)
 
 class Photo(models.Model):
 	title = models.CharField(_(u'title'), max_length=50)
