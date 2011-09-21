@@ -1,0 +1,309 @@
+[    
+    {
+        "pk": 1, 
+        "model": "mapdata.poi", 
+        "fields": {
+            "note": "Piesok test.", 
+            "name": "Piesok", 
+            "area": 6, 
+            "the_geom": "POINT (17.2765026069829055 48.3826693128823351)", 
+            "created_at": "2011-08-02 06:00:00", 
+            "jos_photo_id": [
+                191, 
+                200
+            ], 
+            "created_by": "Matus", 
+            "priority": 5, 
+            "jos_article_id": [
+                198, 
+                200
+            ], 
+            "photo": [], 
+            "active": true, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "mapdata.poi", 
+        "fields": {
+            "note": "hlavne mesto SR", 
+            "name": "Bratislava", 
+            "area": 6, 
+            "the_geom": "POINT (17.0964431738965459 48.1641318294805103)", 
+            "created_at": "2011-08-02 14:25:09", 
+            "jos_photo_id": [
+                11
+            ], 
+            "created_by": "Emil", 
+            "priority": 4, 
+            "jos_article_id": [
+                170
+            ], 
+            "photo": [], 
+            "active": true, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "mapdata.poi", 
+        "fields": {
+            "note": "Borinka chata", 
+            "name": "Borinka", 
+            "area": 6, 
+            "the_geom": "POINT (17.0823669409814123 48.2661623519531560)", 
+            "created_at": "2011-08-12 14:31:07", 
+            "jos_photo_id": [], 
+            "created_by": "Borinka a.s.", 
+            "priority": 5, 
+            "jos_article_id": [
+                176
+            ], 
+            "photo": [], 
+            "active": true, 
+            "type": 2
+        }
+    }, 
+    {
+        "pk": 4, 
+        "model": "mapdata.poi", 
+        "fields": {
+            "note": "Krasna utulna v nemocnici s poliklinikou", 
+            "name": "Trencin", 
+            "area": 5, 
+            "the_geom": "POINT (18.0300235723219728 48.8841835734693575)", 
+            "created_at": "2011-08-12 14:34:20", 
+            "jos_photo_id": [
+                2, 
+                5
+            ], 
+            "created_by": "Laco", 
+            "priority": 5, 
+            "jos_article_id": [
+                161
+            ], 
+            "photo": [], 
+            "active": true, 
+            "type": 2
+        }
+    }, 
+    {
+        "pk": 5, 
+        "model": "mapdata.poi", 
+        "fields": {
+            "note": "Znama vaznica v Ilave", 
+            "name": "Vaznica", 
+            "area": 5, 
+            "the_geom": "POINT (18.2326698277858270 48.9962057638895132)", 
+            "created_at": "2011-08-12 14:36:55", 
+            "jos_photo_id": [
+                3, 
+                6
+            ], 
+            "created_by": "Jaro", 
+            "priority": 4, 
+            "jos_article_id": [], 
+            "photo": [], 
+            "active": true, 
+            "type": 6
+        }
+    }, 
+    {
+        "pk": 6, 
+        "model": "mapdata.poi", 
+        "fields": {
+            "note": "Znama mincovna v Kremnici", 
+            "name": "Mincovna", 
+            "area": 4, 
+            "the_geom": "POINT (18.9129638645563780 48.7053425257305932)", 
+            "created_at": "2011-08-12 14:40:29", 
+            "jos_photo_id": [], 
+            "created_by": "Stryko drzgros", 
+            "priority": 2, 
+            "jos_article_id": [], 
+            "photo": [], 
+            "active": true, 
+            "type": 6
+        }
+    }, 
+    {
+        "pk": 7, 
+        "model": "mapdata.poi", 
+        "fields": {
+            "note": "Dostatok vody zaruceny", 
+            "name": "Kupalisko", 
+            "area": 4, 
+            "the_geom": "POINT (19.1271972629662734 48.7358635109767917)", 
+            "created_at": "2011-08-12 14:42:23", 
+            "jos_photo_id": [
+                3
+            ], 
+            "created_by": "Radovan", 
+            "priority": 8, 
+            "jos_article_id": [
+                161, 
+                97
+            ], 
+            "photo": [], 
+            "active": true, 
+            "type": 3
+        }
+    }, 
+    {
+        "pk": 9, 
+        "model": "mapdata.poi", 
+        "fields": {
+            "note": "V\u00fdborne varia", 
+            "name": "Malu\u017ein\u00e1", 
+            "area": 3, 
+            "the_geom": "POINT (19.7654342623883856 48.9823505227329719)", 
+            "created_at": "2011-08-12 14:47:54", 
+            "jos_photo_id": [], 
+            "created_by": "Fero", 
+            "priority": 5, 
+            "jos_article_id": [
+                161, 
+                79
+            ], 
+            "photo": [], 
+            "active": true, 
+            "type": 4
+        }
+    }, 
+    {
+        "pk": 10, 
+        "model": "mapdata.poi", 
+        "fields": {
+            "note": "Je ich tam ve\u013ea, treba si len vybra\u0165.", 
+            "name": "Ko\u0161ice", 
+            "area": 2, 
+            "the_geom": "POINT (21.2520217865922199 48.7209733958134450)", 
+            "created_at": "2011-08-12 14:49:25", 
+            "jos_photo_id": [
+                3, 
+                6
+            ], 
+            "created_by": "Jakub", 
+            "priority": 5, 
+            "jos_article_id": [], 
+            "photo": [], 
+            "active": true, 
+            "type": 4
+        }
+    }, 
+    {
+        "pk": 8, 
+        "model": "mapdata.poi", 
+        "fields": {
+            "note": "Rekrea\u010dn\u00e9 chatky pri  Vy\u0161nej Boci", 
+            "name": "Vy\u0161n\u00e1 Boca", 
+            "area": 3, 
+            "the_geom": "POINT (19.7355651828022047 48.9050623177072197)", 
+            "created_at": "2011-08-12 14:46:17", 
+            "jos_photo_id": [
+                3, 
+                5
+            ], 
+            "created_by": "Alex", 
+            "priority": 4, 
+            "jos_article_id": [
+                161, 
+                79
+            ], 
+            "photo": [], 
+            "active": true, 
+            "type": 3
+        }
+    }, 
+    {
+        "pk": 11, 
+        "model": "mapdata.poi", 
+        "fields": {
+            "note": "Pri Ko\u0161iciach", 
+            "name": "Kave\u010dany", 
+            "area": 2, 
+            "the_geom": "POINT (21.2039566010539495 48.7732674911578030)", 
+            "created_at": "2011-08-11 14:52:02", 
+            "jos_photo_id": [], 
+            "created_by": "Richard", 
+            "priority": 5, 
+            "jos_article_id": [], 
+            "photo": [], 
+            "active": true, 
+            "type": 5
+        }
+    }, 
+    {
+        "pk": 12, 
+        "model": "mapdata.poi", 
+        "fields": {
+            "note": "Na v\u00fdchode", 
+            "name": "Svidn\u00edk", 
+            "area": 1, 
+            "the_geom": "POINT (21.5744018524572461 49.3062031266682084)", 
+            "created_at": "2011-08-12 14:54:30", 
+            "jos_photo_id": [
+                5
+            ], 
+            "created_by": "Anna", 
+            "priority": 5, 
+            "jos_article_id": [
+                161, 
+                79
+            ], 
+            "photo": [], 
+            "active": true, 
+            "type": 5
+        }
+    }, 
+    {
+        "pk": 13, 
+        "model": "mapdata.poi", 
+        "fields": {
+            "note": "Hlavn\u00e9 mesto sveta.", 
+            "name": "Pre\u0161ov", 
+            "area": 1, 
+            "the_geom": "POINT (21.2379455536932547 49.0017242583704800)", 
+            "created_at": "2011-08-12 14:56:06", 
+            "jos_photo_id": [
+                3, 
+                6
+            ], 
+            "created_by": "J\u00e1n", 
+            "priority": 9, 
+            "jos_article_id": [
+                160, 
+                79
+            ], 
+            "photo": [], 
+            "active": true, 
+            "type": 7
+        }
+    }, 
+    {
+        "pk": 14, 
+        "model": "mapdata.poi", 
+        "fields": {
+            "note": "Tu varia najlepsie pivo na svete", 
+            "name": "Ve\u013ek\u00fd \u0160ari\u0161", 
+            "area": 1, 
+            "the_geom": "POINT (21.1974334687253574 49.0377483722890304)", 
+            "created_at": "2011-08-12 14:57:24", 
+            "jos_photo_id": [
+                2, 
+                3, 
+                5
+            ], 
+            "created_by": "Sm\u00e4dn\u00fd mn\u00edch", 
+            "priority": 9, 
+            "jos_article_id": [
+                161, 
+                79
+            ], 
+            "photo": [], 
+            "active": true, 
+            "type": 7
+        }
+    }
+]
