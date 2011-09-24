@@ -277,7 +277,7 @@ function addMapControls(){
 
 	// Toggle buttons for map functionality	
 
-	var lengthMeasureToggleButton, areaMeasureToggleButton, clickToggleButton, navigationToggleButton;
+	var lengthMeasureToggleButton, clickToggleButton, navigationToggleButton;
 
 	// Controller for navigation
 	var navigationController = new OpenLayers.Control.Navigation();
@@ -290,7 +290,6 @@ function addMapControls(){
 		eventListeners: {
 			'activate': function(){
 				lengthMeasureToggleButton.deactivate();
-				areaMeasureToggleButton.deactivate();
 				clickToggleButton.deactivate();
 
 				navigationController.activate();
@@ -322,47 +321,12 @@ function addMapControls(){
 		eventListeners: {
 			'activate': function(){
 				navigationToggleButton.deactivate();
-				areaMeasureToggleButton.deactivate();
 				clickToggleButton.deactivate();
 
 				lengthMeasureController.activate();
 				},
 			'deactivate': function(){
 				lengthMeasureController.deactivate();
-				}	
-			},
-		type: OpenLayers.Control.TYPE_TOGGLE
-		});
-
-	// Controller to measure the area size	
-
-	var areaMeasureController = new OpenLayers.Control.Measure(OpenLayers.Handler.Polygon, {
-		persist: true,
-		immediate: true,
-		geodesic: true,
-		eventListeners: {
-			"measure": handleMeasurements,
-			//"measurepartial": handleMeasurements
-			}
-		});
-
-	map.addControl(areaMeasureController);
-	
-	//Toggle button to activate/deactivate the area measure controller	
-
-	areaMeasureToggleButton = new OpenLayers.Control.Button({
-		title: gettext('Area measure'),
-		displayClass: "olControlDrawFeaturePolygon", 
-		eventListeners: {
-			'activate': function(){
-				navigationToggleButton.deactivate();
-				lengthMeasureToggleButton.deactivate();
-				clickToggleButton.deactivate();
-
-				areaMeasureController.activate();
-				},
-			'deactivate': function(){
-				areaMeasureController.deactivate();
 				}	
 			},
 		type: OpenLayers.Control.TYPE_TOGGLE
@@ -388,7 +352,6 @@ function addMapControls(){
 			'activate': function(){
 				navigationToggleButton.deactivate();
 				lengthMeasureToggleButton.deactivate();
-				areaMeasureToggleButton.deactivate();
 
 				clickController.activate();
 				},
@@ -437,8 +400,6 @@ function addMapControls(){
 	controlPanel.addControls([
 		navigationToggleButton,
 		lengthMeasureToggleButton,
-		areaMeasureToggleButton,
-		areaMeasureToggleButton,
 		clickToggleButton,
 		gpxButton,
 		helpButton,

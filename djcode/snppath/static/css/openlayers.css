@@ -8,12 +8,15 @@
 	right: 5px;
 }
 
+.olControlEditingToolbar div{
+	margin: 5px;
+}
+
 .olControlEditingToolbar .olControlGPXButtonItemInactive {
 	background-image: url("/static/icons/gpx.png");
 	background-repeat: no-repeat;	
 	float: right;
 	height: 24px;
-	margin: 5px;
 	width: 24px;
 }
 
@@ -22,6 +25,5 @@
 	background-repeat: no-repeat;	
 	float: right;
 	height: 24px;
-	margin: 5px;
 	width: 24px;
 }
