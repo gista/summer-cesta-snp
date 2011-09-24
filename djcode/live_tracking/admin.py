@@ -18,7 +18,7 @@ class Sync_log_admin(admin.ModelAdmin):
 class Message_GeoAdmin(admin.OSMGeoAdmin):
 	extra_js = geoadmin_extra_js
 	map_template = 'gis/admin/geoadmin.html'
-	openlayers_url = '%sjs/openlayers-211-rc1/OpenLayers.js' % settings.STATIC_URL
+	openlayers_url = '%sjs/openlayers/OpenLayers.js' % settings.STATIC_URL
 	list_display = ("user", "track", "time", "text", "coordinates")
 	list_filter = ("track__user", "track", "time",)
 	search_fields = ("track__user__username", "track__name", "text")

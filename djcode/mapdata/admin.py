@@ -8,19 +8,19 @@ geoadmin_extra_js = ["http://maps.google.com/maps/api/js?v=3.2&sensor=false", "%
 class Area_GeoAdmin(admin.OSMGeoAdmin):
 	extra_js = geoadmin_extra_js
 	map_template = 'gis/admin/geoadmin.html'
-	openlayers_url = '%sjs/openlayers-211-rc1/OpenLayers.js' % settings.STATIC_URL
+	openlayers_url = '%sjs/openlayers/OpenLayers.js' % settings.STATIC_URL
 	list_display = ('name', 'note',)
 
 class Path_GeoAdmin(admin.OSMGeoAdmin):
 	extra_js = geoadmin_extra_js
 	map_template = 'gis/admin/geoadmin.html'
-	openlayers_url = '%sjs/openlayers-211-rc1/OpenLayers.js' % settings.STATIC_URL
+	openlayers_url = '%sjs/openlayers/OpenLayers.js' % settings.STATIC_URL
 	list_display = ('area', 'type', 'note',)
 
 class Poi_GeoAdmin(admin.OSMGeoAdmin):
 	extra_js = geoadmin_extra_js
 	map_template = 'gis/admin/geoadmin.html'
-	openlayers_url = '%sjs/openlayers-211-rc1/OpenLayers.js' % settings.STATIC_URL
+	openlayers_url = '%sjs/openlayers/OpenLayers.js' % settings.STATIC_URL
 	list_display = ('name', 'active', 'area', 'type', 'priority', 'note', 'has_photo', 'has_article')
 	filter_horizontal = ('photo', 'jos_article_id', 'jos_photo_id')
 
