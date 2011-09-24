@@ -47,7 +47,8 @@ Ext.onReady(function() {
 	// the place where the map should added 
 	var mapPanel = Ext.getCmp('appMap');
 
-	// create permalink provider
+	// for some GeoExt components there's no created compatibility with Openlayers e.g. Openlayers.Control.Permalink
+	// but the solution is to use custom GeoExt's state permalink provider to handle permalink on GeoExt.MapPanel
 	permalinkProvider = new GeoExt.state.PermalinkProvider({encodeType: false});
 	
 	// set it in the state manager
