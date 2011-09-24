@@ -47,7 +47,8 @@ Ext.onReady(function() {
 	// the place where the map should added 
 	var mapPanel = Ext.getCmp('appMap');
 
-	// create permalink provider
+	// for some GeoExt components there's no created compatibility with Openlayers e.g. Openlayers.Control.Permalink
+	// but the solution is to use custom iGeoExt's state permalink provider to handle permalink on GeoExt.MapPanel
 	permalinkProvider = new GeoExt.state.PermalinkProvider({encodeType: false});
 	
 	// set it in the state manager
@@ -166,7 +167,7 @@ Ext.onReady(function() {
 					'tag': 'a',
 					'href': side.url,
 					'target': '_blank',
-					'html': '<img src="'+ side.image +'" style="width:236px; height:110px" title="'+ side.title +'">',
+					'html': '<img src="'+ side.image +'" style="width:236px; height:110px" title="'+ side.title +'" alt="'+ side.title +'">',
 					}
 				});
 
@@ -201,7 +202,7 @@ Ext.onReady(function() {
 					'tag': 'a',
 					'href': 'http://cestasnp.sk/',
 					'target': '_blank',
-					'html': '<img src="/static/icons/cestaSNP.png" style="width:180px; height:90px;" title="CestaSNP.sk">',
+					'html': '<img src="/static/icons/cestaSNP.png" style="width:180px; height:90px;" title="CestaSNP.sk" alt="CestaSNP.sk">',
 					}		
 				}]
 			});
@@ -254,7 +255,7 @@ Ext.onReady(function() {
 						'tag': 'a',
 						'href': top.url,
 						'target': '_blank',
-						'html': '<img src="'+ top.image +'" style="width:680px; height:80px; padding: 10px;" title="'+ top.title +'">',
+						'html': '<img src="'+ top.image +'" style="width:680px; height:80px; padding: 10px;" title="'+ top.title +'" alt="'+ top.title +'">',
 						}	
 					}]
 				});

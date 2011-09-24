@@ -55,13 +55,13 @@ Ext.onReady(function() {
 			});
 
 		// setup correct point name read from store
-		Ext.getCmp('name').html = '<b>' + gettext("Name") + ':</b>&nbsp;' + data.name;		
+		Ext.getCmp('name').html = '<strong>' + gettext("Name") + ':</strong>&nbsp;' + data.name;		
 
 		// setup correct point moutain read from store
-		Ext.getCmp('moutain').html = '<b>' + gettext("Moutain") + ':</b>&nbsp;' + data.area;
+		Ext.getCmp('moutain').html = '<strong>' + gettext("Moutain") + ':</strong>&nbsp;' + data.area;
 
 		// setup correct point note read from store
-		Ext.getCmp('notes').html = '<b>' + gettext("Note") + ':</b>&nbsp;' + data.note + "<hr/>";
+		Ext.getCmp('notes').html = '<strong>' + gettext("Note") + ':</strong>&nbsp;' + data.note + "<hr/>";
 
 		popup.show();
 
@@ -114,7 +114,7 @@ function createPoint(feature) {
 			id: 'moutain',
 			},{
 			autoEl:{		
-				html: '<b>' + gettext("Coordinates") + ':</b> [ ' + point.x.toFixed(5) + ',' + point.y.toFixed(5) + ' ]',
+				html: '<strong>' + gettext("Coordinates") + ':</strong> [ ' + point.x.toFixed(5) + ',' + point.y.toFixed(5) + ' ]',
 				},
 			},{	
 			id: 'notes',	
@@ -164,7 +164,7 @@ function showPopup(loc){
 				"padding": "10px"
 				},
 			autoEl: {
-				html: "<b>" + gettext("Coordinates") + ":</b><br/> [" + loc.lon.toFixed(5) +  "," + loc.lat.toFixed(5) + "]",
+				html: "<strong>" + gettext("Coordinates") + ":</strong><br/> [" + loc.lon.toFixed(5) +  "," + loc.lat.toFixed(5) + "]",
 				},
 			},{
 			xtype: "box",
@@ -173,7 +173,7 @@ function showPopup(loc){
 				"padding": "10px"		
 				},
 			autoEl: {
-				html: "<b>" + gettext("Permalink") + ":</b><br/> " + permalink,
+				html: "<strong>" + gettext("Permalink") + ":</strongi><br/> " + permalink,
 				},
 			}]
 		});
@@ -204,6 +204,7 @@ function handleMeasurements(event) {
 	}
 
 function f(photo){
+	console.log(photo);
 	new Ext.Window({
 		modal: true,
 		x: Math.round((window.innerWidth)/4),
@@ -216,6 +217,8 @@ function f(photo){
 			autoEl: {
 				'tag': 'img',
 				'src': photo,
+				'alt': 'photo',
+				'title': 'photo'
 				}		
 			}]			
 		})
