@@ -14,6 +14,9 @@ class Help(models.Model):
 	text = models.TextField(_(u'help text'), help_text=_(u'Help text in HTML format.'))
 	language = models.CharField(_(u'language code'), max_length = 10, unique = True, help_text=_(u'Language code of the text language.'))
 
+	def __unicode__(self):
+		return "Help (%s)" % self.language
+
 class Top_advertisment(models.Model):
 	title = models.CharField(_(u'title of advertisement'), max_length=MAX_AD_TITLE_LEN,
 				 help_text=_(u'Text of the title of the advertisement with maximum length {0} characters.'.format(MAX_AD_TITLE_LEN)))
