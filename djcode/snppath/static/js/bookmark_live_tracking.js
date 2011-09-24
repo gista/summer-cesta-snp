@@ -75,26 +75,29 @@ Ext.onReady(function() {
 
 	liveTrackingRecordPanel.on('rowclick', function(grid, rowIndex, e) {
 		var record = grid.getStore().getAt(rowIndex).data;
-		var point = new OpenLayers.LonLat(record.lon, record.lat).transform(map.displayProjection, map.projection); 
-		map.panTo(point);
 
-		if (typeof(markerLayer)=="undefined"){
-			// if we want to see first time marker layer(first time we clicked into LIVE user messages)
-			markerLayer = new OpenLayers.Layer.Markers(gettext("Live messages"));
-			map.addLayer(markerLayer);
-			markerLayer.setZIndex(map.Z_INDEX_BASE['Popup'] - 5);
-			}
-		else {
-			// we remove 1st records, there is just 1 (destroy marker instances & remove marker from layer)
-			//console.log(markerLayer.markers);
-			markerLayer.markers[0].destroy();
-			markerLayer.removeMarker(markerLayer.markers[0]);
-			}
+		if (record.lon != 0 && record.lat != 0) {
+			var point = new OpenLayers.LonLat(record.lon, record.lat).transform(map.displayProjection, map.projection); 
+			map.panTo(point);
 
-		var size = new OpenLayers.Size(32,37);
-		var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
-		var icon = new OpenLayers.Icon('/static/icons/LIVE_z.png', size, offset);
-		markerLayer.addMarker(new OpenLayers.Marker(point, icon));
+			if (typeof(markerLayer)=="undefined"){
+				// if we want to see first time marker layer(first time we clicked into LIVE user messages)
+				markerLayer = new OpenLayers.Layer.Markers(gettext("Live messages"));
+				map.addLayer(markerLayer);
+				markerLayer.setZIndex(map.Z_INDEX_BASE['Popup'] - 5);
+				}
+			else {
+				// we remove 1st records, there is just 1 (destroy marker instances & remove marker from layer)
+				//console.log(markerLayer.markers);
+				markerLayer.markers[0].destroy();
+				markerLayer.removeMarker(markerLayer.markers[0]);
+				}
+
+			var size = new OpenLayers.Size(32,37);
+			var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
+			var icon = new OpenLayers.Icon('/static/icons/LIVE_z.png', size, offset);
+			markerLayer.addMarker(new OpenLayers.Marker(point, icon));
+			}
 		});
 
 	// some grid components need after render method for correct working
