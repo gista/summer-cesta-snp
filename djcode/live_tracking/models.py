@@ -1,6 +1,13 @@
 from django.contrib.gis.db import models
 from django.utils.translation import ugettext_lazy as _
 
+from mapdata.models import Area
+
+
+import logging
+logger = logging.getLogger('mainlogger')
+
+
 class User(models.Model):
 	""" Class representing a user in live tracking application."""
 	id = models.IntegerField(_(u'id'), primary_key=True, help_text=_(u'ID of the user'))
@@ -29,8 +36,17 @@ class Message(models.Model):
 	time = models.DateTimeField(_(u'time'), help_text=_(u'Time of sending the message.'))
 	text = models.TextField(_(u'text'), blank=True, help_text=_(u'Text of the message.'))
 
-	the_geom = models.PointField(_(u'the geom'), null=True, help_text=_(u'Spatial point of source of the message.'))
+	the_geom = models.PointField(_(u'the geom'), blank=True, null=True, help_text=_(u'Spatial point of source of the message.'))
 	objects = models.GeoManager()
+
+	def save(self):
+		# remove geometry from messages which does not fit to our Area
+		if self.the_geom:
+			if not Area.objects.filter(the_geom__contains=self.the_geom):
+				logger.warning('Invalid coordinates in live message %s.' % self.text)
+				self.the_geom = None
+
+		super(Message, self).save()
 
 	def user(self):
 		return self.track.user
