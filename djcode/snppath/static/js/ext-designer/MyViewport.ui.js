@@ -211,7 +211,7 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
                                                 sortable: true,
                                                 width: 210,
                                                 hideable: false,
-                                                tpl: '<b>{time:date("d.m.Y H:i:s")}</b><br/><br/>{message}',
+                                                tpl: '<strong>{time:date("d.m.Y H:i:s")}</strong><br/><br/>{message}',
                                                 menuDisabled: true
                                             }
                                         ]
