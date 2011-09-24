@@ -173,7 +173,7 @@ function showPopup(loc){
 				"padding": "10px"		
 				},
 			autoEl: {
-				html: "<strong>" + gettext("Permalink") + ":</strong><br/> " + permalink,
+				html: "<strong>" + gettext("Permalink") + ":</strongi><br/> " + permalink,
 				},
 			}]
 		});
@@ -204,6 +204,7 @@ function handleMeasurements(event) {
 	}
 
 function f(photo){
+	console.log(photo);
 	new Ext.Window({
 		modal: true,
 		x: Math.round((window.innerWidth)/4),
@@ -216,6 +217,8 @@ function f(photo){
 			autoEl: {
 				'tag': 'img',
 				'src': photo,
+				'alt': 'photo',
+				'title': 'photo'
 				}		
 			}]			
 		})
