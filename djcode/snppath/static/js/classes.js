@@ -27,44 +27,44 @@ function LayerSettings(){
 		{'urlId': 1, 
 			'name': gettext('hut, shelter'), 
 			'visibility': true,  
-			'background': '/static/icons/utulna.png', 
-			'background_selected': '/static/icons/utulna.png'
+			'background': '/static/icons/hut.png', 
+			'background_selected': '/static/icons/hut.png'
 		},
 		{'urlId': 2, 
 			'name': gettext('cottage'), 
 			'visibility': true, 
-			'background': '/static/icons/chata.png', 
-			'background_selected': '/static/icons/chata.png'
+			'background': '/static/icons/cottage.png', 
+			'background_selected': '/static/icons/cottage.png'
 		},
 		{'urlId': 3, 
 			'name': gettext('water'), 
 			'visibility': true, 
-			'background': '/static/icons/voda.png', 
-			'background_selected': '/static/icons/voda.png'
+			'background': '/static/icons/water.png', 
+			'background_selected': '/static/icons/water.png'
 		},
 		{'urlId': 4, 
 			'name': gettext('restaurant, pub'), 
 			'visibility': true, 
-			'background': '/static/icons/stravovanie.png', 
-			'background_selected': '/static/icons/stravovanie.png'
+			'background': '/static/icons/nutrition.png', 
+			'background_selected': '/static/icons/nutrition.png'
 		},
 		{'urlId': 5, 
 			'name': gettext('grocery'), 
 			'visibility': true, 
-			'background': '/static/icons/supermarket.png', 
-			'background_selected': '/static/icons/supermarket.png'
+			'background': '/static/icons/grocery.png', 
+			'background_selected': '/static/icons/grocery.png'
 		},
 		{'urlId': 6, 
 			'name': gettext('interesting place'), 
 			'visibility': true, 
-			'background': '/static/icons/zaujimavosti.png', 
-			'background_selected': '/static/icons/zaujimavosti.png'
+			'background': '/static/icons/interest.png', 
+			'background_selected': '/static/icons/interest.png'
 		},
 		{'urlId': 7, 
 			'name': gettext('other'), 
 			'visibility': true, 
-			'background': '/static/icons/ostatne.png', 
-			'background_selected': '/static/icons/ostatne.png'
+			'background': '/static/icons/other.png', 
+			'background_selected': '/static/icons/other.png'
 		}];
 
 	var getInstance = function() {
