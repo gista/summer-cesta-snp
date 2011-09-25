@@ -16,6 +16,9 @@ Ext.onReady(function() {
 
 	// function for setup the icon image as in layers default stylemap specified	
 	iconAdder = function(t,p,n,r){
+		if (n.layer.CLASS_NAME == "OpenLayers.Layer.Markers")
+			return false;
+
 		if (n.layer.hasOwnProperty('protocol')) {
 			var link = n.layer.protocol.url;
 			var layerIdent = Ext.urlDecode(link.substr(link.indexOf("?")+1));
