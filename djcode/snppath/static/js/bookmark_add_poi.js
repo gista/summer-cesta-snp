@@ -69,8 +69,20 @@ Ext.apply(Ext.form.VTypes, {
 	lonText: gettext('Longitude must be in bounds of Slovakia.'),
 	});
 
+Ext.apply(Ext.form.VTypes, {
+	photo: function(pPhoto, field) {
+		var exp = /^.*\.(JPEG)$/;
+		return exp.test(pPhoto);
+		},
+	photoText: gettext('Photos only with JPEG extension allowed.'),
+	});
+
 // function for dynamic adding new photo inputs
 var addNew = function(fb, v){
+	// filefield extension validation  
+	if (!fb.isValid())
+		return;
+
 	var counter = Ext.getCmp('poiform').findById('poi-photo-counter');
 	var photoId = Number(counter.getValue()) + 1
 	counter.setValue(photoId);
@@ -84,6 +96,7 @@ var addNew = function(fb, v){
 		id: 'poi-photo-' + photoId,
 		allowBlank: true,
 		buttonText: '',
+		vtype: 'photo',
 		buttonCfg: {
 			'iconCls': 'upload-icon'
 			},

@@ -28,6 +28,13 @@ class PoiForm(forms.ModelForm):
 		validate_lon(lon)
 		return lon
 
+	def clean_photo(self):
+		photos = self.files.getlist('photo')
+		for photo in photos:
+			if (photo.content_type != 'image/JPEG'):
+				raise forms.ValidationError(_(u'File extension only JPEG allowed!'))
+		return photos
+
 	class Meta:
 		model = Poi
 		fields = ['name', 'type', 'lat', 'lon', 'note', 'photo']

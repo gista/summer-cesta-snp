@@ -334,6 +334,7 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 					id: 'poi-photo-1',
 					allowBlank: true,
 					buttonText: '',
+					vtype: 'photo', 
 					buttonCfg: {
 						'iconCls': 'upload-icon'
 						},
