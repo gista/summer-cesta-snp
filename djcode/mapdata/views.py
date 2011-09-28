@@ -1,4 +1,5 @@
-from shortcuts import render_to_geojson, render_to_gpx
+from geoshortcuts.geojson import render_to_geojson
+from geoshortcuts.gpx import render_to_gpx
 from django.http import HttpResponse
 from django.contrib.gis.geos import Polygon, Point
 from django.utils import simplejson
