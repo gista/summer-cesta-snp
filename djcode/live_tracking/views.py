@@ -33,11 +33,13 @@ def message(request):
 	"""
 	if request.method == 'GET':
 		raise Http404
-	form = MessageForm(request.POST)
+	post = request.POST.copy()
+	post.update({"phone": post.pop("from")[0]})
+	form = MessageForm(post)
 	if form.is_valid():
 		form.save(commit=True)
 		Sync_log(time=datetime.today, success=True)
-		return HttpResponse('{"success":"true"}', mimetype='application/json')
+		return HttpResponse('{"payload": {"success": true}}', mimetype='application/json')
 	else:
 		Sync_log(time=datetime.today, success=False)
 		errs = form.errors.keys()
@@ -46,4 +48,5 @@ def message(request):
 			res.status_code = 401
 			return res
 		else:
-			return HttpResponse('{"success":"false"}', mimetype='application/json')
+			return HttpResponse('{"payload": {"success": false}}', mimetype='application/json')
+
