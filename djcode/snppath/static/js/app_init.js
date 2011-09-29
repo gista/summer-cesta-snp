@@ -12,6 +12,7 @@ var comboStore;
 
 Ext.onReady(function() {
 	Ext.QuickTips.init();
+	Shadowbox.init();	
 
 	// set map options and instantiative map
 	var options = {

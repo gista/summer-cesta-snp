@@ -18,18 +18,19 @@ Ext.onReady(function() {
 				data.photos_jos = obj.photo_jos;
 				data.photos_map = obj.photo_map;
 
-				var image = '<img src="{thumb}" style="padding: 10px;" onclick=f("{photo}");>';
-				var tpl = Ext.DomHelper.createTemplate(image);
-				tpl.compile();
-		
+				var gallery = gettext("Photo Gallery");
+				
+				// clear cached images from previous POI detail
+				Shadowbox.clearCache();
+
 				// add jos photos into popup, if there area some
 				if (data.photos_jos.length > 0){
 					var photos_jos = data.photos_jos;
 					for(i=0; i<photos_jos.length; i++){
-						tpl.append('photo_jos',{
-							photo: photos_jos[i].photo,
-							thumb: photos_jos[i].thumb
-							})
+						var newPhoto = Ext.DomHelper.append('photo_map', 
+							String.format('<a rel="shadowbox[{0}]" href="{1}"><img src="{2}"></a>', 
+								gallery, photos_jos[i].photo, photos_jos[i].thumb), true);
+						Shadowbox.setup([newPhoto.dom]);
 						}
 					}
 
@@ -37,10 +38,10 @@ Ext.onReady(function() {
 				if (data.photos_map.length > 0){
 					var photos_map = data.photos_map;
 					for(i=0; i<photos_map.length; i++){
-						tpl.append('photo_map',{
-							photo: photos_map[i].photo,
-							thumb: photos_map[i].thumb
-							})
+						var newPhoto = Ext.DomHelper.append('photo_map', 
+							String.format('<a rel="shadowbox[{0}]" href="{1}"><img src="{2}"></a>', 
+								gallery, photos_map[i].photo, photos_map[i].thumb), true);
+						Shadowbox.setup([newPhoto.dom]);
 						}
 					}
 				
@@ -201,25 +202,4 @@ function handleMeasurements(event) {
 		buttons: Ext.Msg.OK,
 		icon: Ext.MessageBox.INFO
 		});
-	}
-
-function f(photo){
-	console.log(photo);
-	new Ext.Window({
-		modal: true,
-		x: Math.round((window.innerWidth)/4),
-		y: Math.round((window.innerHeight)/6),
-		autoHeight: true,
-		autoWidth: true,
-		hidden: false,
-		items:[{
-			xtype: 'box',
-			autoEl: {
-				'tag': 'img',
-				'src': photo,
-				'alt': 'photo',
-				'title': 'photo'
-				}		
-			}]			
-		})
 	}

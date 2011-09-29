@@ -59,3 +59,7 @@
 .x-panel-body{
 	overflow-x:hidden !important;
 }
+
+a[rel] img {
+	padding: 10px;
+}
