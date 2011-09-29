@@ -207,12 +207,13 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
                                         },
                                         columns: [
                                             {
-                                                xtype: 'templatecolumn',
-                                                sortable: true,
+                                                xtype: 'gridcolumn',
+						dataIndex: 'message',
+                                                sortable: false,
                                                 width: 210,
                                                 hideable: false,
-                                                tpl: '<strong>{time:date("d.m.Y H:i:s")}</strong><br/><br/>{message}',
-                                                menuDisabled: true
+                                                menuDisabled: true,
+						renderer: customRenderer
                                             }
                                         ]
                                     }

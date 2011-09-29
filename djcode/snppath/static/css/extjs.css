@@ -63,3 +63,10 @@
 a[rel] img {
 	padding: 10px;
 }
+
+.x-grid3-coordinates {
+	cursor: pointer;
+}
+.x-grid3-no-coordinates {
+	cursor: default;
+}

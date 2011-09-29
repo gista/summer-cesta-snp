@@ -116,3 +116,12 @@ Ext.onReady(function() {
 			});		
 		});
 	});
+
+function customRenderer(v, p, r){
+	var ret = null;
+	if (r.hasOwnProperty("data") && r.data.hasOwnProperty("lon") && r.data.hasOwnProperty("lat") && r.data.hasOwnProperty("time")){
+		var cursorClass = (r.data.lon != 0 && r.data.lat != 0) ? "x-grid3-coordinates" : "x-grid3-no-coordinates";
+		var ret = "<span class='"+ cursorClass +"'><h3>"+ r.data.time.format('d.m.Y H:i:s')+"</h3><br/>" + v + "</span>";
+		}
+	return ret;
+	}
