@@ -71,7 +71,7 @@ Ext.apply(Ext.form.VTypes, {
 
 Ext.apply(Ext.form.VTypes, {
 	photo: function(pPhoto, field) {
-		var exp = /^.*\.(JPEG)$/;
+		var exp = /^.*\.(jpg|jpeg|JPG|JPEG)$/;
 		return exp.test(pPhoto);
 		},
 	photoText: gettext('Photos only with JPEG extension allowed.'),

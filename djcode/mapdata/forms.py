@@ -31,7 +31,7 @@ class PoiForm(forms.ModelForm):
 	def clean_photo(self):
 		photos = self.files.getlist('photo')
 		for photo in photos:
-			if (photo.content_type != 'image/JPEG'):
+			if (photo.content_type != 'image/jpeg'):
 				raise forms.ValidationError(_(u'File extension only JPEG allowed!'))
 		return photos
 
