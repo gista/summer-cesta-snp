@@ -144,11 +144,12 @@ INSTALLED_APPS = (
 	'django.contrib.staticfiles',
 	'django.contrib.admin',
 	'django.contrib.gis',
+	'sorl.thumbnail',
 	'djcode.mapdata',
 	'djcode.joomla',
 	'djcode.live_tracking',
 	'djcode.snppath',
-	'sorl.thumbnail',
+	'djcode.advertisement'
 )
 
 # A sample logging configuration. The only tangible logging

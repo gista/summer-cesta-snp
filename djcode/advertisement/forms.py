@@ -1,14 +1,15 @@
 from django import forms
-from snppath.models import *
 from django.core.validators import URLValidator, MaxLengthValidator
-from validators import RangeValidator
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 from django.core.files.images import get_image_dimensions
 
-class TopAdvertismentAdminForm(forms.ModelForm):
+from validators import RangeValidator
+from advertisement.models import *
+
+class TopAdvertisementAdminForm(forms.ModelForm):
 	class Meta:
-		model = Top_advertisment
+		model = Top_advertisement
 
 	def clean_transparency(self):
 		transparency = self.cleaned_data['transparency']
@@ -43,9 +44,9 @@ class TopAdvertismentAdminForm(forms.ModelForm):
 			raise ValidationError(_(u'Invalid URL.'))
 		return url
 
-class SideAdvertismentAdminForm(forms.ModelForm):
+class SideAdvertisementAdminForm(forms.ModelForm):
 	class Meta:
-		model = Side_advertisment
+		model = Side_advertisement
 
 	def clean_title(self):
 		title = self.cleaned_data['title']

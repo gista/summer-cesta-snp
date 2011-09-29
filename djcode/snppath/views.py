@@ -5,7 +5,8 @@ from django.contrib.auth import authenticate, login
 from django.template import RequestContext
 from django.utils import simplejson
 from live_tracking.models import User, Track, Message
-from snppath.models import Help, Top_advertisment, Side_advertisment
+from snppath.models import Help
+from advertisement.models import Top_advertisement, Side_advertisement
 
 
 def home(request):
@@ -38,12 +39,12 @@ def config(request):
 	resp = {'location':{'lon':settings.SNP_DEFAULT_LON, 'lat':settings.SNP_DEFAULT_LAT, 'zoomlevel':settings.SNP_DEFAULT_ZOOMLEVEL},
 		'poi_types':[poi_type[1] for poi_type in settings.SNP_POI_TYPES],
 		'live_users':list(),
-		'advertisment':dict()
+		'advertisement':dict()
 		}
 
 	topad_dict = dict()
 	try:
-		topad = Top_advertisment.objects.filter(active__exact=True)[0]
+		topad = Top_advertisement.objects.filter(active__exact=True)[0]
 		topad_dict = dict()
 		topad_dict['title'] = topad.title
 		topad_dict['transparency'] = topad.transparency
@@ -51,17 +52,17 @@ def config(request):
 		topad_dict['image'] = topad.image.url
 	except IndexError:
 		pass
-	resp['advertisment']['top'] = topad_dict
+	resp['advertisement']['top'] = topad_dict
 
 	sidead_dict = dict()
 	try:
-		sidead = Side_advertisment.objects.filter(active__exact=True)[0]
+		sidead = Side_advertisement.objects.filter(active__exact=True)[0]
 		sidead_dict['title'] = sidead.title
 		sidead_dict['url'] = sidead.url
 		sidead_dict['image'] = sidead.image.url
 	except IndexError:
 		pass
-	resp['advertisment']['side'] = sidead_dict
+	resp['advertisement']['side'] = sidead_dict
 
 	for luser in lusers:
 		tracks = list()

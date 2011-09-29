@@ -159,7 +159,7 @@ Ext.onReady(function() {
 		inactiveLiveTrackingStore.loadData(inactiveTracks);
 
 		// set the side advertisement
-		var side = jData.advertisment.side;
+		var side = jData.advertisement.side;
 		
 		if (side.hasOwnProperty('title') && side.hasOwnProperty('image') && side.hasOwnProperty('url')){
 			var hrefBox = new Ext.BoxComponent({
@@ -208,7 +208,7 @@ Ext.onReady(function() {
 			});
 
 		// set the top advertisement window
-		var top = jData.advertisment.top;
+		var top = jData.advertisement.top;
 
 		if (top.hasOwnProperty('title') && top.hasOwnProperty('image') && top.hasOwnProperty('url') && top.hasOwnProperty('transparency')){
 			// advertisement background window with custom opacity
