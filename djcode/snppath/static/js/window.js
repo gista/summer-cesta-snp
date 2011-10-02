@@ -56,7 +56,7 @@ Ext.onReady(function() {
 			});
 
 		// setup correct point name read from store
-		Ext.getCmp('name').html = '<strong>' + gettext("Name") + ':</strong>&nbsp;' + data.name;		
+		Ext.getCmp('name').html = '<strong>' + gettext("Name") + ':</strong>&nbsp;<span style="font-size:14px;">' + data.name + "</span>";		
 
 		// setup correct point moutain read from store
 		Ext.getCmp('moutain').html = '<strong>' + gettext("Moutain") + ':</strong>&nbsp;' + data.area;
