@@ -78,7 +78,7 @@ function activateArticleStrategy(pActivate){
 	for(var i=0; i<layersLength; i++)
 		if (overLayers[i].strategies[1].CLASS_NAME == "OpenLayers.Strategy.Filter")
 			if (pActivate) 
-				overLayers[i].strategies[1].setFilter(filterHasPhoto);
+				overLayers[i].strategies[1].setFilter(filterHasArticle);
 			else 
-				overLayers[i].strategies[1].setFilter(filterPhoto);
+				overLayers[i].strategies[1].setFilter(filterArticle);
 	}
