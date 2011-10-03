@@ -142,8 +142,8 @@ function showPopup(loc){
 
 	// create permalink
 	var permalink = location.protocol + "//" + location.host + "/?";
-	permalink += Ext.urlEncode({map_lon:loc.lon});  
-	permalink += "&" + Ext.urlEncode({map_lat:loc.lat}); 
+	permalink += Ext.urlEncode({map_lon:loc.lon.toFixed(5)});  
+	permalink += "&" + Ext.urlEncode({map_lat:loc.lat.toFixed(5)}); 
 	permalink += "&" + Ext.urlEncode({map_zoom:map.zoom});
 	permalink += "&" + Ext.urlEncode({map_permalink:'T'});
 

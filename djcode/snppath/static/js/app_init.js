@@ -72,8 +72,8 @@ Ext.onReady(function() {
 		var point = new OpenLayers.LonLat(provider.get('map').x, provider.get('map').y); 
 		point = point.transform(map.projection, map.displayProjection);
 		var link = "?";
-		link += Ext.urlEncode({map_lon:point.lon});
-		link += "&" + Ext.urlEncode({map_lat:point.lat});
+		link += Ext.urlEncode({map_lon:point.lon.toFixed(5)});
+		link += "&" + Ext.urlEncode({map_lat:point.lat.toFixed(5)});
 		link += "&" + Ext.urlEncode({map_zoom:provider.get('map').zoom});
 
 		Ext.select(".olControlPermalink").update("<a href=" + link + ">" + gettext("Permalink") + "</a>");
