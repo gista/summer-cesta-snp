@@ -91,6 +91,7 @@ Ext.onReady(function() {
 				//console.log(markerLayer.markers);
 				markerLayer.markers[0].destroy();
 				markerLayer.removeMarker(markerLayer.markers[0]);
+				markerLayer.setVisibility(true);
 				}
 
 			var size = new OpenLayers.Size(32,37);
@@ -110,6 +111,7 @@ Ext.onReady(function() {
 
 		// event on click for back button returns to lists of active & inactive users 
 		Ext.getCmp('backButton').on('click', function(){
+			markerLayer.setVisibility(false);
 			liveTrackingRecordPanel.hide();
 			liveTrackingActivePanel.show();
 			liveTrackingInactivePanel.show();
