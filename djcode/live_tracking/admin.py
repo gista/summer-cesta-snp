@@ -9,7 +9,7 @@ class User_admin(admin.ModelAdmin):
 	search_fields = ("username", "first_name", "last_name", "phone",)
 
 class Track_admin(admin.ModelAdmin):
-	list_display = ("user", "name", "description", "is_active")
+	list_display = ("user", "name", "is_active", "description",)
 
 class Sync_log_admin(admin.ModelAdmin):
 	list_display = ("time", "success")
