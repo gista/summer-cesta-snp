@@ -13,6 +13,7 @@ class Track_admin(admin.ModelAdmin):
 
 class Sync_log_admin(admin.ModelAdmin):
 	list_display = ("time", "success")
+	readonly_fields = Sync_log._meta.get_all_field_names()
 	ordering = ("time",)
 
 class Message_GeoAdmin(admin.OSMGeoAdmin):
