@@ -24,6 +24,18 @@ class Poi_GeoAdmin(admin.OSMGeoAdmin):
 	list_display = ('name', 'active', 'area', 'type', 'priority', 'note', 'has_photo', 'has_article')
 	filter_horizontal = ('photo', 'jos_article_id', 'jos_photo_id')
 
+	fieldsets = (
+		(None, {
+			'fields': ('name', 'type', 'area', 'priority', 'created_by', 'created_at', 'active', 'note')
+		}),
+		('Attached content', {
+			'fields': ('jos_article_id', 'jos_photo_id', 'photo')
+		}),
+		('Map', {
+			'fields': ('the_geom',)
+		})
+	)
+
 class Photo_admin(admin.ModelAdmin):
 	list_display = ("title", "desctiption", "photo",)
 	ordering = ("title",)
