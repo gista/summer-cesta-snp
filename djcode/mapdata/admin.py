@@ -24,7 +24,11 @@ class Poi_GeoAdmin(admin.OSMGeoAdmin):
 	list_display = ('name', 'active', 'area', 'type', 'priority', 'note', 'has_photo', 'has_article')
 	filter_horizontal = ('photo', 'jos_article_id', 'jos_photo_id')
 
-admin.site.register(Photo)
+class Photo_admin(admin.ModelAdmin):
+	list_display = ("title", "desctiption", "photo",)
+	ordering = ("title",)
+
+admin.site.register(Photo, Photo_admin)
 admin.site.register(Area, Area_GeoAdmin)
 admin.site.register(Path, Path_GeoAdmin)
 admin.site.register(Poi, Poi_GeoAdmin)
