@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.contrib.gis.db import models
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
@@ -64,7 +65,7 @@ class Poi(models.Model):
 	jos_photo_id = models.ManyToManyField(Jos_photo_id, blank=True, null=True, verbose_name=_(u'list of joomla photos'),
 						help_text=_(u'Many-to-many relation with photo ids (from Joomla DB).'))
 	created_by = models.CharField(_(u'author'), max_length=50, blank=True, help_text=_(u'Name of the creator of the POI.'))
-	created_at = models.DateTimeField(_(u'creation time'), blank=True, null=True, help_text=_(u'Date-time stamp of creation of the POI.'))
+	created_at = models.DateTimeField(_(u'creation time'), default=datetime.now(), help_text=_(u'Date-time stamp of creation of the POI.'))
 
 	the_geom = models.PointField(_(u'the geom'), help_text=_(u'Spatial representation of the POI in the WGS84.'))
 	objects = models.GeoManager()
