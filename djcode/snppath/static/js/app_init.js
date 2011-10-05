@@ -37,7 +37,8 @@ Ext.onReady(function() {
 		attribution: "<a href='http://www.freemap.sk' target='_blank'>Freemap Slovakia</a>, <a href='http://www.openstreetmap.org' target='_blan-->k'>OpenStreetMap</a>",
 		});
 
-	map.addLayers([fmap, gmap]);
+	map.addLayers([gmap, fmap]);
+	map.setBaseLayer(fmap);
 
 	// call add overlayers function
 	addOverLayers();
