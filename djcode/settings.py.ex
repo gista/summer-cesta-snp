@@ -30,6 +30,9 @@ DATABASES = {
 	}
 }
 
+import os.path
+PROJ_ROOT_DIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
+
 #Path to routing object to decide which DB use.
 DATABASE_ROUTERS = ['dbrouters.DbRouter']
 
@@ -120,6 +123,7 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'djcode.urls'
 
 TEMPLATE_DIRS = (
+	os.path.join(PROJ_ROOT_DIR, 'templates'),
 	# Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
 	# Always use forward slashes, even on Windows.
 	# Don't forget to use absolute paths, not relative paths.
