@@ -22,39 +22,39 @@ GPX_FILE_NAME = 'cestasnp-%s.gpx' % date.today()
 
 GPX_METADATA = {
 	'name':GPX_FILE_NAME,
-	'desc':'GPX file of SNP',
+	'desc':'GPX export from cestasnp.sk',
 	'author': {
 		'name':'cestasnp.sk',
 		'email':'info@cestasnp.sk',
 		'link':{
 			'href':'http://www.cestasnp.sk',
-			'text':'CestaSNP.sk',
+			'text':'cestasnp.sk',
 			'type':'text/html',
 		}
 	},
 	'copyright':{
-		'author':'cesta.snp',
+		'author':'cestasnp.sk',
 		'year':date.today(),
 		'license':'/license/',
 	},
 	'link':[{
 		'href':'http://www.cestasnp.sk',
-		'text':'CestaSNP.sk',
+		'text':'Cestasnp.sk',
 		'type':'text/html',
 	}],
 	'time':datetime.today(),
-	'keywords':'SNP',
+	'keywords':'cesta SNP',
 }
 GPX_POI_MAPPING = {
 	'time': 'created_at',
 	'name': 'name',
-	'cmt' : 'note',
+	'desc' : 'note',
 	'src' : 'created_by',
 	'type': 'type',
 }
 
 GPX_PATH_MAPPING = {
-	'cmt' : 'note',
+	'desc' : 'note',
 	'type' : 'type',
 }
 
