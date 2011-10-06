@@ -94,3 +94,25 @@ function LayerSettings(){
 
 	return getInstance();
 	}
+
+Ext.ux.ResultWindow = Ext.extend(Ext.Window, {
+	initComponent:function() {
+		// call parent initComponent
+		Ext.ux.ResultWindow.superclass.initComponent.call(this);
+		
+		// add box for showing results
+		this.add({
+			xtype: 'box',
+			autoHeight: true,
+			cls: 'x-window-plain x-window-mc',
+			});
+		},
+
+	setText:function(pText){
+		// function changing the output text
+		if (this.hidden)
+			this.show();
+
+		this.get(0).update(pText);		
+		}
+	});

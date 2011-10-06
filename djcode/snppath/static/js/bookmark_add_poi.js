@@ -20,12 +20,8 @@ Ext.onReady(function() {
 					// the id of layer, which I will refresh settled in server response 
 					var layerId = action.result.layer;
 					overLayers[overLayers.length-layerId].refresh();
-					Ext.Msg.show({
-						title: gettext("Point of Interest"),
-						msg: gettext("New POI has been successfully added."),
-						buttons: Ext.Msg.OK,
-						icon: Ext.MessageBox.INFO
-						});
+					resultWindow.setText(gettext("New POI has been successfully added."));
+
 					var counter = Ext.getCmp('poiform').findById('poi-photo-counter');
 					var photoCount = Number(counter.getValue());
 
@@ -36,12 +32,7 @@ Ext.onReady(function() {
 					counter.setValue(1);
 					},
 				failure: function(form,action) { 
-					Ext.Msg.show({
-						title: gettext("Point of Interest"),
-						msg: gettext("An error in POI form."),
-						buttons: Ext.Msg.OK,
-						icon: Ext.MessageBox.ERROR
-						});
+					resultWindow.setText(gettext("An error in POI form."));
 					}
 				})
 			}

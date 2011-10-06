@@ -196,10 +196,6 @@ function handleMeasurements(event) {
 	else {
 		msg += gettext("Measured&nbsp;area:&nbsp;") + measure.toFixed(2) + "&nbsp;" + units + "<sup>2</sup>";
 		}
-	Ext.Msg.show({
-		title: gettext("Measure"),
-		msg: msg,
-		buttons: Ext.Msg.OK,
-		icon: Ext.MessageBox.INFO
-		});
+
+	resultWindow.setText(msg);
 	}

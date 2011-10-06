@@ -74,3 +74,10 @@ a[rel] img {
 .x-grid3-no-coordinates {
 	cursor: default;
 }
+
+.x-window-floating .x-window-body div {
+	opacity: 0.75;
+	padding: 8px 8px 8px 8px;
+	text-align: center;
+	font-size: 14px;
+}

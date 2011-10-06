@@ -68,6 +68,22 @@ Ext.onReady(function() {
 		prettyStateKeys: true // for pretty permalinks
 		});
 
+	// create window for partial results as measures, permalink etc.
+	resultWindow = new Ext.ux.ResultWindow({
+		x: geoExtMapPanel.getPosition()[0] + 5,
+		y: geoExtMapPanel.getPosition()[1] + geoExtMapPanel.getHeight() - 55,
+		height: 50,
+		width: geoExtMapPanel.getWidth() - 10,
+		frame: false,
+		shadow: false,
+		border: true,
+		plain: true,
+		draggable: false,
+		resizable: false,
+		cls: 'x-window-floating',
+		closeAction: 'hide'
+		});
+
 	// display permalink each time state is changed
 	permalinkProvider.on('statechange', function(provider, name, value) {
 		var point = new OpenLayers.LonLat(provider.get('map').x, provider.get('map').y); 
@@ -78,6 +94,7 @@ Ext.onReady(function() {
 		link += "&" + Ext.urlEncode({map_zoom:provider.get('map').zoom});
 
 		Ext.select(".olControlPermalink").update("<a href=" + link + ">" + gettext("Permalink") + "</a>");
+		resultWindow.setText(document.location.href + link);
 		});
 
 	// user browser size adapter (IE)
