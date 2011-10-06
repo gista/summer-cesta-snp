@@ -150,7 +150,7 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
                                                 dataIndex: 'last_location_time',
                                                 sortable: true,
 						id: 'last_location_time',
-                                                format: 'd.m.Y - h:m'
+                                                format: 'd.m.Y'
                                             }
                                         ]
                                     },
