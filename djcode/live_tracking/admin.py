@@ -1,8 +1,13 @@
+from django.contrib.gis.geos import Point
 from django.contrib.gis import admin
 from django.conf import settings
 from models import User, Track, Message, Sync_log
 
 geoadmin_extra_js = ["http://maps.google.com/maps/api/js?v=3.2&sensor=false", "%sjs/freemap.js" % settings.STATIC_URL]
+
+pnt = Point(settings.SNP_DEFAULT_LON, settings.SNP_DEFAULT_LAT, srid=4326)
+pnt.transform(900913)
+default_lon, default_lat = pnt.coords
 
 class User_admin(admin.ModelAdmin):
 	list_display = ("id", "username", "first_name", "last_name", "email", "phone",)
@@ -20,6 +25,9 @@ class Message_GeoAdmin(admin.OSMGeoAdmin):
 	extra_js = geoadmin_extra_js
 	map_template = 'gis/admin/geoadmin.html'
 	openlayers_url = '%sjs/openlayers/OpenLayers.js' % settings.STATIC_URL
+	default_lon = default_lon
+	default_lat = default_lat
+	default_zoom = settings.SNP_DEFAULT_ZOOMLEVEL
 	list_display = ("user", "track", "time", "text", "coordinates")
 	list_filter = ("track__user", "track", "time",)
 	search_fields = ("track__user__username", "track__name", "text")
