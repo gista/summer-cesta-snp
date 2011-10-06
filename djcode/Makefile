@@ -1,4 +1,4 @@
-all: compile-python collect-staticfiles touch-wsgi
+all: compile-python collect-staticfiles apache-reload
 
 compile-python:
 	python -m compileall .
@@ -6,8 +6,11 @@ compile-python:
 collect-staticfiles:
 	python manage.py collectstatic --noinput
 
-touch-wsgi:
+wsgi-touch:
 	touch snp.wsgi
+
+apache-reload:
+	sudo /etc/init.d/apache2 reload
 
 
 clean:
