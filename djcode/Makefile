@@ -16,3 +16,4 @@ apache-reload:
 clean:
 	find . -name "*.pyc" -exec rm -v "{}" \;
 	rm -rv ../static/*
+	sudo rm -rv /tmp/cache-map_cestasnp_sk/*
