@@ -94,7 +94,6 @@ Ext.onReady(function() {
 		link += "&" + Ext.urlEncode({map_zoom:provider.get('map').zoom});
 
 		Ext.select(".olControlPermalink").update("<a href=" + link + ">" + gettext("Permalink") + "</a>");
-		resultWindow.setText(document.location.href + link);
 		});
 
 	// user browser size adapter (IE)
@@ -357,7 +356,7 @@ function addMapControls(){
 	var clickController = new OpenLayers.Control.Click({
 		trigger: function(e) {
 			var userClick = map.getLonLatFromViewPortPx(e.xy); 
-			showPopup(userClick);
+			showLinkToPoint(userClick);
 			},
 		});
 
@@ -366,7 +365,7 @@ function addMapControls(){
 	// Toggle button to activate/deactivate the click controller	
 
 	clickToggleButton = new OpenLayers.Control.Button({
-		title: gettext('Point info (coordinates & permalink)'),
+		title: gettext('Point link (coordinates & permalink)'),
 		displayClass: "olControlDrawFeaturePoint", 
 		eventListeners: {
 			'activate': function(){

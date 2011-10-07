@@ -133,9 +133,7 @@ function createPoint(feature) {
 	articlePointStore.load();
 	}
 
-var popupPoint;
-
-function showPopup(loc){
+function showLinkToPoint(loc){
 	// set the map center as user clicked
 	map.setCenter(loc);
 	loc = loc.transform(map.projection, map.displayProjection);
@@ -146,41 +144,10 @@ function showPopup(loc){
 	permalink += "&" + Ext.urlEncode({map_lat:loc.lat.toFixed(5)}); 
 	permalink += "&" + Ext.urlEncode({map_zoom:map.zoom});
 	permalink += "&" + Ext.urlEncode({map_permalink:'T'});
-
-	// if there was already some point popup shown, destroy the old one
-	if (popupPoint)
-		popupPoint.destroy();
-
-	// create popup for user click point
-	popupPoint = new GeoExt.Popup({
-		title: gettext("Map point"),
-		autoWidth: true,
-		unpinnable: false,
-		map: map,
-		location: map.getCenter(),
-		items:[{
-			xtype: "box",
-			style:{
-				"font-size": "13px",
-				"padding": "10px"
-				},
-			autoEl: {
-				html: "<strong>" + gettext("Coordinates") + ":</strong><br/> [" + loc.lon.toFixed(5) +  "," + loc.lat.toFixed(5) + "]",
-				},
-			},{
-			xtype: "box",
-			style:{	
-				"font-size":"13px",
-				"padding": "10px"		
-				},
-			autoEl: {
-				html: "<strong>" + gettext("Permalink") + ":</strongi><br/> " + permalink,
-				},
-			}]
-		});
-
-	popupPoint.show();
-	}	
+	
+	resultWindow.setText(gettext("Point link") + ": " +
+		" <a href=\"" + permalink + "\">" + loc.lon.toFixed(5) + "," + loc.lat.toFixed(5) + "</a>");
+	}
 
 //Function to handle measures of length and area 
 
