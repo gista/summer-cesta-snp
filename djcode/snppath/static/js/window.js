@@ -146,7 +146,7 @@ function showLinkToPoint(loc){
 	permalink += "&" + Ext.urlEncode({map_permalink:'T'});
 	
 	resultWindow.setText(gettext("Point link") + ": " +
-		" <a href=\"" + permalink + "\">" + loc.lon.toFixed(5) + "," + loc.lat.toFixed(5) + "</a>");
+		" <a href=\"" + permalink + "\">" + loc.lon.toFixed(5) + ", " + loc.lat.toFixed(5) + "</a>");
 	}
 
 //Function to handle measures of length and area 
