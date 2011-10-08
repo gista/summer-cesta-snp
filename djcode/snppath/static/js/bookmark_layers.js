@@ -56,6 +56,10 @@ Ext.onReady(function() {
 			}),
 		});
 
+	mapOverLayersTree.on('click', function(n, e, c){
+		n.layer.setVisibility(!n.layer.getVisibility());
+		});
+
 	// Checkbox events for check/uncheck in Filter panel
 	Ext.getCmp("has_photo").on('check', function(el,checked){
 		activatePhotoStrategy(checked);	
