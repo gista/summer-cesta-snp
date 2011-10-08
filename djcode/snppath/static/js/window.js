@@ -112,6 +112,10 @@ function createPoint(feature) {
 		items:[{
 			id: 'name',
 			},{
+			autoEl:{
+				html: gettext("Category") + ': ' + feature.layer.name,
+				},	
+			},{
 			id: 'moutain',
 			},{
 			autoEl:{		
