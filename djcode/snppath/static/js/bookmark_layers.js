@@ -14,6 +14,10 @@ Ext.onReady(function() {
 			})
 		});
 
+	mapBaseLayersTree.on('click', function(n, e){
+		map.setBaseLayer(n.layer);
+		});
+
 	// function for setup the icon image as in layers default stylemap specified	
 	iconAdder = function(t,p,n,r){
 		if (n.layer.CLASS_NAME == "OpenLayers.Layer.Markers")
