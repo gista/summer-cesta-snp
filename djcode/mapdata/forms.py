@@ -29,10 +29,15 @@ class PoiForm(forms.ModelForm):
 		return lon
 
 	def clean_photo(self):
-		photos = self.files.getlist('photo')
-		for photo in photos:
-			if (photo.content_type != 'image/jpeg'):
-				raise forms.ValidationError(_(u'File extension only JPEG allowed!'))
+		photos = self.files
+		try:
+			photos = photos.getlist('photo')
+			for photo in photos:
+				if (photo.content_type != 'image/jpeg'):
+					raise forms.ValidationError(_(u'File extension only JPEG allowed!'))
+		except:
+			pass
+
 		return photos
 
 	class Meta:
