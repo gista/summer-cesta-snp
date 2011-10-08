@@ -547,6 +547,7 @@ function addOverLayers(){
 		overLayers[i].events.on({
 			"featureselected": function(e) {			
 				createPoint(e.feature);
+				select_feature_control.unselect(e.feature);
 				}
 			});
 		}
