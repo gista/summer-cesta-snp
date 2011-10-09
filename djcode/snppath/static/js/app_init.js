@@ -100,6 +100,11 @@ Ext.onReady(function() {
 	mapPanel.on('resize', function(panel, w, h) {
 		geoExtMapPanel.setWidth(panel.getInnerWidth());
 		geoExtMapPanel.setHeight(panel.getInnerHeight());
+
+		cestaSNPAdvertisement.setPosition([geoExtMapPanel.getWidth() + 50,geoExtMapPanel.getPosition()[1] + 15]);
+		
+		resultWindow.setWidth(geoExtMapPanel.getWidth() - 10);
+		resultWindow.setPosition([resultWindow.getPosition()[0], geoExtMapPanel.getPosition()[1] + geoExtMapPanel.getHeight() - 55]);
 		});
 
 	// on load listeners for init stores
