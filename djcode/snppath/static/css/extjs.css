@@ -80,8 +80,9 @@ a[rel] img {
 }
 
 .x-window-floating .x-window-body div {
-	opacity: 0.75;
-	background-color:#FAF982;
+	opacity: 0.9;
+	color: #FFFFFF;
+	background-color:#000000;
 	padding: 8px 8px 8px 8px;
 	text-align: center;
 	font-size: 14px;
