@@ -77,10 +77,10 @@ Ext.onReady(function() {
 				var article_introtext = articles[i].article_introtext;
 				tpl.append('articles', {
 					title: articles[i].article_title,
-					introtext: article_introtext.replace('<img src="images','<img src="http://cestasnp.sk/images'),
+					introtext: article_introtext,
 					url: articles[i].article_url
 					});
-				}			
+				}
 			}
 		});
 	})

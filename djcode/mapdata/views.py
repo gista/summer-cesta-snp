@@ -108,8 +108,9 @@ def poidetail(request):
 	resp['articles'] = list()
 	for article_id in jos_article_ids:
 		article = Jos_content.objects.get(id=article_id.pk)
-		resp['articles'].append({'article_title':article.title, 'article_introtext':article.introtext, \
-					 'article_url':article.urls})
+		resp['articles'].append({'article_title':article.title,
+				'article_introtext':article.introtext.replace('<img src="images','<img src="%simages' % settings.SNP_JOOMLA_URL), \
+				'article_url':'%sindex.php?option=com_content&id=%s' % (settings.SNP_JOOMLA_URL,  article_id.pk)})
 	jos_photos_ids = poi.jos_photo_id.all()
 	resp['photos_jos'] = [jos_photo_id.pk for jos_photo_id in jos_photos_ids]
 	photos = poi.photo.all()

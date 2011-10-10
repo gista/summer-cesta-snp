@@ -212,6 +212,8 @@ SNP_DEFAULT_LON	= 19.258336054784
 SNP_DEFAULT_LAT	= 48.8176576494
 SNP_DEFAULT_ZOOMLEVEL = 8
 
+SNP_JOOMLA_URL = 'http://cestasnp.sk/'
+
 # SMSSync
 # Secret key of live_tracking message API
 SMSSYNC_SECRET = 'aaa'
