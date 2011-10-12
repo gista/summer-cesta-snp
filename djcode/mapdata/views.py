@@ -155,18 +155,6 @@ def mapper(request):
 		except Photo.DoesNotExist:
 			print 'Photo %d does not exist.' % (id) 
 
-	resp['photo_jos'] = list()
-	try:
-		photos_jos_ids = map(lambda x: int(x), request.GET['photo_jos'].split(','))
-	except ValueError:
-		photos_jos_ids = []
-	for id in photos_jos_ids:
-		try:
-			photo = Photo.objects.get(id=id).photo
-			thumb = get_thumbnail(photo, '100x100', crop='center', quality=95)
-			resp['photo_jos'].append({'thumb':thumb.url, 'photo':photo.url})
-		except Photo.DoesNotExist:
-			print 'Photo %d does not exist.' % (id)
 	return HttpResponse(simplejson.dumps(resp), mimetype='application/json')
 
 @require_POST
