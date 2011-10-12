@@ -1,5 +1,6 @@
 from datetime import datetime
 from django.contrib.gis.db import models
+from sorl.thumbnail import ImageField as SorlImageField
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from djcode.joomla.models import Jos_joom_gallery, Jos_content
@@ -46,7 +47,7 @@ class Jos_photo_id(models.Model):
 class Photo(models.Model):
 	title = models.CharField(_(u'title'), max_length=50)
 	desctiption = models.CharField(_(u'description'), max_length=100, blank=True)
-	photo = models.ImageField(_(u'photo'), upload_to='photos/%Y/%m/%d', blank=True)
+	photo = SorlImageField(_(u'photo'), upload_to='photos/%Y/%m/%d', blank=True)
 
 	def __unicode__(self):
 		return self.title
