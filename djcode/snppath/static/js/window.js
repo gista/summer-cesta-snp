@@ -14,7 +14,7 @@ Ext.onReady(function() {
 			method: 'GET',
 			success: function(response, opts) {
 				var obj = Ext.decode(response.responseText);
-				console.dir(obj);
+				//console.dir(obj);
 				data.photos_jos = obj.photo_jos;
 				data.photos_map = obj.photo_map;
 
