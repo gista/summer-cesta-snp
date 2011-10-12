@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 
 class Jos_session(models.Model):
 	"""Model representating session in joomla DB.
@@ -81,6 +82,14 @@ class Jos_joom_gallery(models.Model):
 	def __unicode__(self):
 		return "(%s) %s" % (self.id, self.imgtitle)
 
+	def get_thumb_url(self):
+		return "%scomponents/com_joomgallery/img_thumbnails/%s/%s" % (settings.SNP_JOOMLA_URL,
+			self.catid.catpath, self.imgthumbname)
+
+	def get_photo_url(self):
+		return "%scomponents/com_joomgallery/img_pictures/%s/%s" % (settings.SNP_JOOMLA_URL,
+			self.catid.catpath, self.imgthumbname)
+
 	def save(self, *args, **kwargs):
 		pass
 
@@ -125,6 +134,9 @@ class Jos_content(models.Model):
 
 	def __unicode__(self):
 		return "(%s) %s" % (self.id, self.title)
+
+	def get_article_url(self):
+		return '%sindex.php?option=com_content&id=%s' % (settings.SNP_JOOMLA_URL, self.id)
 
 	def save(self, *args, **kwargs):
 		pass

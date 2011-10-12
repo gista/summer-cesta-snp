@@ -8,7 +8,7 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.views.decorators.csrf import csrf_protect
 from mapdata.models import Path, Poi, Area, Photo
-from joomla.models import Jos_content
+from joomla.models import Jos_content, Jos_joom_gallery
 from django.db import IntegrityError
 from mapdata.forms import PoiForm
 from django.utils.translation import ugettext as _
@@ -101,20 +101,29 @@ def poidetail(request):
 	id = int(request.GET['id'])
 	poi = Poi.objects.get(id=id)
 	resp = dict()
+
 	jos_article_ids = poi.jos_article_id.all()
 	resp['area'] = poi.area.name
 	resp['name'] = poi.name
 	resp['note'] = poi.note
 	resp['articles'] = list()
+	resp['photos_map'] = list()
 	for article_id in jos_article_ids:
 		article = Jos_content.objects.get(id=article_id.pk)
 		resp['articles'].append({'article_title':article.title,
-				'article_introtext':article.introtext.replace('<img src="images','<img src="%simages' % settings.SNP_JOOMLA_URL), \
-				'article_url':'%sindex.php?option=com_content&id=%s' % (settings.SNP_JOOMLA_URL,  article_id.pk)})
+				'article_introtext':article.introtext.replace('<img src="images','<img src="%simages' % settings.SNP_JOOMLA_URL),
+				'article_url': article.get_article_url()})
+
 	jos_photos_ids = poi.jos_photo_id.all()
-	resp['photos_jos'] = [jos_photo_id.pk for jos_photo_id in jos_photos_ids]
+	resp['photos_jos'] = list()
+	for jos_photo_id in jos_photos_ids:
+		jos_photo = Jos_joom_gallery.objects.get(id=jos_photo_id.pk)
+		resp['photos_jos'].append({'photo_title': jos_photo.imgtitle,
+			'photo_thumb_url': jos_photo.get_thumb_url(), 'photo_url': jos_photo.get_photo_url()})
+
 	photos = poi.photo.all()
 	resp['photos_map'] = [photo.pk for photo in photos]
+
 	return HttpResponse(simplejson.dumps(resp), mimetype='application/json')
 
 def gpx(request):
