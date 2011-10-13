@@ -13,33 +13,6 @@ Ext.onReady(function() {
 		var data = store.reader.jsonData;
 		var gallery = gettext("Photo Gallery");
 
-		// add jos photos into popup, if there area some
-		if (data.photos_jos.length > 0){
-			var photos_jos = data.photos_jos;
-			for(i=0; i<photos_jos.length; i++){
-				var newPhoto = Ext.DomHelper.append('photo_jos', 
-					String.format('<a rel="shadowbox[{0}]" href="{1}" title="{2}"><img src="{3}"></a>', 
-							gallery, photos_jos[i].photo_url, photos_jos[i].photo_title, photos_jos[i].photo_thumb_url)
-							, true);
-
-					Shadowbox.setup([newPhoto.dom]);
-					}
-			}
-		/* uncomment this, when mapper will be removed
-		// add map photos into popup, if there area some
-		if (data.photos_map.length > 0){
-			var photos_map = data.photos_map;
-			for(i=0; i<photos_map.length; i++){
-				var newPhoto = Ext.DomHelper.append('photo_jos', 
-					String.format('<a rel="shadowbox[{0}]" href="{1}" title="{2}"><img src="{3}"></a>', 
-							gallery, photos_map[i].photo_url, photos_map[i].photo_title, photos_map[i].photo_thumb_url)
-							, true);
-
-					Shadowbox.setup([newPhoto.dom]);
-					}
-			}				
-		*/
-
 		// this AJAX request (mapper) can be whole removed 
 		Ext.Ajax.request({
 			url: 'mapdata/mapper/',
@@ -78,6 +51,34 @@ Ext.onReady(function() {
 		Ext.getCmp('notes').html = '<strong>' + gettext("Note") + ':</strong>&nbsp;' + data.note + "<hr/>";
 
 		popup.show();
+
+		// add jos photos into popup, if there area some
+		if (data.photos_jos.length > 0){
+			var photos_jos = data.photos_jos;
+			for(i=0; i<photos_jos.length; i++){
+				var newPhoto = Ext.DomHelper.append('photo_jos', 
+					String.format('<a rel="shadowbox[{0}]" href="{1}" title="{2}"><img src="{3}"></a>', 
+							gallery, photos_jos[i].photo_url, photos_jos[i].photo_title, photos_jos[i].photo_thumb_url)
+							, true);
+
+					Shadowbox.setup([newPhoto.dom]);
+					}
+			}
+
+		/* uncomment this, when mapper will be removed
+		// add map photos into popup, if there area some
+		if (data.photos_map.length > 0){
+			var photos_map = data.photos_map;
+			for(i=0; i<photos_map.length; i++){
+				var newPhoto = Ext.DomHelper.append('photo_jos', 
+					String.format('<a rel="shadowbox[{0}]" href="{1}" title="{2}"><img src="{3}"></a>', 
+							gallery, photos_map[i].photo_url, photos_map[i].photo_title, photos_map[i].photo_thumb_url)
+							, true);
+
+					Shadowbox.setup([newPhoto.dom]);
+					}
+			}				
+		*/
 
 		// add articles into popup, if there area some
 		if (store.totalLength > 0){	
