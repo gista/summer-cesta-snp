@@ -84,18 +84,6 @@ Ext.onReady(function() {
 		closeAction: 'hide'
 		});
 
-	// display permalink each time state is changed
-	permalinkProvider.on('statechange', function(provider, name, value) {
-		var point = new OpenLayers.LonLat(provider.get('map').x, provider.get('map').y); 
-		point = point.transform(map.projection, map.displayProjection);
-		var link = "?";
-		link += Ext.urlEncode({map_lon:point.lon.toFixed(5)});
-		link += "&" + Ext.urlEncode({map_lat:point.lat.toFixed(5)});
-		link += "&" + Ext.urlEncode({map_zoom:provider.get('map').zoom});
-
-		Ext.select(".olControlPermalink").update("<a href=" + link + ">" + gettext("Permalink") + "</a>");
-		});
-
 	// user browser size adapter (IE)
 	mapPanel.on('resize', function(panel, w, h) {
 		geoExtMapPanel.setWidth(panel.getInnerWidth());
@@ -291,10 +279,6 @@ Ext.onReady(function() {
 function addMapControls(){
 
 	map.addControls([
-		//new OpenLayers.Control.Permalink(),
-		new OpenLayers.Control.Panel({
-			displayClass: 'olControlPermalink',		
-			}),
 		new OpenLayers.Control.ScaleLine(),
 		new OpenLayers.Control.MousePosition(),
 		]);
