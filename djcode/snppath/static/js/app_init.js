@@ -324,7 +324,7 @@ function addMapControls(){
 	map.addControl(lengthMeasureController);
 
 	lengthMeasureToggleButton = new OpenLayers.Control.Button({
-		title: gettext('Length measure'),
+		title: gettext('Measure length'),
 		displayClass: 'olControlDrawFeaturePath', 
 		eventListeners: {
 			'activate': function(){
@@ -373,7 +373,7 @@ function addMapControls(){
 	// Controller button to export POI into GPX
 
 	var gpxButton = new OpenLayers.Control.Button({
-		title: gettext('Export all data into .gpx'),
+		title: gettext('Download POI in GPX format'),
 		displayClass: "olControlGPXButton", 
 		trigger: function(){
 			document.location.href = "mapdata/gpx/"
@@ -394,7 +394,7 @@ function addMapControls(){
 		});
 
 	var helpButton = new OpenLayers.Control.Button({
-		title: gettext('Show help'),
+		title: gettext('Help'),
 		displayClass: "olControlHelpButton", 
 		trigger: function(){
 			helpWindow.show();	
