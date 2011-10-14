@@ -15,6 +15,11 @@
 	opacity: .85;  
 }  
 
+.help .x-window-mr {
+	background-color: transparent;
+	opacity: .85;
+}
+
 .x-window-advertisement {
 	background-color: #F5E7C9;
 	border: 1px solid #96742B; 

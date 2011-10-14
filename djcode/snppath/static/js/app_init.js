@@ -43,9 +43,6 @@ Ext.onReady(function() {
 	// call add overlayers function
 	addOverLayers();
 
-	// call add map controls
-	addMapControls();
-
 	// the place where the map should added 
 	var mapPanel = Ext.getCmp('appMap');
 
@@ -67,6 +64,9 @@ Ext.onReady(function() {
 		stateId: "map",
 		prettyStateKeys: true // for pretty permalinks
 		});
+
+	// add map controls
+	addMapControls();
 
 	// create window for partial results as measures, permalink etc.
 	resultWindow = new Ext.ux.ResultWindow({
@@ -383,14 +383,25 @@ function addMapControls(){
 	// help window with autoLoaded html data from URL 'help'
 
 	var helpWindow = new Ext.Window({
-		autoWidth: true,
-		autoHeight: true,
+		modal: false,
+		x: geoExtMapPanel.getPosition()[0],
+		y: geoExtMapPanel.getPosition()[1],
+		height: geoExtMapPanel.getHeight(),
+		width: geoExtMapPanel.getWidth(),
+		plain: true,
+		header: false,
+		autoScroll: true,
+		border: false,
+		bodyBorder: false,
+		style: 'padding: 10px;',
+		bodyStyle: 'padding:15px; ',
 		title: gettext('Help'),
 		id: 'helpWindow',
+		cls: 'help',
 		closeAction: 'hide', 
 		autoLoad:{
-			url: 'help/',			
-			},					
+			url: 'help/',
+			},
 		});
 
 	var helpButton = new OpenLayers.Control.Button({
