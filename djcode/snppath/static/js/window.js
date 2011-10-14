@@ -13,34 +13,6 @@ Ext.onReady(function() {
 		var data = store.reader.jsonData;
 		var gallery = gettext("Photo Gallery");
 
-		// this AJAX request (mapper) can be whole removed 
-		Ext.Ajax.request({
-			url: 'mapdata/mapper/',
-			method: 'GET',
-			success: function(response, opts) {
-				var obj = Ext.decode(response.responseText);
-				//console.dir(obj);
-				data.photos_map = obj.photo_map;
-
-				// add jos photos into popup, if there area some
-				if (data.photos_map.length > 0){
-					var photos_map = data.photos_map;
-					for(i=0; i<photos_map.length; i++){
-						var newPhoto = Ext.DomHelper.append('photo_map', 
-							String.format('<a rel="shadowbox[{0}]" href="{1}"><img src="{2}"></a>', 
-								gallery, photos_map[i].photo, photos_map[i].thumb), true);
-						Shadowbox.setup([newPhoto.dom]);
-						}
-					}
-				},
-			failure: function(response, opts) {
-				console.log('server-side failure with status code ' + response.status);
-				},
-			params: { 
-				photo_map: data.photos_map.toString()
-				}
-			});
-		
 		// setup correct point name read from store
 		Ext.getCmp('name').html = '<strong>' + gettext("Name") + ':</strong>&nbsp;<span style="font-size:14px;">' + data.name + "</span>";		
 
@@ -65,7 +37,6 @@ Ext.onReady(function() {
 					}
 			}
 
-		/* uncomment this, when mapper will be removed
 		// add map photos into popup, if there area some
 		if (data.photos_map.length > 0){
 			var photos_map = data.photos_map;
@@ -77,8 +48,7 @@ Ext.onReady(function() {
 
 					Shadowbox.setup([newPhoto.dom]);
 					}
-			}				
-		*/
+			}
 
 		// add articles into popup, if there area some
 		if (store.totalLength > 0){	

@@ -100,14 +100,15 @@ def poidetail(request):
 	"""
 	id = int(request.GET['id'])
 	poi = Poi.objects.get(id=id)
+
 	resp = dict()
 
-	jos_article_ids = poi.jos_article_id.all()
 	resp['area'] = poi.area.name
 	resp['name'] = poi.name
 	resp['note'] = poi.note
+
+	jos_article_ids = poi.jos_article_id.all()
 	resp['articles'] = list()
-	resp['photos_map'] = list()
 	for article_id in jos_article_ids:
 		article = Jos_content.objects.get(id=article_id.pk)
 		resp['articles'].append({'article_title':article.title,
@@ -121,8 +122,11 @@ def poidetail(request):
 		resp['photos_jos'].append({'photo_title': jos_photo.imgtitle,
 			'photo_thumb_url': jos_photo.get_thumb_url(), 'photo_url': jos_photo.get_photo_url()})
 
-	photos = poi.photo.all()
-	resp['photos_map'] = [photo.pk for photo in photos]
+	resp['photos_map'] = list()
+	for map_photo in poi.photo.all():
+		thumb = get_thumbnail(map_photo.photo, '100x100', crop='center', quality=95)
+		resp['photos_map'].append({'photo_title': map_photo.title,
+			'photo_thumb_url': thumb.url, 'photo_url': map_photo.photo.url})
 
 	return HttpResponse(simplejson.dumps(resp), mimetype='application/json')
 
@@ -137,25 +141,6 @@ def gpx(request):
 
 	return response
 
-def mapper(request):
-	"""Returns mapped images."""
-	resp = dict()
-	resp['photo_map'] = list()
-	
-	try:
-		photos_map_ids = map(lambda x: int(x), request.GET['photo_map'].split(','))
-	except ValueError:
-		photos_map_ids = []
-
-	for id in photos_map_ids:
-		try:
-			photo = Photo.objects.get(id=id).photo
-			thumb = get_thumbnail(photo, '100x100', crop='center', quality=95)
-			resp['photo_map'].append({'thumb':thumb.url, 'photo':photo.url})
-		except Photo.DoesNotExist:
-			print 'Photo %d does not exist.' % (id) 
-
-	return HttpResponse(simplejson.dumps(resp), mimetype='application/json')
 
 @require_POST
 @csrf_protect
