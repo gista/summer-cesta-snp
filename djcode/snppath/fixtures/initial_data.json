@@ -1,0 +1,10 @@
+[
+    {
+        "pk": 1, 
+        "model": "snppath.help", 
+        "fields": {
+            "text": "<h1>About</h1>\r\nWelcome in map of CestaSNP.sk.\r\n\r\n<h1>Authors</h1>\r\nPeter Margetiak, Matus Valo, Marcel Dancak, Peter Hyben, Ivan Min\u010d\u00edk\r\n\r\n<h1>Sponsors</h1>\r\nGista s.r.o. Slovakia, www.gista.sk", 
+            "language": "en-us"
+        }
+    }
+]
