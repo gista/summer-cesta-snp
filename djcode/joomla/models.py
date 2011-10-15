@@ -164,4 +164,5 @@ class JosUsers(models.Model):
 
 	class Meta:
 		db_table = u'jos_users'
-		verbose_name = u'users'
+		verbose_name = u'user'
+		verbose_name_plural = u'users'
