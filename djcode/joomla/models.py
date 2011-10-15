@@ -141,7 +141,7 @@ class Jos_content(models.Model):
 	def save(self, *args, **kwargs):
 		pass
 
-class JosUsers(models.Model):
+class Jos_user(models.Model):
 	id = models.IntegerField(primary_key=True)
 	name = models.CharField(max_length=150)
 	username = models.CharField(max_length=75)

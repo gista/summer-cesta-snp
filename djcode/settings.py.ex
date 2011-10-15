@@ -159,7 +159,7 @@ INSTALLED_APPS = (
 
 ADMIN_REORDER = (
 	("auth", ("User", "Group")),
-	("joomla", ("JosUsers", "Jos_session", "Jos_content", "Jos_joom_gallery_catg", "Jos_joom_gallery")),
+	("joomla", ("Jos_user", "Jos_session", "Jos_content", "Jos_joom_gallery_catg", "Jos_joom_gallery")),
 	("mapdata", ("Area", "Photo", "Path", "Poi")),
 	("live_tracking", ("User", "Track", "Message", "Sync_log")),
 	("advertisement", ("Top_advertisement", "Side_advertisement")),
