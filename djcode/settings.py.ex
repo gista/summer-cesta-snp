@@ -153,7 +153,17 @@ INSTALLED_APPS = (
 	'djcode.joomla',
 	'djcode.live_tracking',
 	'djcode.snppath',
-	'djcode.advertisement'
+	'djcode.advertisement',
+	'custom_admin'
+)
+
+ADMIN_REORDER = (
+	("auth", ("User", "Group")),
+	("joomla", ("JosUsers", "Jos_session", "Jos_content", "Jos_joom_gallery_catg", "Jos_joom_gallery")),
+	("mapdata", ("Area", "Photo", "Path", "Poi")),
+	("live_tracking", ("User", "Track", "Message", "Sync_log")),
+	("advertisement", ("Top_advertisement", "Side_advertisement")),
+	("help", ("Help",)),
 )
 
 # A sample logging configuration. The only tangible logging
