@@ -8,6 +8,9 @@ class Jos_session_admin(admin.ModelAdmin):
 	ordering = ("time",)
 	actions = None
 
+	def has_add_permission(self, request):
+		return False
+
 class Jos_joom_gallery_catg_admin(admin.ModelAdmin):
 	list_display = ("cid", "name",)
 	readonly_fields = ("cid", "name", "parent", "description", "ordering", "access", 
@@ -16,11 +19,18 @@ class Jos_joom_gallery_catg_admin(admin.ModelAdmin):
 	search_fields = ("name",)
 	actions = None
 
+	def has_add_permission(self, request):
+		return False
+
 class Jos_joom_gallery_admin(admin.ModelAdmin):
 	list_display = ("id", "catid", "imgtitle", "imgauthor", "imgtext",)
 	readonly_fields = Jos_joom_gallery._meta.get_all_field_names()
 	search_fields = ("imgtitle",)
 	actions = None
+
+	def has_add_permission(self, request):
+		return False
+
 
 class Jos_content_admin(admin.ModelAdmin):
 	list_display = ("id", "title", "alias", "title_alias", "introtext",)
@@ -28,11 +38,17 @@ class Jos_content_admin(admin.ModelAdmin):
 	search_fields = ("title",)
 	actions = None
 
+	def has_add_permission(self, request):
+		return False
+
 class Jos_user_admin(admin.ModelAdmin):
 	list_display = ("id", "username", "name", "email", "usertype",)
 	readonly_fields = Jos_user._meta.get_all_field_names()
 	search_fields = ("username", "name", "email",)
 	actions = None
+
+	def has_add_permission(self, request):
+		return False
 
 admin.site.register(Jos_session, Jos_session_admin)
 admin.site.register(Jos_joom_gallery, Jos_joom_gallery_admin)
