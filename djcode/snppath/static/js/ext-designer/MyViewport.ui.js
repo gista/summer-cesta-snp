@@ -283,17 +283,6 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
                                   },
 				  {
 					xtype: 'textfield',
-                                        fieldLabel: gettext('Latitude (e.g. 48.45789)'),
-                                        name: 'lat',
-					id: 'poi-lat',
-					allowBlank: false,
-					regex: /^[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?$/,
-					maskRe: /[-\d\(.)]/i,
-					regexText: gettext("Latitude must be a float number"),
-					vtype: 'lat'
-				  },
-				  {
-					xtype: 'textfield',
                                         fieldLabel: gettext('Longitude (e.g. 18.437129)'),
                                         name: 'lon',
 					id: 'poi-lon',
@@ -302,6 +291,17 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 					maskRe: /[-\d\(.)]/i,
 					regexText: gettext("Longitude must be a float number"),
 					vtype: 'lon',
+				  },
+				  {
+					xtype: 'textfield',
+                                        fieldLabel: gettext('Latitude (e.g. 48.45789)'),
+                                        name: 'lat',
+					id: 'poi-lat',
+					allowBlank: false,
+					regex: /^[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?$/,
+					maskRe: /[-\d\(.)]/i,
+					regexText: gettext("Latitude must be a float number"),
+					vtype: 'lat'
 				  },
 				  {
                                         xtype: 'textarea',
