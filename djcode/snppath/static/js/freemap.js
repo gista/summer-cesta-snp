@@ -29,10 +29,10 @@ function get_freemap_url (bounds) {
 	else if	(z == 13 && InBox(x, y, 4478, 4609, 2791, 2856)) useFreeMap = !useFreeMap;
 	else if	(z == 14 && InBox(x, y, 8957, 9219, 5583, 5713)) useFreeMap = !useFreeMap;
 	else if (z == 15 && InBox(x, y, 17916,18438,11167,11427)) {
-		userFreeMap = !(InBox(x, y, 17916, 17984, 11167, 11200) || InBox(x, y, 18160,18438,11370,11427) || InBox(x, y, 18102,18438,11394,11427));
+		useFreeMap = !(InBox(x, y, 17916, 17984, 11167, 11200) || InBox(x, y, 18160,18438,11370,11427) || InBox(x, y, 18102,18438,11394,11427));
 	}
 	else if (z == 16 && InBox(x, y, 35832,36876,22334,22855)) {
-		userFreeMap = !(InBox(x, y, 35832,35968,22334,22400) || InBox(x, y, 36320,36876,22740,22855) || InBox(x, y, 32204,36876,22788,22855)); 
+		useFreeMap = !(InBox(x, y, 35832,35968,22334,22400) || InBox(x, y, 36320,36876,22740,22855) || InBox(x, y, 32204,36876,22788,22855)); 
 		}
 
 	if (useFreeMap) {
