@@ -36,7 +36,7 @@ function get_freemap_url (bounds) {
 		}
 
 	if (useFreeMap) {
-		var url = fmap.selectUrl(path, this.url);
+		var url = fmap.selectUrl(path, fmap.url);
 		path += ".jpeg"; 
 	} else {
 		var url = 'http://tile.openstreetmap.org';
