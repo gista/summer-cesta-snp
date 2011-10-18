@@ -1,21 +1,23 @@
 // freemap.js
 
+var fmap = {};
+
 function InBox(x, y, L, R, T, B) {
 	return ((x >= L) && (x <= R) && (y >= T) && (y <= B));
 }
 
 function getTileX(bounds) {
-	return Math.round((bounds.left - this.map.maxExtent.left) / (this.map.getResolution() * this.map.tileSize.w));
+	return Math.round((bounds.left - fmap.map.maxExtent.left) / (fmap.map.getResolution() * fmap.map.tileSize.w));
 }
 
 function getTileY(bounds) {
-	return Math.round ((this.map.maxExtent.top - bounds.top) / (this.map.getResolution() * this.map.tileSize.h));
+	return Math.round ((fmap.map.maxExtent.top - bounds.top) / (fmap.map.getResolution() * fmap.map.tileSize.h));
 }
 
 function get_freemap_url (bounds) {
 	var x = getTileX(bounds);
 	var y = getTileY(bounds);
-	var z = this.map.getZoom();
+	var z = fmap.map.getZoom();
 	var path = "/" + z + "/" + x + "/" + y;
 
 	var useFreeMap = false;
@@ -34,7 +36,7 @@ function get_freemap_url (bounds) {
 		}
 
 	if (useFreeMap) {
-		var url = this.selectUrl(path, this.url);
+		var url = fmap.selectUrl(path, this.url);
 		path += ".jpeg"; 
 	} else {
 		var url = 'http://tile.openstreetmap.org';
