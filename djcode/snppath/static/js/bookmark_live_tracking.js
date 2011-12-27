@@ -111,7 +111,9 @@ Ext.onReady(function() {
 
 		// event on click for back button returns to lists of active & inactive users 
 		Ext.getCmp('backButton').on('click', function(){
-			markerLayer.setVisibility(false);
+			if (typeof(markerLayer)!="undefined")
+				markerLayer.setVisibility(false);
+
 			liveTrackingRecordPanel.hide();
 			liveTrackingActivePanel.show();
 			liveTrackingInactivePanel.show();
