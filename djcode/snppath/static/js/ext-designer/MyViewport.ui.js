@@ -83,6 +83,7 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
                         frame: true,
                         layout: 'border',
                         width: 250,
+			id: 'liveTrackingBar',
                         items: [
                             {
                                 xtype: 'panel',

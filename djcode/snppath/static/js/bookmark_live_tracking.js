@@ -119,6 +119,13 @@ Ext.onReady(function() {
 			liveTrackingInactivePanel.show();
 			});		
 		});
+
+	Ext.getCmp("appTabs").on('tabchange', function(parent, actual){
+		if (actual.id!="liveTrackingBar")
+			if (typeof(markerLayer)!="undefined")
+				markerLayer.setVisibility(false);
+		});
+
 	});
 
 function customRenderer(v, p, r){
