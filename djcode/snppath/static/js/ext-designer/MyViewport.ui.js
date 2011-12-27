@@ -330,9 +330,15 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 					value: 1
 				  },
 				  {
+					xtype: 'textfield',
+					id: 'poi-photo-name-1',
+					fieldLabel: '#1 ' + gettext('Photo Name'),
+					name: 'photo-name'
+				  },
+				  {
 					xtype: 'fileuploadfield',
 					emptyText: gettext('Select an image'),
-					fieldLabel: gettext('Photo') + ' #1',
+					fieldLabel: '#1 ' + gettext('Photo File'),
 					name: 'photo',
 					id: 'poi-photo-1',
 					allowBlank: true,

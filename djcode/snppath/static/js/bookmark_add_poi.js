@@ -75,14 +75,27 @@ var addNew = function(fb, v){
 		return;
 
 	var counter = Ext.getCmp('poiform').findById('poi-photo-counter');
-	var photoId = Number(counter.getValue()) + 1
+		
+	var fileName = Ext.getCmp('poi-photo-' + Number(counter.getValue())).getValue();
+	if (Ext.getCmp('poi-photo-name-' + Number(counter.getValue())).getValue() == "")	
+		Ext.getCmp('poi-photo-name-' + Number(counter.getValue())).setValue(fileName);
+
+	var photoId = Number(counter.getValue()) + 1;
 	counter.setValue(photoId);
 
 	var form = Ext.getCmp('poiform');
+
+	form.add({
+		xtype: 'textfield',
+		id: 'poi-photo-name-' + photoId,
+		fieldLabel: '#' + photoId + ' ' + gettext('Photo Name'),
+		name: 'photo-name'		
+		});
+
 	form.add({
 		xtype: 'fileuploadfield',
 		emptyText: gettext('Select an image'),
-		fieldLabel: gettext('Photo') + ' #' + photoId,
+		fieldLabel: '#' + photoId + ' ' + gettext('Photo File'),
 		name: 'photo',
 		id: 'poi-photo-' + photoId,
 		allowBlank: true,

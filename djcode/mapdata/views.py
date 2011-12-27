@@ -170,9 +170,10 @@ def poi(request):
 			print error_json
 			return HttpResponse(error_json, mimetype='text/html')
 
-		for file in request.FILES.getlist('photo'):
-			ph = Photo(title=file.name, photo=file)
-			ph.photo.save(file.name, file)
+		fileNames = request.POST.getlist('photo-name')
+		for index, file in enumerate(request.FILES.getlist('photo')):
+			ph = Photo(title=fileNames[index], photo=file)
+			ph.photo.save(fileNames[index], file)
 			ph.save()
 			poi.photo.add(ph)
 			poi.save()
