@@ -92,3 +92,7 @@ a[rel] img {
 	text-align: center;
 	font-size: 14px;
 }
+
+.x-tree-node .x-tree-selected, .x-tree-node-el:hover{
+	background-color: transparent;
+}
