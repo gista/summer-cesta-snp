@@ -7,6 +7,7 @@ from django.conf import settings
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.views.decorators.csrf import csrf_protect
+from django.views.decorators.cache import never_cache
 from mapdata.models import Path, Poi, Area, Photo
 from joomla.models import Jos_content, Jos_joom_gallery
 from django.db import IntegrityError
@@ -78,6 +79,7 @@ def snppath(request):
 				 properties=())
 	return HttpResponse(resp, mimetype='application/json')
 
+@never_cache
 def pois(request):
 	"""
 	Returns geojson with Points of Points of interests with given type.
