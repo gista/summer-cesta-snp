@@ -12,7 +12,7 @@ js_info_dict = {
 
 urlpatterns = patterns('',
 	url(r'^$', 'djcode.snppath.views.home', name='home'),
-	url(r'^help/$', 'djcode.snppath.views.testhelp', name='testhelp'),
+	url(r'^help/$', 'djcode.snppath.views.help', name='help'),
 	url(r'^jsi18n/$', 'django.views.i18n.javascript_catalog', js_info_dict),
 	url(r'^config/', include('djcode.snppath.urls')),
 	url(r'^live_tracking/', include('djcode.live_tracking.urls')),

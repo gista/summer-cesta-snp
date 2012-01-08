@@ -18,7 +18,7 @@ def home(request):
 
 	return render_to_response("index.html", {}, context_instance=RequestContext(request))
 
-def testhelp(request):
+def help(request):
 	"""
 	View returning help page in given language
 	Request parameters:
