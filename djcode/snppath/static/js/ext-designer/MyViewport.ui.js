@@ -284,7 +284,7 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
                                   },
 				  {
 					xtype: 'textfield',
-                                        fieldLabel: gettext('Longitude (e.g. 18.437129)'),
+                                        fieldLabel: gettext('Longitude (e.g. 21.19626)'),
                                         name: 'lon',
 					id: 'poi-lon',
 					allowBlank: false,
@@ -295,7 +295,7 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 				  },
 				  {
 					xtype: 'textfield',
-                                        fieldLabel: gettext('Latitude (e.g. 48.45789)'),
+                                        fieldLabel: gettext('Latitude (e.g. 49.04185)'),
                                         name: 'lat',
 					id: 'poi-lat',
 					allowBlank: false,
